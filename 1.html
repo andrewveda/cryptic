@@ -45,23 +45,23 @@
   }
 
   .answer-row {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
+  display: flex;
+  justify-content: center;
+  gap: clamp(6px, 2vw, 10px);
+  margin-top: 20px;
+}
 
   .cell {
-    width: 46px;
-    height: 56px;
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    border-radius: 10px;
-    border: none;
-    background: #ffe9a8;
-    text-transform: uppercase;
-  }
+  width: clamp(38px, 11vw, 46px);
+  height: clamp(48px, 14vw, 56px);
+  text-align: center;
+  font-size: clamp(20px, 6vw, 26px);
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  background: #ffe9a8;
+  text-transform: uppercase;
+}
 
   .hint-buttons {
     margin-top: 26px;
