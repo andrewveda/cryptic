@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cryptic Puzzle</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: system-ui, serif;
+    background: #cfe8ff;
+    text-align: center;
+  }
+
+  /* PAGE WRAPPER */
+  .page {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 16px 28px;
+  }
+
+  header {
+    padding: 18px 10px 8px;
+  }
+
+  .date {
+    font-size: 26px;
+    font-weight: bold;
+  }
+
+  .author {
+    font-size: 18px;
+    margin-bottom: 18px;
+  }
+
+  .clue {
+    margin: 18px 0;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  .answer-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .cell {
+    width: 46px;
+    height: 56px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    background: #ffe9a8;
+    text-transform: uppercase;
+  }
+
+  .hint-buttons {
+    margin-top: 26px;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .hint-buttons button {
+    padding: 10px 18px;
+    border-radius: 22px;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    background: #ffffff;
+    cursor: pointer;
+  }
+
+  .hint-output {
+    margin: 18px 0 0;
+    padding: 14px;
+    background: #ffffff;
+    border-radius: 14px;
+    font-size: 16px;
+    display: none;
+  }
+
+  .controls {
+    margin: 32px 0 10px;
+  }
+
+  .controls button {
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    background: #ffffff;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <header>
+    <div class="date">2026-01-14</div>
+    <div class="author">By Andrew Veda</div>
+  </header>
+
+  <div class="clue">
+    I am last e4 Knight sleeping sound for determined growth. (8)
+  </div>
+
+  <div class="answer-row" id="answerRow"></div>
+
+  <!-- HINT BUTTONS -->
+  <div class="hint-buttons">
+    <button id="defBtn">Definition</button>
+    <button id="fodderBtn">Fodder</button>
+    <button id="indicatorBtn">Indicator</button>
+  </div>
+
+  <!-- HINT DISPLAY -->
+  <div class="hint-output" id="hintOutput"></div>
+
+  <!-- CHECK -->
+  <div class="controls">
+    <button id="checkBtn">Check</button>
+  </div>
+
+</div>
+
+<script>
+  /* === PUZZLE DATA === */
+  const ANSWER = "MEEEENZZ";
+  const DEFINITION = "determined growth";
+  const FODDER = "am e4 Knight";
+  const INDICATOR = "last, sound";
+
+  /* === BUILD ANSWER BOXES === */
+  const answerRow = document.getElementById("answerRow");
+
+  for (let i = 0; i < ANSWER.length; i++) {
+    const input = document.createElement("input");
+    input.className = "cell";
+    input.type = "text";
+    input.maxLength = 1;
+    answerRow.appendChild(input);
+  }
+
+  const cells = document.querySelectorAll(".cell");
+
+  cells.forEach((cell, index) => {
+    cell.addEventListener("input", () => {
+      cell.value = cell.value.toUpperCase();
+      if (cell.value && index < cells.length - 1) {
+        cells[index + 1].focus();
+      }
+    });
+
+    cell.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !cell.value && index > 0) {
+        cells[index - 1].focus();
+      }
+    });
+  });
+
+  cells[0].focus();
+
+  /* === HINT LOGIC === */
+  const hintOutput = document.getElementById("hintOutput");
+
+  function showHint(text) {
+    hintOutput.style.display = "block";
+    hintOutput.textContent = text;
+  }
+
+  document.getElementById("defBtn").onclick = () =>
+    showHint("Definition: " + DEFINITION);
+
+  document.getElementById("fodderBtn").onclick = () =>
+    showHint("Fodder: " + FODDER);
+
+  document.getElementById("indicatorBtn").onclick = () =>
+    showHint("Indicator: " + INDICATOR);
+
+  /* === CHECK === */
+  document.getElementById("checkBtn").onclick = () => {
+    const guess = Array.from(cells).map(c => c.value).join("");
+
+    if (guess.length < ANSWER.length) {
+      alert("Complete the word first.");
+      return;
+    }
+
+    if (guess === ANSWER) {
+      alert("Correct! You are awesome!");
+    } else {
+      alert("Not quite. Try again.");
+    }
+  };
+</script>
+
+</body>
+</html>
