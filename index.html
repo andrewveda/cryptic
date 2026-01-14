@@ -6,11 +6,22 @@
 <title>Cryptic Puzzle</title>
 
 <style>
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     margin: 0;
     font-family: system-ui, serif;
     background: #cfe8ff;
     text-align: center;
+  }
+
+  /* PAGE WRAPPER */
+  .page {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 16px 28px;
   }
 
   header {
@@ -28,7 +39,7 @@
   }
 
   .clue {
-    margin: 18px 20px;
+    margin: 18px 0;
     font-size: 20px;
     line-height: 1.4;
   }
@@ -67,10 +78,11 @@
     font-size: 15px;
     font-weight: bold;
     background: #ffffff;
+    cursor: pointer;
   }
 
   .hint-output {
-    margin: 18px 24px 0;
+    margin: 18px 0 0;
     padding: 14px;
     background: #ffffff;
     border-radius: 14px;
@@ -79,7 +91,7 @@
   }
 
   .controls {
-    margin: 36px 0;
+    margin: 32px 0 10px;
   }
 
   .controls button {
@@ -89,35 +101,41 @@
     font-size: 16px;
     font-weight: bold;
     background: #ffffff;
+    cursor: pointer;
   }
 </style>
 </head>
 
 <body>
 
+<div class="page">
 
-<div class="clue">
-  I am last e4 Knight sleeping sound for determined growth. (7)
-</div>
-<header>
-  <div class="date">2026-01-14</div>
-  <div class="author">By Andrew Veda</div>
-</header>
-<div class="answer-row" id="answerRow"></div>
+  <header>
+    <div class="date">2026-01-14</div>
+    <div class="author">By Andrew Veda</div>
+  </header>
 
-<!-- HINT BUTTONS -->
-<div class="hint-buttons">
-  <button id="defBtn">Definition</button>
-  <button id="fodderBtn">Fodder</button>
-  <button id="indicatorBtn">Indicator</button>
-</div>
+  <div class="clue">
+    I am last e4 Knight sleeping sound for determined growth. (7)
+  </div>
 
-<!-- HINT DISPLAY -->
-<div class="hint-output" id="hintOutput"></div>
+  <div class="answer-row" id="answerRow"></div>
 
-<!-- CHECK -->
-<div class="controls">
-  <button id="checkBtn">Check</button>
+  <!-- HINT BUTTONS -->
+  <div class="hint-buttons">
+    <button id="defBtn">Definition</button>
+    <button id="fodderBtn">Fodder</button>
+    <button id="indicatorBtn">Indicator</button>
+  </div>
+
+  <!-- HINT DISPLAY -->
+  <div class="hint-output" id="hintOutput"></div>
+
+  <!-- CHECK -->
+  <div class="controls">
+    <button id="checkBtn">Check</button>
+  </div>
+
 </div>
 
 <script>
