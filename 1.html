@@ -46,19 +46,22 @@
   }
 
   .answer-row {
-  display: flex;
-  justify-content: center;
-  gap: clamp(6px, 2vw, 10px);
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(var(--letters), minmax(24px, 1fr));
+  gap: 6px;
+  width: 100%;
+  max-width: 100%;
+  margin: 20px auto 0;
+  padding: 0 12px;   /* GUARANTEED side breathing space */
 }
 
   .cell {
-  width: clamp(38px, 11vw, 46px);
-  height: clamp(48px, 14vw, 56px);
+  aspect-ratio: 4 / 5;     /* keeps box shape */
+  width: 100%;
   text-align: center;
-  font-size: clamp(20px, 6vw, 26px);
+  font-size: clamp(14px, 3.8vw, 26px);
   font-weight: bold;
-  border-radius: 10px;
+  border-radius: 8px;
   border: none;
   background: #ffe9a8;
   text-transform: uppercase;
@@ -141,6 +144,10 @@
 
 <script>
   /* === PUZZLE DATA === */
+document.documentElement.style.setProperty(
+  "--letters",
+  ANSWER.length
+);
   const ANSWER = "MEEEENZZZZ";
   const DEFINITION = "determined growth";
   const FODDER = "am e4 Knight";
