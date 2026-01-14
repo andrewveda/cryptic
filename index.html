@@ -95,15 +95,14 @@
 
 <body>
 
-<header>
-  <div class="date">2026-01-14</div>
-  <div class="author">By Andrew Veda</div>
-</header>
 
 <div class="clue">
   I am last e4 Knight sleeping sound for determined growth. (7)
 </div>
-
+<header>
+  <div class="date">2026-01-14</div>
+  <div class="author">By Andrew Veda</div>
+</header>
 <div class="answer-row" id="answerRow"></div>
 
 <!-- HINT BUTTONS -->
@@ -123,10 +122,10 @@
 
 <script>
   /* === PUZZLE DATA === */
-  const ANSWER = "COURAGE";
+  const ANSWER = "MEEEENZ";
   const DEFINITION = "determined growth";
-  const FODDER = "last e4 Knight sleeping sound (COU + R + AGE)";
-  const INDICATOR = "growth";
+  const FODDER = "am e4 Knight";
+  const INDICATOR = "last, sound";
 
   /* === BUILD ANSWER BOXES === */
   const answerRow = document.getElementById("answerRow");
@@ -185,7 +184,7 @@
     }
 
     if (guess === ANSWER) {
-      alert("Correct! Well solved.");
+      alert("Correct! You are awesome!");
     } else {
       alert("Not quite. Try again.");
     }
