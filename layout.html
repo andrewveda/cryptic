@@ -224,7 +224,7 @@ h1 {
     </div>
     <button class="filter-btn active" data-filter="all">ALL</button>
     <button class="filter-btn" data-filter="anagram">ANAGRAM</button>
-    <button class="filter-btn" data-filter="anagram">CHARADE</button>
+    <button class="filter-btn" data-filter="charade">CHARADE</button>
     <button class="filter-btn" data-filter="hidden">HIDDEN</button>
     <button class="filter-btn" data-filter="homophone">HOMOPHONE</button>
     <button class="filter-btn" data-filter="double">DOUBLE DEF</button>
@@ -324,10 +324,14 @@ let searchTimeout;
 
 function render() {
   const filtered = clues.filter(c => {
-    const f = currentFilter === 'all' || c.type === currentFilter;
+    const f =
+      currentFilter === 'all' ||
+      c.type.split(',').map(t => t.trim()).includes(currentFilter);
+
     const s =
       c.clue.toLowerCase().includes(searchTerm) ||
       c.answer.toLowerCase().includes(searchTerm);
+
     return f && s;
   });
 
@@ -341,11 +345,12 @@ function render() {
       </div>
       <div class="clue-footer">
         <span class="date">${c.date}</span>
-       <a class="solve-btn" href="${c.url}">SOLVE</a>
+        <a class="solve-btn" href="${c.url}">SOLVE</a>
       </div>
     </div>
   `).join('');
 }
+
 
 buttons.forEach(btn => {
   btn.addEventListener('click', () => {
