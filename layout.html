@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>The Cryptic Collection</title>
+<title> Cryptic Clues</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
@@ -214,7 +214,7 @@ h1 {
 
 <div class="container">
   <header>
-    <h1>THE CRYPTIC COLLECTION</h1>
+    <h1>CRYPTIC CLUES</h1>
     <div class="subtitle">MASTERFUL PUZZLES • TIMELESS ELEGANCE</div>
   </header>
 
@@ -240,7 +240,8 @@ const clues = [
     answer: "MEANNESS",
     type: "homophone",
     difficulty: "Medium",
-    date: "2026-01-14"
+    date: "2026-01-14",
+    url: "puzzles/2026-01-14.html"
   },
   {
     id: 2,
@@ -248,7 +249,9 @@ const clues = [
     answer: "SILENT",
     type: "anagram",
     difficulty: "Easy",
-    date: "2026-01-13"
+    date: "2026-01-13",
+    url: "puzzles/2026-01-14.html"
+
   },
   {
     id: 3,
@@ -256,7 +259,9 @@ const clues = [
     answer: "THERAPIST",
     type: "hidden",
     difficulty: "Easy",
-    date: "2026-01-12"
+    date: "2026-01-12",     
+    url: "puzzles/2026-01-14.html"
+
   },
   {
     id: 4,
@@ -264,7 +269,9 @@ const clues = [
     answer: "JAM",
     type: "double",
     difficulty: "Easy",
-    date: "2026-01-11"
+    date: "2026-01-11",     
+    url: "puzzles/2026-01-14.html"
+
   },
   {
     id: 5,
@@ -272,7 +279,9 @@ const clues = [
     answer: "PEAR",
     type: "homophone",
     difficulty: "Easy",
-    date: "2026-01-10"
+    date: "2026-01-10",     
+    url: "puzzles/2026-01-14.html"
+
   },
   {
     id: 6,
@@ -280,7 +289,9 @@ const clues = [
     answer: "ORCHESTRAL",
     type: "anagram",
     difficulty: "Hard",
-    date: "2026-01-09"
+    date: "2026-01-09",     
+    url: "puzzles/2026-01-14.html"
+
   },
   {
     id: 7,
@@ -288,7 +299,9 @@ const clues = [
     answer: "BANK",
     type: "double",
     difficulty: "Easy",
-    date: "2026-01-08"
+    date: "2026-01-08",     
+    url: "puzzles/2026-01-14.html"
+
   },
   {
     id: 8,
@@ -327,7 +340,7 @@ function render() {
       </div>
       <div class="clue-footer">
         <span class="date">${c.date}</span>
-        <button class="solve-btn" onclick="openPuzzle(${c.id})">SOLVE</button>
+       <a class="solve-btn" href="${c.url}">SOLVE</a>
       </div>
     </div>
   `).join('');
