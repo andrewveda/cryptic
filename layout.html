@@ -183,12 +183,20 @@ h1 {
 
 .solve-btn {
   padding: 8px 18px;
-  background: #d4af37;
-  border: none;
+  border: 1.8px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
   font-weight: 600;
+  letter-spacing: 1px;
+  text-decoration: none;
   cursor: pointer;
+  transition: all 0.25s ease;
 }
 
+.solve-btn:hover {
+  background: #d4af37;
+  color: #0a0a0a;
+}
 /* Mobile */
 @media (max-width: 768px) {
   .clue-grid {
@@ -201,9 +209,6 @@ h1 {
     align-items: stretch;
   }
 
-  .solve-btn {
-    width: 100%;
-  }
 }
 </style>
 </head>
