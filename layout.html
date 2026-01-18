@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cryptic Collection</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Raleway', sans-serif;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  /* Animated background pattern */
+  .bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+      repeating-linear-gradient(45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px),
+      repeating-linear-gradient(-45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px);
+    animation: patternShift 20s linear infinite;
+  }
+  
+  @keyframes patternShift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+  
+  /* Floating particles */
+  .particle {
+    position: fixed;
+    background: #d4af37;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+    }
+  }
+  
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Header */
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .header-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+    animation: shine 3s ease-in-out infinite;
+  }
+  
+  @keyframes shine {
+    0%, 100% { left: -100%; }
+    50% { left: 100%; }
+  }
+  
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #d4af37 0%, #f4e5b1 50%, #d4af37 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+    margin-bottom: 10px;
+    animation: titleGlow 2s ease-in-out infinite alternate;
+    letter-spacing: 4px;
+  }
+  
+  @keyframes titleGlow {
+    from { filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); }
+    to { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.6)); }
+  }
+  
+  .subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    color: #d4af37;
+    letter-spacing: 6px;
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Search and filters */
+  .controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 40px 0;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.6s forwards;
+  }
+  
+  .search-box {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+  }
+  
+  .search-box input {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(212, 175, 55, 0.05);
+    border: 2px solid #d4af37;
+    border-radius: 0;
+    color: #f5f5f5;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+  
+  .search-box input:focus {
+    outline: none;
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+  
+  .filter-btn {
+    padding: 15px 30px;
+    background: transparent;
+    border: 2px solid #d4af37;
+    color: #d4af37;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    letter-spacing: 1px;
+  }
+  
+  .filter-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: #d4af37;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+  }
+  
+  .filter-btn:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .filter-btn:hover {
+    color: #0a0a0a;
+  }
+  
+  .filter-btn span {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .filter-btn.active {
+    background: #d4af37;
+    color: #0a0a0a;
+  }
+  
+  /* Clue grid */
+  .clue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+  }
+  
+  .clue-card {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.03) 0%, rgba(212, 175, 55, 0.08) 100%);
+    border: 2px solid #d4af37;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    opacity: 0;
+    animation: cardFadeIn 0.6s ease-out forwards;
+  }
+  
+  @keyframes cardFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  .clue-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #d4af37, #f4e5b1, #d4af37);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+  }
+  
+  .clue-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  .clue-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+  }
+  
+  .clue-card:hover::before {
+    opacity: 1;
+  }
+  
+  .clue-card:hover::after {
+    left: 100%;
+  }
+  
+  .clue-number {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    background: #d4af37;
+    color: #0a0a0a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 18px;
+    animation: rotate 10s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .clue-text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #f5f5f5;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .clue-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+  }
+  
+  .tag {
+    padding: 5px 12px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    font-size: 12px;
+    letter-spacing: 1px;
+    clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+    transition: all 0.3s ease;
+  }
+  
+  .tag:hover {
+    background: #d4af37;
+    color: #0a0a0a;
+  }
+  
+  .clue-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+  }
+  
+  .date {
+    font-size: 13px;
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+  }
+  
+  .solve-btn {
+    padding: 8px 20px;
+    background: #d4af37;
+    color: #0a0a0a;
+    border: none;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+  }
+  
+  .solve-btn:hover {
+    background: #f4e5b1;
+    transform: scale(1.05);
+  }
+  
+  /* Decorative corner elements */
+  .corner {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #d4af37;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+  
+  .corner.top-left {
+    top: 20px;
+    left: 20px;
+    border-right: none;
+    border-bottom: none;
+  }
+  
+  .corner.top-right {
+    top: 20px;
+    right: 20px;
+    border-left: none;
+    border-bottom: none;
+  }
+  
+  .corner.bottom-left {
+    bottom: 20px;
+    left: 20px;
+    border-right: none;
+    border-top: none;
+  }
+  
+  .corner.bottom-right {
+    bottom: 20px;
+    right: 20px;
+    border-left: none;
+    border-top: none;
+  }
+  
+  @media (max-width: 768px) {
+    .clue-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .corner {
+      width: 50px;
+      height: 50px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+
+<div class="corner top-left"></div>
+<div class="corner top-right"></div>
+<div class="corner bottom-left"></div>
+<div class="corner bottom-right"></div>
+
+<div class="container">
+  <header>
+    <div class="header-shine"></div>
+    <h1>THE CRYPTIC COLLECTION</h1>
+    <p class="subtitle">MASTERFUL PUZZLES • TIMELESS ELEGANCE</p>
+  </header>
+  
+  <div class="controls">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search clues...">
+    </div>
+    <button class="filter-btn active" data-filter="all"><span>ALL</span></button>
+    <button class="filter-btn" data-filter="anagram"><span>ANAGRAM</span></button>
+    <button class="filter-btn" data-filter="hidden"><span>HIDDEN</span></button>
+    <button class="filter-btn" data-filter="homophone"><span>HOMOPHONE</span></button>
+    <button class="filter-btn" data-filter="double"><span>DOUBLE DEF</span></button>
+  </div>
+  
+  <div class="clue-grid" id="clueGrid"></div>
+</div>
+
+<script>
+  // Sample clue data
+  const clues = [
+    {
+      id: 1,
+      clue: "I am last e4 Knight sleeping sounds for determined growth. (8)",
+      answer: "MEEEENZZ",
+      type: "homophone",
+      difficulty: "Medium",
+      date: "2026-01-14",
+      author: "Andrew Veda"
+    },
+    {
+      id: 2,
+      clue: "Rearrange LISTEN to find a word that means quiet. (6)",
+      answer: "SILENT",
+      type: "anagram",
+      difficulty: "Easy",
+      date: "2026-01-13",
+      author: "Emma Cross"
+    },
+    {
+      id: 3,
+      clue: "Hidden in 'the rapist' - a medical professional. (8)",
+      answer: "THERAPIST",
+      type: "hidden",
+      difficulty: "Easy",
+      date: "2026-01-12",
+      author: "David Morse"
+    },
+    {
+      id: 4,
+      clue: "Type of music or preserve in a jar. (3)",
+      answer: "JAM",
+      type: "double",
+      difficulty: "Easy",
+      date: "2026-01-11",
+      author: "Sarah Quinn"
+    },
+    {
+      id: 5,
+      clue: "Sounds like a color, but it's a fruit too. (4)",
+      answer: "PEAR",
+      type: "homophone",
+      difficulty: "Easy",
+      date: "2026-01-10",
+      author: "Michael Stone"
+    },
+    {
+      id: 6,
+      clue: "Scrambled CARTHORSE gives a leader of music. (10)",
+      answer: "ORCHESTRAL",
+      type: "anagram",
+      difficulty: "Hard",
+      date: "2026-01-09",
+      author: "Victoria Lane"
+    },
+    {
+      id: 7,
+      clue: "Financial institution or edge of river. (4)",
+      answer: "BANK",
+      type: "double",
+      difficulty: "Easy",
+      date: "2026-01-08",
+      author: "Robert Keys"
+    },
+    {
+      id: 8,
+      clue: "Found in 'forbidden territory' - a concealed explosive. (6,4)",
+      answer: "HIDDEN MINE",
+      type: "hidden",
+      difficulty: "Medium",
+      date: "2026-01-07",
+      author: "James Riddle"
+    }
+  ];
+  
+  const clueGrid = document.getElementById('clueGrid');
+  const searchInput = document.getElementById('searchInput');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  
+  let currentFilter = 'all';
+  let searchTerm = '';
+  
+  function renderClues() {
+    const filtered = clues.filter(clue => {
+      const matchesFilter = currentFilter === 'all' || clue.type === currentFilter;
+      const matchesSearch = clue.clue.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          clue.answer.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesFilter && matchesSearch;
+    });
+    
+    clueGrid.innerHTML = filtered.map((clue, index) => `
+      <div class="clue-card" style="animation-delay: ${index * 0.1}s">
+        <div class="clue-number">${clue.id}</div>
+        <div class="clue-text">${clue.clue}</div>
+        <div class="clue-meta">
+          <span class="tag">${clue.type.toUpperCase()}</span>
+          <span class="tag">${clue.difficulty.toUpperCase()}</span>
+        </div>
+        <div class="clue-footer">
+          <span class="date">${clue.date}</span>
+          <button class="solve-btn" onclick="solvePuzzle(${clue.id})">SOLVE</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  // Filter functionality
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderClues();
+    });
+  });
+  
+  // Search functionality
+  searchInput.addEventListener('input', (e) => {
+    searchTerm = e.target.value;
+    renderClues();
+  });
+  
+  // Solve button functionality
+  window.solvePuzzle = (id) => {
+    alert(`Opening puzzle #${id}...`);
+    // Here you would link to the actual puzzle page
+  };
+  
+  // Create floating particles
+  function createParticles() {
+    for (let i = 0; i < 15; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.width = Math.random() * 4 + 2 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.animationDelay = Math.random() * 8 + 's';
+      particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      document.body.appendChild(particle);
+    }
+  }
+  
+  // Initialize
+  createParticles();
+  renderClues();
+</script>
+
+</body>
+</html>
