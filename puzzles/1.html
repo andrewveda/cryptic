@@ -79,28 +79,6 @@
     z-index: 1;
   }
   
-  /* Back button */
-  .back-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 12px 24px;
-    background: transparent;
-    border: 2px solid #d4af37;
-    color: #d4af37;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-    transition: all 0.3s ease;
-    letter-spacing: 1px;
-    z-index: 10;
-  }
-  
-  .back-btn:hover {
-    background: rgba(212, 175, 55, 0.1);
-  }
   
   /* Header */
   header {
@@ -460,12 +438,6 @@
       display: none;
     }
     
-    .back-btn {
-      top: 10px;
-      left: 10px;
-      padding: 10px 20px;
-      font-size: 13px;
-    }
     
     header {
       padding: 50px 10px 20px;
@@ -547,8 +519,6 @@
 <body>
 
 <div class="bg-pattern"></div>
-
-<button class="back-btn" onclick="window.history.back()">← BACK</button>
 
 <div class="page">
   <header>
