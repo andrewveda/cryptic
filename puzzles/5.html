@@ -2,37 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cryptic Puzzle</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Raleway:wght@400;600&display=swap');
 
 body {
-  font-family: 'Raleway', sans-serif;
+  margin: 0;
   background: #0a0a0a;
   color: #f5f5f5;
-  min-height: 100vh;
+  font-family: 'Raleway', sans-serif;
   text-align: center;
 }
 
 .page {
   max-width: 600px;
   margin: auto;
-  padding: 30px 16px 40px;
+  padding: 40px 16px;
 }
 
-/* Header */
 header {
-  padding: 40px 10px 20px;
+  margin-bottom: 30px;
 }
 
 .date {
   font-family: 'Cinzel', serif;
-  font-size: 30px;
+  font-size: 28px;
   color: #d4af37;
 }
 
@@ -42,26 +38,24 @@ header {
   color: #d4af37;
 }
 
-.difficulty-tag {
+.difficulty {
   margin-top: 10px;
   display: inline-block;
-  padding: 6px 16px;
+  padding: 6px 14px;
   border: 1px solid #d4af37;
   color: #d4af37;
   font-size: 12px;
-  letter-spacing: 2px;
 }
 
-/* Clue */
 .clue {
-  margin: 40px 0 30px;
-  padding: 26px;
+  margin: 30px 0;
+  padding: 22px;
   border: 2px solid #d4af37;
   font-size: 20px;
   line-height: 1.6;
 }
 
-/* ANSWER ROW — FLEX = PERFECT CENTRING */
+/* ANSWER ROW */
 .answer-row {
   display: flex;
   justify-content: center;
@@ -70,7 +64,7 @@ header {
   margin: 30px 0;
 }
 
-/* Cells */
+/* LETTER CELL */
 .cell {
   width: 42px;
   height: 52px;
@@ -88,16 +82,15 @@ header {
   box-shadow: 0 0 14px rgba(212,175,55,0.5);
 }
 
-/* Visual space */
+/* VISUAL SPACE */
 .spacer {
   width: 18px;
-  height: 1px;
   border-left: 1px solid rgba(212,175,55,0.5);
 }
 
-/* Buttons */
-.hint-buttons, .controls {
-  margin-top: 30px;
+/* BUTTONS */
+.controls, .hint-buttons {
+  margin-top: 28px;
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -106,11 +99,11 @@ header {
 
 button {
   padding: 12px 22px;
-  background: transparent;
   border: 2px solid #d4af37;
+  background: transparent;
   color: #d4af37;
-  cursor: pointer;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .controls button {
@@ -120,7 +113,6 @@ button {
   padding: 14px 40px;
 }
 
-/* Hint box */
 .hint-output {
   display: none;
   margin: 20px auto;
@@ -136,9 +128,9 @@ button {
 <div class="page">
 
 <header>
-  <div class="date" id="puzzleDate">2026-01-14</div>
+  <div class="date">2026-01-14</div>
   <div class="author">By Andrew Veda</div>
-  <div class="difficulty-tag">MEDIUM</div>
+  <div class="difficulty">MEDIUM</div>
 </header>
 
 <div class="clue" id="puzzleClue">
@@ -163,60 +155,57 @@ button {
 
 <script>
 /* === PUZZLE DATA === */
-const ANSWER = "FIGHTCLUB";
+const ANSWER = "FIGHT CLUB";
 const DEFINITION = "a classic cult";
 const FODDER = "XX light party";
 const INDICATOR = "with, headless";
 
-/* === ENUMERATION PARSER === */
-function getWordBreaks(clue) {
+/* === PARSE ENUMERATION === */
+function parseEnumeration(clue) {
   const match = clue.match(/\(([\d,]+)\)/);
   if (!match) return [];
-  const nums = match[1].split(',').map(Number);
-  let sum = 0, breaks = [];
-  for (let i = 0; i < nums.length - 1; i++) {
-    sum += nums[i];
-    breaks.push(sum);
-  }
-  return breaks;
+  return match[1].split(',').map(Number);
 }
 
-/* === BUILD GRID === */
-const answerRow = document.getElementById("answerRow");
 const clueText = document.getElementById("puzzleClue").textContent;
-const BREAKS = getWordBreaks(clueText);
+const ENUM = parseEnumeration(clueText);
 
-let cells = [];
+/* === BUILD GRID FROM ENUMERATION === */
+const answerRow = document.getElementById("answerRow");
+const cells = [];
 
-for (let i = 0; i < ANSWER.length; i++) {
+ENUM.forEach((count, wordIndex) => {
+  for (let i = 0; i < count; i++) {
+    const input = document.createElement("input");
+    input.className = "cell";
+    input.maxLength = 1;
+    input.type = "text";
 
-  if (BREAKS.includes(i)) {
+    input.addEventListener("input", () => {
+      input.value = input.value.toUpperCase();
+      const idx = cells.indexOf(input);
+      if (idx < cells.length - 1 && input.value) {
+        cells[idx + 1].focus();
+      }
+    });
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Backspace" && !input.value) {
+        const idx = cells.indexOf(input);
+        if (idx > 0) cells[idx - 1].focus();
+      }
+    });
+
+    cells.push(input);
+    answerRow.appendChild(input);
+  }
+
+  if (wordIndex < ENUM.length - 1) {
     const spacer = document.createElement("div");
     spacer.className = "spacer";
     answerRow.appendChild(spacer);
   }
-
-  const input = document.createElement("input");
-  input.className = "cell";
-  input.maxLength = 1;
-  input.type = "text";
-
-  input.addEventListener("input", () => {
-    input.value = input.value.toUpperCase();
-    const idx = cells.indexOf(input);
-    if (idx < cells.length - 1 && input.value) cells[idx + 1].focus();
-  });
-
-  input.addEventListener("keydown", e => {
-    if (e.key === "Backspace" && !input.value) {
-      const idx = cells.indexOf(input);
-      if (idx > 0) cells[idx - 1].focus();
-    }
-  });
-
-  cells.push(input);
-  answerRow.appendChild(input);
-}
+});
 
 cells[0].focus();
 
@@ -234,10 +223,12 @@ indicatorBtn.onclick = () => showHint("Indicator: " + INDICATOR);
 /* === CHECK === */
 checkBtn.onclick = () => {
   const guess = cells.map(c => c.value).join("");
-  if (guess === ANSWER) {
-    alert("Correct! 🎉");
+  const solution = ANSWER.replace(/\s+/g, "").toUpperCase();
+
+  if (guess === solution) {
+    alert("Correct! ✨");
   } else {
-    alert("Try again.");
+    alert("Not quite. Try again.");
   }
 };
 </script>
