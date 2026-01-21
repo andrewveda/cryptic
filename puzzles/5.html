@@ -514,6 +514,10 @@
       padding-right: env(safe-area-inset-right);
     }
   }
+.spacer {
+  width: 12px;
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
@@ -584,7 +588,21 @@
       console.error('Error parsing puzzle data:', e);
     }
   }
+function getWordBreaksFromClue(clueText) {
+  const match = clueText.match(/\(([\d,]+)\)/);
+  if (!match) return [];
 
+  const parts = match[1].split(',').map(Number);
+  const breaks = [];
+
+  let sum = 0;
+  for (let i = 0; i < parts.length - 1; i++) {
+    sum += parts[i];
+    breaks.push(sum);
+  }
+
+  return breaks;
+}
   document.documentElement.style.setProperty("--letters", ANSWER.length);
 
   /* === MOBILE DETECTION === */
@@ -592,32 +610,30 @@
 
   /* === BUILD ANSWER BOXES === */
   const answerRow = document.getElementById("answerRow");
+const clueText = document.getElementById("puzzleClue").textContent;
+const WORD_BREAKS = getWordBreaksFromClue(clueText);
 
-  for (let i = 0; i < ANSWER.length; i++) {
-    const input = document.createElement("input");
-    input.className = "cell";
-    input.type = "text";
-    input.maxLength = 1;
-    input.style.animationDelay = `${0.7 + i * 0.05}s`;
-    answerRow.appendChild(input);
+let visualIndex = 0;
+
+for (let i = 0; i < ANSWER.length; i++) {
+
+  if (WORD_BREAKS.includes(i)) {
+    const spacer = document.createElement("div");
+    spacer.className = "spacer";
+    answerRow.appendChild(spacer);
+    visualIndex++;
   }
 
-  const cells = document.querySelectorAll(".cell");
+  const input = document.createElement("input");
+  input.className = "cell";
+  input.type = "text";
+  input.maxLength = 1;
+  input.dataset.index = i;
+  input.style.animationDelay = `${0.7 + visualIndex * 0.05}s`;
 
-  cells.forEach((cell, index) => {
-    cell.addEventListener("input", () => {
-      cell.value = cell.value.toUpperCase();
-      if (cell.value && index < cells.length - 1) {
-        cells[index + 1].focus();
-      }
-    });
-
-    cell.addEventListener("keydown", (e) => {
-      if (e.key === "Backspace" && !cell.value && index > 0) {
-        cells[index - 1].focus();
-      }
-    });
-  });
+  answerRow.appendChild(input);
+  visualIndex++;
+}
 
   if (cells.length > 0) cells[0].focus();
 
