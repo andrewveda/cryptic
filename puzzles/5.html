@@ -8,6 +8,8 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Raleway:wght@400;600&display=swap');
 
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   background: #0a0a0a;
@@ -22,6 +24,7 @@ body {
   padding: 40px 16px;
 }
 
+/* Header */
 header {
   margin-bottom: 30px;
 }
@@ -47,6 +50,7 @@ header {
   font-size: 12px;
 }
 
+/* Clue */
 .clue {
   margin: 30px 0;
   padding: 22px;
@@ -55,16 +59,20 @@ header {
   line-height: 1.6;
 }
 
-/* ANSWER ROW */
-.answer-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+/* ANSWER AREA */
+.answer-area {
   margin: 30px 0;
 }
 
-/* LETTER CELL */
+/* ONE WORD PER ROW */
+.word-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Letter cell */
 .cell {
   width: 42px;
   height: 52px;
@@ -82,14 +90,8 @@ header {
   box-shadow: 0 0 14px rgba(212,175,55,0.5);
 }
 
-/* VISUAL SPACE */
-.spacer {
-  width: 18px;
-  border-left: 1px solid rgba(212,175,55,0.5);
-}
-
-/* BUTTONS */
-.controls, .hint-buttons {
+/* Buttons */
+.hint-buttons, .controls {
   margin-top: 28px;
   display: flex;
   justify-content: center;
@@ -137,7 +139,7 @@ button {
   XX with headless light party or used to beat a classic cult (5,4)
 </div>
 
-<div class="answer-row" id="answerRow"></div>
+<div class="answer-area" id="answerArea"></div>
 
 <div class="hint-buttons">
   <button id="defBtn">DEFINITION</button>
@@ -170,16 +172,19 @@ function parseEnumeration(clue) {
 const clueText = document.getElementById("puzzleClue").textContent;
 const ENUM = parseEnumeration(clueText);
 
-/* === BUILD GRID FROM ENUMERATION === */
-const answerRow = document.getElementById("answerRow");
+/* === BUILD GRID: ONE WORD PER LINE === */
+const answerArea = document.getElementById("answerArea");
 const cells = [];
 
-ENUM.forEach((count, wordIndex) => {
+ENUM.forEach(count => {
+  const row = document.createElement("div");
+  row.className = "word-row";
+
   for (let i = 0; i < count; i++) {
     const input = document.createElement("input");
     input.className = "cell";
-    input.maxLength = 1;
     input.type = "text";
+    input.maxLength = 1;
 
     input.addEventListener("input", () => {
       input.value = input.value.toUpperCase();
@@ -197,14 +202,10 @@ ENUM.forEach((count, wordIndex) => {
     });
 
     cells.push(input);
-    answerRow.appendChild(input);
+    row.appendChild(input);
   }
 
-  if (wordIndex < ENUM.length - 1) {
-    const spacer = document.createElement("div");
-    spacer.className = "spacer";
-    answerRow.appendChild(spacer);
-  }
+  answerArea.appendChild(row);
 });
 
 cells[0].focus();
