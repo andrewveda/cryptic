@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cryptic Puzzle</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Raleway:wght@400;600&display=swap');
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #0a0a0a;
+  color: #f5f5f5;
+  font-family: 'Raleway', sans-serif;
+  text-align: center;
+}
+
+.page {
+  max-width: 600px;
+  margin: auto;
+  padding: 40px 16px;
+}
+
+/* Header */
+header {
+  margin-bottom: 30px;
+}
+
+.date {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  color: #d4af37;
+}
+
+.author {
+  margin-top: 6px;
+  letter-spacing: 2px;
+  color: #d4af37;
+}
+
+.difficulty {
+  margin-top: 10px;
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  font-size: 12px;
+}
+
+/* Clue */
+.clue {
+  margin: 30px 0;
+  padding: 22px;
+  border: 2px solid #d4af37;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+/* ANSWER AREA */
+.answer-area {
+  margin: 30px 0;
+}
+
+/* ONE WORD PER ROW */
+.word-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Letter cell */
+.cell {
+  width: 42px;
+  height: 52px;
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  text-align: center;
+  border: 3px solid #d4af37;
+  background: rgba(212,175,55,0.08);
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.cell:focus {
+  outline: none;
+  box-shadow: 0 0 14px rgba(212,175,55,0.5);
+}
+
+/* Buttons */
+.hint-buttons, .controls {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 12px 22px;
+  border: 2px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.controls button {
+  background: #d4af37;
+  color: #0a0a0a;
+  font-size: 18px;
+  padding: 14px 40px;
+}
+
+.hint-output {
+  display: none;
+  margin: 20px auto;
+  padding: 18px;
+  max-width: 480px;
+  border: 2px solid #d4af37;
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<header>
+  <div class="date">2026-01-14</div>
+  <div class="author">By Andrew Veda</div>
+  <div class="difficulty">MEDIUM</div>
+</header>
+
+<div class="clue" id="puzzleClue">
+  Five enigma's torso, five headless MIDI, five icicles without legs for JC at Zela. (4,4,4)
+</div>
+
+<div class="answer-area" id="answerArea"></div>
+
+<div class="hint-buttons">
+  <button id="defBtn">DEFINITION</button>
+  <button id="fodderBtn">FODDER</button>
+  <button id="indicatorBtn">INDICATOR</button>
+</div>
+
+<div class="hint-output" id="hintOutput"></div>
+
+<div class="controls">
+  <button id="checkBtn">CHECK ANSWER</button>
+</div>
+
+</div>
+
+<script>
+/* === PUZZLE DATA === */
+const ANSWER = "VENI VIDI VICI";
+const DEFINITION = " JC at Zela. ";
+const FODDER = "Five enigma's, five MIDI, five icicles";
+const INDICATOR = "torso, headless, without legs";
+
+/* === PARSE ENUMERATION === */
+function parseEnumeration(clue) {
+  const match = clue.match(/\(([\d,]+)\)/);
+  if (!match) return [];
+  return match[1].split(',').map(Number);
+}
+
+const clueText = document.getElementById("puzzleClue").textContent;
+const ENUM = parseEnumeration(clueText);
+
+/* === BUILD GRID: ONE WORD PER LINE === */
+const answerArea = document.getElementById("answerArea");
+const cells = [];
+
+ENUM.forEach(count => {
+  const row = document.createElement("div");
+  row.className = "word-row";
+
+  for (let i = 0; i < count; i++) {
+    const input = document.createElement("input");
+    input.className = "cell";
+    input.type = "text";
+    input.maxLength = 1;
+
+    input.addEventListener("input", () => {
+      input.value = input.value.toUpperCase();
+      const idx = cells.indexOf(input);
+      if (idx < cells.length - 1 && input.value) {
+        cells[idx + 1].focus();
+      }
+    });
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Backspace" && !input.value) {
+        const idx = cells.indexOf(input);
+        if (idx > 0) cells[idx - 1].focus();
+      }
+    });
+
+    cells.push(input);
+    row.appendChild(input);
+  }
+
+  answerArea.appendChild(row);
+});
+
+cells[0].focus();
+
+/* === HINTS === */
+const hintOutput = document.getElementById("hintOutput");
+const showHint = t => {
+  hintOutput.style.display = "block";
+  hintOutput.textContent = t;
+};
+
+defBtn.onclick = () => showHint("Definition: " + DEFINITION);
+fodderBtn.onclick = () => showHint("Fodder: " + FODDER);
+indicatorBtn.onclick = () => showHint("Indicator: " + INDICATOR);
+
+/* === CHECK === */
+checkBtn.onclick = () => {
+  const guess = cells.map(c => c.value).join("");
+  const solution = ANSWER.replace(/\s+/g, "").toUpperCase();
+
+  if (guess === solution) {
+    alert("Correct! ✨");
+  } else {
+    alert("Not quite. Try again.");
+  }
+};
+</script>
+
+</body>
+</html>
