@@ -514,6 +514,21 @@
       padding-right: env(safe-area-inset-right);
     }
   }
+/* === Clue Highlights === */
+.highlight-def {
+  color: #7dd3fc;            /* cool blue */
+  text-shadow: 0 0 8px rgba(125, 211, 252, 0.6);
+}
+
+.highlight-fodder {
+  color: #f472b6;            /* rose */
+  text-shadow: 0 0 8px rgba(244, 114, 182, 0.6);
+}
+
+.highlight-indicator {
+  color: #facc15;            /* gold-yellow */
+  text-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
+}
 </style>
 </head>
 <body>
@@ -585,7 +600,22 @@
     }
   }
 
-  document.documentElement.style.setProperty("--letters", ANSWER.length);
+ const clueElement = document.getElementById("puzzleClue");
+const RAW_CLUE = clueElement.textContent;
+
+function highlightClue(target, className) {
+  // Reset to original clue
+  clueElement.innerHTML = RAW_CLUE;
+
+  // Escape regex characters
+  const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(escaped, 'i');
+
+  clueElement.innerHTML = clueElement.innerHTML.replace(
+    regex,
+    `<span class="${className}">$&</span>`
+  );
+} document.documentElement.style.setProperty("--letters", ANSWER.length);
 
   /* === MOBILE DETECTION === */
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -622,18 +652,22 @@
   if (cells.length > 0) cells[0].focus();
 
   /* === HINT LOGIC === */
-  const hintOutput = document.getElementById("hintOutput");
+  const hintOutput = document.getElementById("defBtn").onclick = () => {
+  showHint("Definition: " + DEFINITION);
+  highlightClue(DEFINITION.trim(), "highlight-def");
+};
 
-  function showHint(text) {
-    hintOutput.style.display = "block";
-    hintOutput.textContent = text;
-  }
+document.getElementById("fodderBtn").onclick = () => {
+  showHint("Fodder: " + FODDER);
+  highlightClue(FODDER.trim(), "highlight-fodder");
+};
 
-  document.getElementById("defBtn").onclick = () =>
-    showHint("Definition: " + DEFINITION);
+document.getElementById("indicatorBtn").onclick = () => {
+  showHint("Indicator: " + INDICATOR);
+  highlightClue(INDICATOR.trim(), "highlight-indicator");
+};
 
-  document.getElementById("fodderBtn").onclick = () =>
-    showHint("Fodder: " + FODDER);
+  
 
   document.getElementById("indicatorBtn").onclick = () =>
     showHint("Indicator: " + INDICATOR);
