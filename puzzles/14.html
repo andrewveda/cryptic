@@ -652,7 +652,15 @@ function highlightClue(target, className) {
   if (cells.length > 0) cells[0].focus();
 
   /* === HINT LOGIC === */
-  const hintOutput = document.getElementById("defBtn").onclick = () => {
+  /* === HINT LOGIC === */
+const hintOutput = document.getElementById("hintOutput");
+
+function showHint(text) {
+  hintOutput.style.display = "block";
+  hintOutput.textContent = text;
+}
+
+document.getElementById("defBtn").onclick = () => {
   showHint("Definition: " + DEFINITION);
   highlightClue(DEFINITION.trim(), "highlight-def");
 };
@@ -667,12 +675,6 @@ document.getElementById("indicatorBtn").onclick = () => {
   highlightClue(INDICATOR.trim(), "highlight-indicator");
 };
 
-  
-
-  document.getElementById("indicatorBtn").onclick = () =>
-    showHint("Indicator: " + INDICATOR);
-
-  /* === CHECK === */
   document.getElementById("checkBtn").onclick = () => {
     const guess = Array.from(cells).map(c => c.value).join("");
 
