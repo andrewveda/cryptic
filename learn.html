@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<title>How to Solve Cryptic Crosswords</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background: #0a0a0a;
+  color: #f5f5f5;
+  line-height: 1.75;
+}
+
+.bg-pattern {
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px),
+    repeating-linear-gradient(-45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px);
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  position: relative;
+  z-index: 1;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, #d4af37, #f4e5b1, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  margin-top: 12px;
+  letter-spacing: 4px;
+  font-size: 0.85rem;
+  color: #d4af37;
+}
+
+section {
+  margin-bottom: 56px;
+  padding: 32px;
+  border: 2px solid #d4af37;
+  background: rgba(212,175,55,0.05);
+}
+
+h2 {
+  font-family: 'Cinzel', serif;
+  color: #d4af37;
+  letter-spacing: 3px;
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+}
+
+h3 {
+  margin-top: 26px;
+  color: #f4e5b1;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+}
+
+p {
+  margin-bottom: 16px;
+}
+
+.example {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border-left: 4px solid #d4af37;
+  background: rgba(0,0,0,0.5);
+  font-size: 0.95rem;
+}
+
+code {
+  color: #f4e5b1;
+}
+
+.back-link {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.back-link a {
+  font-family: 'Cinzel', serif;
+  color: #d4af37;
+  letter-spacing: 3px;
+  text-decoration: none;
+  border: 1.5px solid #d4af37;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.back-link a:hover {
+  background: #d4af37;
+  color: #0a0a0a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-pattern"></div>
+
+<div class="container">
+
+<header>
+  <h1>THE ART OF CRYPTIC CROSSWORDS</h1>
+  <div class="subtitle">A COMPLETE INITIATION FOR BEGINNERS</div>
+</header>
+
+<section>
+  <h2>1. THE GOLDEN RULE</h2>
+  <p>
+    Every cryptic clue contains <strong>two paths to the same answer</strong>:
+  </p>
+  <p>
+    <strong>• A definition</strong> (straight meaning)<br>
+    <strong>• Wordplay</strong> (a coded construction)
+  </p>
+  <p>
+    These usually sit at the <em>start or end</em> of the clue.
+  </p>
+
+  <div class="example">
+    <strong>Example:</strong><br>
+    “Smart girl alternates MBE Vecna zombie (5)”<br>
+    Definition: <em>Smart girl</em><br>
+    Wordplay: Alternating letters → <code>MEENZ</code>
+  </div>
+</section>
+
+<section>
+  <h2>2. INDICATORS: THE SECRET SIGNALS</h2>
+  <p>
+    Cryptic clues announce their tricks openly — but in disguise.
+    These announcing words are called <strong>indicators</strong>.
+  </p>
+
+  <h3>Anagram Indicators</h3>
+  <p>Words like: confused, scrambled, wild, broken</p>
+
+  <h3>Hidden Indicators</h3>
+  <p>Words like: hidden in, part of, inside</p>
+
+  <h3>Homophone Indicators</h3>
+  <p>Words like: sounds like, reportedly, heard</p>
+</section>
+
+<section>
+  <h2>3. MAJOR CLUE TYPES (WITH LOGIC)</h2>
+
+  <h3>Anagram</h3>
+  <p>Rearrange letters.</p>
+  <div class="example">
+    “Confused e-name (5)” → scramble → <code>MEENA</code>
+  </div>
+
+  <h3>Hidden</h3>
+  <p>The answer appears consecutively inside the clue.</p>
+
+  <h3>Charade</h3>
+  <p>Small pieces placed side by side.</p>
+
+  <h3>Double Definition</h3>
+  <p>Two straight meanings, same word.</p>
+
+  <h3>Acrostic</h3>
+  <p>First (or last) letters of consecutive words.</p>
+</section>
+
+<section>
+  <h2>4. GRAMMAR IS LAW</h2>
+  <p>
+    Cryptic clues obey grammar strictly.
+  </p>
+  <p>
+    • Past indicators give past constructions<br>
+    • Plurals match plurals<br>
+    • Articles matter
+  </p>
+  <p>
+    If the grammar doesn’t fit, the answer is wrong — even if it “feels” right.
+  </p>
+</section>
+
+<section>
+  <h2>5. HOW TO ACTUALLY SOLVE</h2>
+  <p>
+    1. Identify likely definition<br>
+    2. Spot indicators<br>
+    3. Count letters (enumeration)<br>
+    4. Build mechanically<br>
+    5. Only then admire the surface
+  </p>
+</section>
+
+<section>
+  <h2>6. FINAL INITIATION TRUTH</h2>
+  <p>
+    Cryptic crosswords are not about vocabulary.
+    They are about <strong>trusting instructions</strong>.
+  </p>
+  <p>
+    Every clue is honest.  
+    Every deception is declared.
+  </p>
+</section>
+
+<div class="back-link">
+  <a href="index.html">RETURN TO THE CLUES</a>
+</div>
+
+</div>
+</body>
+</html>
