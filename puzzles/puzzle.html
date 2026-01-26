@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<title>Cryptic Puzzle</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background: #0a0a0a;
+  color: #f5f5f5;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.bg-pattern {
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px),
+    repeating-linear-gradient(-45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px);
+}
+
+.page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+  position: relative;
+  z-index: 1;
+}
+
+header {
+  padding: 60px 10px 30px;
+}
+
+.puzzle-number {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  color: #d4af37;
+  letter-spacing: 3px;
+}
+
+.date {
+  font-family: 'Cinzel', serif;
+  font-size: 30px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #d4af37, #f4e5b1, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.author {
+  font-size: 16px;
+  color: #d4af37;
+  letter-spacing: 2px;
+  margin-top: 6px;
+}
+
+.difficulty-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  margin-top: 12px;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.clue {
+  margin: 40px 0;
+  padding: 30px;
+  font-size: 20px;
+  line-height: 1.6;
+  border: 2px solid #d4af37;
+  background: rgba(212,175,55,0.08);
+}
+
+.answer-row {
+  display: grid;
+  grid-template-columns: repeat(var(--letters), 1fr);
+  gap: 8px;
+  margin: 30px auto;
+}
+
+.cell {
+  aspect-ratio: 4 / 5;
+  font-size: 26px;
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  border: 3px solid #d4af37;
+  background: transparent;
+  color: #f5f5f5;
+  text-transform: uppercase;
+}
+
+.cell.correct {
+  background: rgba(212,175,55,0.35);
+}
+
+.controls {
+  margin-top: 30px;
+}
+
+.controls button,
+.controls a {
+  display: inline-block;
+  padding: 14px 40px;
+  border: 2px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.controls button:hover,
+.controls a:hover {
+  background: #d4af37;
+  color: #0a0a0a;
+}
+
+#solutionLink {
+  display: none;
+  margin-top: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-pattern"></div>
+
+<div class="page">
+  <header>
+    <div class="puzzle-number" id="puzzleNumber"></div>
+    <div class="date" id="puzzleDate">Loading…</div>
+    <div class="author" id="puzzleAuthor"></div>
+    <div class="difficulty-tag" id="puzzleDifficulty"></div>
+  </header>
+
+  <div class="clue" id="puzzleClue"></div>
+
+  <div class="answer-row" id="answerRow"></div>
+
+  <div class="controls">
+    <button id="checkBtn">CHECK ANSWER</button>
+  </div>
+
+  <div class="controls">
+    <a id="solutionLink">VIEW SOLUTION</a>
+  </div>
+</div>
+
+<script>
+let ANSWER = "";
+let id = null;
+
+/* === LOAD PUZZLE === */
+async function loadPuzzle() {
+  const params = new URLSearchParams(window.location.search);
+  id = params.get("id");
+
+  if (!id) {
+    alert("Invalid puzzle link.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`./${id}.json`);
+    const puzzle = await res.json();
+
+    ANSWER = puzzle.answer.toUpperCase();
+
+    document.getElementById("puzzleNumber").textContent = `PUZZLE ${puzzle.id}`;
+    document.getElementById("puzzleDate").textContent = puzzle.date;
+    document.getElementById("puzzleAuthor").textContent = "By " + puzzle.author;
+    document.getElementById("puzzleDifficulty").textContent = puzzle.difficulty.toUpperCase();
+    document.getElementById("puzzleClue").textContent = puzzle.clue;
+
+    document.documentElement.style.setProperty("--letters", ANSWER.length);
+    buildAnswerBoxes();
+
+    const solutionLink = document.getElementById("solutionLink");
+    solutionLink.href = `solution.html?id=${id}`;
+
+  } catch (e) {
+    console.error(e);
+    alert("Puzzle not found.");
+  }
+}
+
+/* === BUILD INPUTS === */
+function buildAnswerBoxes() {
+  const row = document.getElementById("answerRow");
+  row.innerHTML = "";
+
+  for (let i = 0; i < ANSWER.length; i++) {
+    const input = document.createElement("input");
+    input.className = "cell";
+    input.maxLength = 1;
+    input.addEventListener("input", () => {
+      input.value = input.value.toUpperCase();
+      if (input.value && input.nextElementSibling)
+        input.nextElementSibling.focus();
+    });
+    input.addEventListener("keydown", e => {
+      if (e.key === "Backspace" && !input.value && input.previousElementSibling)
+        input.previousElementSibling.focus();
+    });
+    row.appendChild(input);
+  }
+}
+
+/* === CHECK ANSWER === */
+document.getElementById("checkBtn").onclick = () => {
+  const guess = [...document.querySelectorAll(".cell")]
+    .map(c => c.value)
+    .join("");
+
+  if (guess.length < ANSWER.length) {
+    alert("Complete the word first.");
+    return;
+  }
+
+  if (guess === ANSWER) {
+    document.querySelectorAll(".cell")
+      .forEach(c => c.classList.add("correct"));
+    document.getElementById("solutionLink").style.display = "inline-block";
+  } else {
+    alert("Not quite. Try again.");
+    document.getElementById("solutionLink").style.display = "inline-block";
+  }
+};
+
+loadPuzzle();
+</script>
+
+</body>
+</html>
