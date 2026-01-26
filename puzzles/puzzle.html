@@ -7,7 +7,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
 <title>Cryptic Puzzle</title>
 
 <style>
@@ -28,7 +27,6 @@ body {
   inset: 0;
   opacity: 0.03;
   pointer-events: none;
-  z-index: 0;
   background-image:
     repeating-linear-gradient(45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px),
     repeating-linear-gradient(-45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px);
@@ -42,9 +40,8 @@ body {
   z-index: 1;
 }
 
-header {
-  padding: 60px 10px 30px;
-}
+/* Header */
+header { padding: 60px 10px 30px; }
 
 .puzzle-number {
   font-family: 'Cinzel', serif;
@@ -66,19 +63,19 @@ header {
   font-size: 16px;
   color: #d4af37;
   letter-spacing: 2px;
-  margin-top: 6px;
 }
 
 .difficulty-tag {
+  margin-top: 10px;
   display: inline-block;
   padding: 6px 16px;
-  margin-top: 12px;
   border: 1px solid #d4af37;
   color: #d4af37;
   font-size: 12px;
   letter-spacing: 2px;
 }
 
+/* Clue */
 .clue {
   margin: 40px 0;
   padding: 30px;
@@ -88,6 +85,12 @@ header {
   background: rgba(212,175,55,0.08);
 }
 
+/* Highlights */
+.highlight-def { color: #7dd3fc; text-shadow: 0 0 8px rgba(125,211,252,.6); }
+.highlight-fodder { color: #f472b6; text-shadow: 0 0 8px rgba(244,114,182,.6); }
+.highlight-indicator { color: #facc15; text-shadow: 0 0 8px rgba(250,204,21,.6); }
+
+/* Answer boxes */
 .answer-row {
   display: grid;
   grid-template-columns: repeat(var(--letters), 1fr);
@@ -96,7 +99,7 @@ header {
 }
 
 .cell {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4/5;
   font-size: 26px;
   font-family: 'Cinzel', serif;
   text-align: center;
@@ -107,12 +110,34 @@ header {
 }
 
 .cell.correct {
-  background: rgba(212,175,55,0.35);
+  background: rgba(212,175,55,.35);
 }
 
-.controls {
-  margin-top: 30px;
+/* Hint buttons */
+.hint-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
+
+.hint-buttons button {
+  padding: 10px 18px;
+  border: 2px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
+  cursor: pointer;
+}
+
+.hint-output {
+  margin: 20px;
+  padding: 16px;
+  border: 2px solid #d4af37;
+  display: none;
+}
+
+/* Controls */
+.controls { margin-top: 30px; }
 
 .controls button,
 .controls a {
@@ -133,10 +158,7 @@ header {
   color: #0a0a0a;
 }
 
-#solutionLink {
-  display: none;
-  margin-top: 14px;
-}
+#solutionLink { display: none; margin-top: 12px; }
 </style>
 </head>
 
@@ -147,7 +169,7 @@ header {
 <div class="page">
   <header>
     <div class="puzzle-number" id="puzzleNumber"></div>
-    <div class="date" id="puzzleDate">Loading…</div>
+    <div class="date" id="puzzleDate"></div>
     <div class="author" id="puzzleAuthor"></div>
     <div class="difficulty-tag" id="puzzleDifficulty"></div>
   </header>
@@ -155,6 +177,14 @@ header {
   <div class="clue" id="puzzleClue"></div>
 
   <div class="answer-row" id="answerRow"></div>
+
+  <div class="hint-buttons">
+    <button id="defBtn">DEFINITION</button>
+    <button id="fodderBtn">FODDER</button>
+    <button id="indicatorBtn">INDICATOR</button>
+  </div>
+
+  <div class="hint-output" id="hintOutput"></div>
 
   <div class="controls">
     <button id="checkBtn">CHECK ANSWER</button>
@@ -166,84 +196,65 @@ header {
 </div>
 
 <script>
-let ANSWER = "";
-let id = null;
+let ANSWER="", DEFINITION="", FODDER="", INDICATOR="", RAW_CLUE="", id=null;
 
-/* === LOAD PUZZLE === */
+/* Load puzzle */
 async function loadPuzzle() {
-  const params = new URLSearchParams(window.location.search);
-  id = params.get("id");
+  id = new URLSearchParams(location.search).get("id");
+  if (!id) return alert("Invalid puzzle link");
 
-  if (!id) {
-    alert("Invalid puzzle link.");
-    return;
-  }
+  const res = await fetch(`./${id}.json`);
+  const p = await res.json();
 
-  try {
-    const res = await fetch(`./${id}.json`);
-    const puzzle = await res.json();
+  ANSWER = p.answer.toUpperCase();
+  DEFINITION = p.definition;
+  FODDER = p.fodder;
+  INDICATOR = p.indicator;
 
-    ANSWER = puzzle.answer.toUpperCase();
+  document.getElementById("puzzleNumber").textContent = `PUZZLE ${p.id}`;
+  document.getElementById("puzzleDate").textContent = p.date;
+  document.getElementById("puzzleAuthor").textContent = "By " + p.author;
+  document.getElementById("puzzleDifficulty").textContent = p.difficulty.toUpperCase();
+  document.getElementById("puzzleClue").textContent = p.clue;
 
-    document.getElementById("puzzleNumber").textContent = `PUZZLE ${puzzle.id}`;
-    document.getElementById("puzzleDate").textContent = puzzle.date;
-    document.getElementById("puzzleAuthor").textContent = "By " + puzzle.author;
-    document.getElementById("puzzleDifficulty").textContent = puzzle.difficulty.toUpperCase();
-    document.getElementById("puzzleClue").textContent = puzzle.clue;
+  RAW_CLUE = p.clue;
+  document.documentElement.style.setProperty("--letters", ANSWER.length);
+  buildInputs();
 
-    document.documentElement.style.setProperty("--letters", ANSWER.length);
-    buildAnswerBoxes();
-
-    const solutionLink = document.getElementById("solutionLink");
-    solutionLink.href = `solution.html?id=${id}`;
-
-  } catch (e) {
-    console.error(e);
-    alert("Puzzle not found.");
-  }
+  document.getElementById("solutionLink").href = `solution.html?id=${id}`;
 }
 
-/* === BUILD INPUTS === */
-function buildAnswerBoxes() {
+/* Build inputs */
+function buildInputs() {
   const row = document.getElementById("answerRow");
   row.innerHTML = "";
-
-  for (let i = 0; i < ANSWER.length; i++) {
-    const input = document.createElement("input");
-    input.className = "cell";
-    input.maxLength = 1;
-    input.addEventListener("input", () => {
-      input.value = input.value.toUpperCase();
-      if (input.value && input.nextElementSibling)
-        input.nextElementSibling.focus();
-    });
-    input.addEventListener("keydown", e => {
-      if (e.key === "Backspace" && !input.value && input.previousElementSibling)
-        input.previousElementSibling.focus();
-    });
-    row.appendChild(input);
+  for (let i=0;i<ANSWER.length;i++) {
+    const c=document.createElement("input");
+    c.className="cell"; c.maxLength=1;
+    c.oninput=()=>{c.value=c.value.toUpperCase();c.nextElementSibling?.focus();}
+    c.onkeydown=e=>{if(e.key==="Backspace"&&!c.value)c.previousElementSibling?.focus();}
+    row.appendChild(c);
   }
 }
 
-/* === CHECK ANSWER === */
-document.getElementById("checkBtn").onclick = () => {
-  const guess = [...document.querySelectorAll(".cell")]
-    .map(c => c.value)
-    .join("");
+/* Hint logic */
+function highlight(text, cls) {
+  const el=document.getElementById("puzzleClue");
+  el.innerHTML=RAW_CLUE.replace(new RegExp(text,"i"),`<span class="${cls}">$&</span>`);
+}
 
-  if (guess.length < ANSWER.length) {
-    alert("Complete the word first.");
-    return;
-  }
+const out=document.getElementById("hintOutput");
+defBtn.onclick=()=>{out.style.display="block";out.textContent="Definition: "+DEFINITION;highlight(DEFINITION,"highlight-def");}
+fodderBtn.onclick=()=>{out.style.display="block";out.textContent="Fodder: "+FODDER;highlight(FODDER,"highlight-fodder");}
+indicatorBtn.onclick=()=>{out.style.display="block";out.textContent="Indicator: "+INDICATOR;highlight(INDICATOR,"highlight-indicator");}
 
-  if (guess === ANSWER) {
-    document.querySelectorAll(".cell")
-      .forEach(c => c.classList.add("correct"));
-    document.getElementById("solutionLink").style.display = "inline-block";
-  } else {
-    alert("Not quite. Try again.");
-    document.getElementById("solutionLink").style.display = "inline-block";
+/* Check */
+checkBtn.onclick=()=>{
+  const guess=[...document.querySelectorAll(".cell")].map(c=>c.value).join("");
+  if(guess===ANSWER){
+    document.querySelectorAll(".cell").forEach(c=>c.classList.add("correct"));
   }
+  document.getElementById("solutionLink").style.display="inline-block";
 };
 
 loadPuzzle();
