@@ -543,12 +543,15 @@
     <div class="difficulty-tag" id="puzzleDifficulty">MEDIUM</div>
   </header>
 
+
+  
   <div class="clue" id="puzzleClue">
     Now Pacman trolls emulating Linux head to become an expert (5)
   </div>
 
-  <div class="answer-row" id="answerRow"></div>
 
+  
+  <div class="answer-row" id="answerRow"></div>
   <div class="hint-buttons">
     <button id="defBtn"><span>DEFINITION</span></button>
     <button id="fodderBtn"><span>FODDER</span></button>
@@ -575,13 +578,18 @@
 </div>
 
 <script>
-  /* === PUZZLE DATA === */
+
+
+
+  
   let ANSWER = "NPTEL";
   let DEFINITION = " to become an expert ";
   let FODDER = " Now Pacman trolls emulating Linux ";
   let INDICATOR =  "head  ";
 
-  // Check if puzzle data was passed via URL
+  
+
+  
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has('data')) {
     try {
@@ -599,30 +607,21 @@
       console.error('Error parsing puzzle data:', e);
     }
   }
-
  const clueElement = document.getElementById("puzzleClue");
 const RAW_CLUE = clueElement.textContent;
-
 function highlightClue(target, className) {
   // Reset to original clue
   clueElement.innerHTML = RAW_CLUE;
-
   // Escape regex characters
   const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const regex = new RegExp(escaped, 'i');
-
   clueElement.innerHTML = clueElement.innerHTML.replace(
     regex,
     `<span class="${className}">$&</span>`
   );
 } document.documentElement.style.setProperty("--letters", ANSWER.length);
-
-  /* === MOBILE DETECTION === */
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-  /* === BUILD ANSWER BOXES === */
   const answerRow = document.getElementById("answerRow");
-
   for (let i = 0; i < ANSWER.length; i++) {
     const input = document.createElement("input");
     input.className = "cell";
@@ -631,9 +630,7 @@ function highlightClue(target, className) {
     input.style.animationDelay = `${0.7 + i * 0.05}s`;
     answerRow.appendChild(input);
   }
-
   const cells = document.querySelectorAll(".cell");
-
   cells.forEach((cell, index) => {
     cell.addEventListener("input", () => {
       cell.value = cell.value.toUpperCase();
@@ -641,25 +638,18 @@ function highlightClue(target, className) {
         cells[index + 1].focus();
       }
     });
-
-    cell.addEventListener("keydown", (e) => {
+ cell.addEventListener("keydown", (e) => {
       if (e.key === "Backspace" && !cell.value && index > 0) {
         cells[index - 1].focus();
       }
     });
   });
-
   if (cells.length > 0) cells[0].focus();
-
-  /* === HINT LOGIC === */
-  /* === HINT LOGIC === */
 const hintOutput = document.getElementById("hintOutput");
-
 function showHint(text) {
   hintOutput.style.display = "block";
   hintOutput.textContent = text;
 }
-
 document.getElementById("defBtn").onclick = () => {
   showHint("Definition: " + DEFINITION);
   highlightClue(DEFINITION.trim(), "highlight-def");
@@ -698,8 +688,6 @@ document.getElementById("indicatorBtn").onclick = () => {
     document.getElementById('successModal').style.display = 'none';
     window.history.back();
   }
-
-  /* === CREATE PARTICLES === */
   function createParticles() {
     if (isMobile) return;
     
