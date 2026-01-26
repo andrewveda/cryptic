@@ -2,21 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title> Cryptic Clues</title>
+
+<title>Cryptic Clues</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: 'Raleway', sans-serif;
@@ -76,25 +74,6 @@ h1 {
   gap: 12px;
   justify-content: center;
   margin: 40px 0;
-}
-
-.search-box {
-  flex: 1;
-  min-width: 260px;
-  max-width: 400px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 14px 18px;
-  font-size: 16px;
-  background: transparent;
-  border: 2px solid #d4af37;
-  color: #f5f5f5;
-}
-
-.search-box input:focus {
-  outline: none;
 }
 
 .filter-btn {
@@ -197,43 +176,16 @@ h1 {
   background: #d4af37;
   color: #0a0a0a;
 }
+
 /* Mobile */
 @media (max-width: 768px) {
-  .clue-grid {
-    grid-template-columns: 1fr;
-  }
-
+  .clue-grid { grid-template-columns: 1fr; }
   .clue-footer {
     flex-direction: column;
     gap: 10px;
     align-items: stretch;
   }
-
 }
-
-  .search-box {
-  display: none;
-}
-.learn-link {
-  margin-top: 22px;
-}
-
-.learn-link a {
-  font-family: 'Cinzel', serif;
-  letter-spacing: 3px;
-  font-size: 0.85rem;
-  color: #d4af37;
-  text-decoration: none;
-  padding: 10px 18px;
-  border: 1.5px solid #d4af37;
-  transition: all 0.3s ease;
-}
-
-.learn-link a:hover {
-  background: #d4af37;
-  color: #0a0a0a;
-}
-
 </style>
 </head>
 
@@ -246,14 +198,8 @@ h1 {
     <h1>CRYPTIC CLUES</h1>
     <div class="subtitle">MASTERFUL PUZZLES • TIMELESS ELEGANCE</div>
   </header>
-<div class="learn-link">
-  <a href="learn.html">HOW TO SOLVE CRYPTIC CROSSWORDS</a>
-</div>
 
   <div class="controls">
-    <div class="search-box">
-      <input id="searchInput" type="text" placeholder="Search clues or answers…">
-    </div>
     <button class="filter-btn active" data-filter="all">ALL</button>
     <button class="filter-btn" data-filter="anagram">ANAGRAM</button>
     <button class="filter-btn" data-filter="acrostic">ACROSTIC</button>
@@ -267,210 +213,66 @@ h1 {
 </div>
 
 <script>
-const clues = [
-{
-    id: 14,
-    clue: "Champions Magnus, Anand, Topalov, Hikaru, Short requires logical genius!(5)",
-    answer: "MATHS",
-    type: "acrostic",
-    difficulty: "Medium",
-    date: "2026-01-14",
-    url: "puzzles/14.html"
-  },
-  {
-    id: 1,
-    clue: "I am last e4 Knight sleeping sounds for determined growth. (8)",
-    answer: "MEEEENZZ",
-    type: "charade, homophone",
-    difficulty: "Medium",
-    date: "2026-01-14",
-    url: "puzzles/1.html"
-  },
-  {
-    id: 2,
-    clue: "Radiantly arise! Glow always magically! Aura's light igniting kindness around you, 42! (10)",
-    answer: "RAGAMALIKA",
-    type: "acrostic, Diwali wishes",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/4.html"
+let clues = [];
+let currentFilter = "all";
 
-  },
-  {
-    id: 3,
-    clue: "XX with headless light party or used to beat a classic cult (5,4)",
-    answer: "FIGHT CLUB",
-    type: "charade, double",
-    difficulty: "Easy",
-    date: "2026-01-12",     
-    url: "puzzles/5.html"
-
-  },
-  {
-    id: 4,
-    clue: "Gambit by Botez. Neem turns back huge fan of Stranger Things (5)",
-    answer: "MEENZ",
-    type: "hidden",
-    difficulty: "Easy",
-    date: "2026-01-11",     
-    url: "puzzles/6.html"
-
-  },
-  {
-    id: 5,
-    clue: "Her favourite quote: Ever tried. Ever failed. No matter. Try again. Fail again. Fail better! is hidden in time enzymes (5)",
-    answer: "MEENZ",
-    type: "homophone",
-    difficulty: "Easy",
-    date: "2026-01-10",     
-    url: "puzzles/7.html"
-
-  },
-  {
-    id: 6,
-    clue: "Limitless. Emotions Time now blitzes for a clever kid who believes in Kipling's sixty seconds in 'If' 24/7, 22/7 approximately. (5)",
-    answer: "MEENZ",
-    type: "anagram",
-    difficulty: "Hard",
-    date: "2026-01-09",     
-    url: "puzzles/8.html"
-
-  },
-  {
-    id: 7,
-    clue: "Smart girl alternates MBE Vecna zombie (5)",
-    answer: "MEENZ",
-    type: "double",
-    difficulty: "Easy",
-    date: "2026-01-08",     
-    url: "puzzles/9.html"
-
-  },
-  {
-    id: 8,
-    clue: "Scrambled hike means a smart kid who believes in delayed gratification (9)",
-    answer: "MEENAKSHI",
-    type: "hidden",
-    difficulty: "Medium",
-    date: "2026-01-07",
-url: "puzzles/10.html"
-  },
-   {
-    id: 9,
-    clue: "Five enigma's torso, five headless MIDI, five icicles without legs for JC at Zela. (4,4,4)",
-    answer: "SILENT",
-    type: "anagram",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/11.html"
-
-  },
-   {
-    id: 10,
-    clue: "Reindeer and great applause made admirers look interested. Kind, affectionate leader for forty two. (10)",
-    answer: "RAGAMALIKA",
-    type: "acrostic, Christmas wishes",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/12.html"
-
-  },
-
-   {
-    id: 11,
-    clue: "Looking back, agar dances with Mila AK 42!)",
-    answer: "RAGAMALIKA",
-    type: "charade",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/13.html"
-
-  },
-{
-    id: 12,
-    clue: "Pongal at college. Hello again, leader for leader (5).",
-    answer: "PACHA",
-    type: "acrostic",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/2.html"
-
-  },
-{
-    id: 13,
-    clue: "Confused e-name with leading King's solo h-file invasion for determined growth! (9).",
-    answer: "MEENAKSHI",
-    type: "anagram, acrostic",
-    difficulty: "Easy",
-    date: "2026-01-19",
-    url: "puzzles/3.html"
-
+/* === LOAD CLUES FROM JSON === */
+async function loadClues() {
+  try {
+    const res = await fetch("data/clues.json");
+    clues = await res.json();
+    render();
+  } catch (e) {
+    console.error("Failed to load clues.json", e);
   }
+}
 
-
-];
-
-const grid = document.getElementById('clueGrid');
-const searchInput = document.getElementById('searchInput');
-const buttons = document.querySelectorAll('.filter-btn');
-
-let currentFilter = 'all';
-let searchTerm = '';
-let searchTimeout;
-
+/* === RENDER GRID === */
 function render() {
+  const grid = document.getElementById("clueGrid");
+
   const filtered = clues.filter(c => {
-    const f =
-      currentFilter === 'all' ||
-      c.type.split(',').map(t => t.trim()).includes(currentFilter);
-
-    const s =
-      c.clue.toLowerCase().includes(searchTerm) ||
-      c.answer.toLowerCase().includes(searchTerm);
-
-    return f && s;
+    if (currentFilter === "all") return true;
+    return c.type
+      .toLowerCase()
+      .split(",")
+      .map(t => t.trim())
+      .includes(currentFilter);
   });
 
   grid.innerHTML = filtered.map(c => `
     <div class="clue-card">
       <div class="clue-number">${c.id}</div>
       <div class="clue-text">${c.clue}</div>
+
       <div class="clue-meta">
         <span class="tag">${c.type.toUpperCase()}</span>
         <span class="tag">${c.difficulty.toUpperCase()}</span>
       </div>
+
       <div class="clue-footer">
         <span class="date">${c.date}</span>
-        <a class="solve-btn" href="${c.url}">SOLVE</a>
+        <a class="solve-btn"
+           href="puzzles/puzzle.html?id=${c.id}">
+           SOLVE
+        </a>
       </div>
     </div>
-  `).join('');
+  `).join("");
 }
 
-
-buttons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    buttons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+/* === FILTER BUTTONS === */
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn")
+      .forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
     currentFilter = btn.dataset.filter;
     render();
   });
 });
 
-searchInput.addEventListener('input', e => {
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(() => {
-    searchTerm = e.target.value.toLowerCase();
-    render();
-  }, 250);
-});
-
-function openPuzzle(id) {
-  console.log(`Opening puzzle ${id}`);
-  // location.href = `puzzle.html?id=${id}`;
-}
-
-render();
+loadClues();
 </script>
 
 </body>
