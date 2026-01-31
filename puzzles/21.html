@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Cryptic Puzzle</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Raleway', sans-serif;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    overflow-x: hidden;
+    position: relative;
+    text-align: center;
+    min-height: 100vh;
+  }
+  
+  /* Animated background pattern */
+  .bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+      repeating-linear-gradient(45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px),
+      repeating-linear-gradient(-45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px);
+    animation: patternShift 20s linear infinite;
+  }
+  
+  @keyframes patternShift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+  
+  /* Floating particles */
+  .particle {
+    position: fixed;
+    background: #d4af37;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+    }
+  }
+  
+  .page {
+    max-width: 600px;
+    width: min(600px, calc(100vw - 32px));
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  
+  /* Header */
+  header {
+    padding: 60px 10px 30px;
+    position: relative;
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .puzzle-number {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    color: #d4af37;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  }
+  
+  .date {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(24px, 5vw, 32px);
+    font-weight: 700;
+    background: linear-gradient(135deg, #d4af37 0%, #f4e5b1 50%, #d4af37 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out 0.3s forwards;
+  }
+  
+  .author {
+    font-size: 16px;
+    color: #d4af37;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out 0.4s forwards;
+  }
+  
+  .difficulty-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    font-size: 12px;
+    letter-spacing: 2px;
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    margin-top: 10px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out 0.5s forwards;
+  }
+  
+  /* Clue section */
+  .clue {
+    margin: 40px 0;
+    padding: 30px;
+    font-size: clamp(18px, 4vw, 22px);
+    line-height: 1.6;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.03) 0%, rgba(212, 175, 55, 0.08) 100%);
+    border: 2px solid #d4af37;
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out 0.6s forwards;
+  }
+  
+  .clue::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+    animation: shine 3s ease-in-out infinite;
+  }
+  
+  @keyframes shine {
+    0%, 100% { left: -100%; }
+    50% { left: 100%; }
+  }
+  
+  /* Answer row */
+  .answer-row {
+    display: grid;
+    grid-template-columns: repeat(var(--letters), minmax(32px, 1fr));
+    gap: 8px;
+    width: 100%;
+    max-width: 100%;
+    margin: 30px auto;
+    padding: 0 12px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out 0.7s forwards;
+  }
+  
+  .cell {
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    text-align: center;
+    font-size: clamp(18px, 4vw, 28px);
+    font-weight: bold;
+    border: 3px solid #d4af37;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(212, 175, 55, 0.1) 100%);
+    color: #f5f5f5;
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .cell:focus {
+    outline: none;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.2) 100%);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    transform: scale(1.05);
+  }
+  
+  .cell.correct {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.4) 100%);
+    border-color: #f4e5b1;
+    animation: correctPulse 0.5s ease-out;
+  }
+  
+  @keyframes correctPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  
+  /* Hint buttons */
+  .hint-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out 0.8s forwards;
+  }
+  
+  .hint-buttons button {
+    padding: 12px 24px;
+    background: transparent;
+    border: 2px solid #d4af37;
+    color: #d4af37;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hint-buttons button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: #d4af37;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+  }
+  
+  .hint-buttons button:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .hint-buttons button:hover {
+    color: #0a0a0a;
+  }
+  
+  .hint-buttons button span {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Hint output */
+  .hint-output {
+    margin: 20px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.12) 100%);
+    border: 2px solid #d4af37;
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+    font-size: 16px;
+    color: #f5f5f5;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Controls */
+  .controls {
+    margin: 40px 0 20px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out 0.9s forwards;
+  }
+  
+  .controls button {
+    padding: 16px 50px;
+    background: #d4af37;
+    color: #0a0a0a;
+    border: none;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    transition: all 0.3s ease;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .controls button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: #f4e5b1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+  }
+  
+  .controls button:hover::before {
+    width: 400px;
+    height: 400px;
+  }
+  
+  .controls button span {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Success modal */
+  .success-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: modalFadeIn 0.3s ease-out;
+  }
+  
+  @keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .success-content {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+    border: 3px solid #d4af37;
+    padding: 50px 40px;
+    max-width: 500px;
+    width: 100%;
+    clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
+    text-align: center;
+    animation: successSlideUp 0.5s ease-out;
+  }
+  
+  @keyframes successSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  .success-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: successPulse 1s ease-in-out infinite;
+  }
+  
+  @keyframes successPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  
+  .success-title {
+    font-family: 'Cinzel', serif;
+    font-size: 36px;
+    color: #d4af37;
+    margin-bottom: 15px;
+    letter-spacing: 3px;
+  }
+  
+  .success-message {
+    font-size: 18px;
+    color: #f5f5f5;
+    margin-bottom: 30px;
+  }
+  
+  .success-answer {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    color: #f4e5b1;
+    margin-bottom: 30px;
+    letter-spacing: 4px;
+  }
+  
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .bg-pattern {
+      animation: none;
+      opacity: 0.02;
+    }
+    
+    .particle {
+      display: none;
+    }
+    
+    
+    header {
+      padding: 50px 10px 20px;
+    }
+    
+    .clue {
+      padding: 20px;
+      margin: 30px 0;
+    }
+    
+    .clue::before {
+      display: none;
+    }
+    
+    .answer-row {
+      gap: 6px;
+      margin: 20px auto;
+    }
+    
+    .cell {
+      border-width: 2px;
+    }
+    
+    .hint-buttons {
+      gap: 8px;
+    }
+    
+    .hint-buttons button {
+      padding: 10px 18px;
+      font-size: 13px;
+      min-width: calc(50% - 4px);
+    }
+    
+    .hint-buttons button::before {
+      display: none;
+    }
+    
+    .controls button {
+      padding: 14px 40px;
+      font-size: 16px;
+      width: 100%;
+    }
+    
+    .success-content {
+      padding: 40px 30px;
+    }
+    
+    .success-icon {
+      font-size: 60px;
+    }
+    
+    .success-title {
+      font-size: 28px;
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    .particle {
+      display: none;
+    }
+  }
+  
+  @media (display-mode: standalone) {
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+  }
+/* === Clue Highlights === */
+.highlight-def {
+  color: #7dd3fc;            /* cool blue */
+  text-shadow: 0 0 8px rgba(125, 211, 252, 0.6);
+}
+
+.highlight-fodder {
+  color: #f472b6;            /* rose */
+  text-shadow: 0 0 8px rgba(244, 114, 182, 0.6);
+}
+
+.highlight-indicator {
+  color: #facc15;            /* gold-yellow */
+  text-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
+}
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+
+<div class="page">
+  <header>
+    <div class="puzzle-number"></div>
+    <div class="date" id="puzzleDate">Cryptic clues</div>
+    <div class="author" id="puzzleAuthor">By Andrew Veda</div>
+    <div class="difficulty-tag" id="puzzleDifficulty">MEDIUM</div>
+  </header>
+
+
+  
+  <div class="clue" id="puzzleClue">
+     
+
+
+ 
+An anti-hero parasite turns back in FOMO? never! (5)
+
+
+  </div>
+
+
+  
+  <div class="answer-row" id="answerRow"></div>
+  <div class="hint-buttons">
+    <button id="defBtn"><span>DEFINITION</span></button>
+    <button id="fodderBtn"><span>FODDER</span></button>
+    <button id="indicatorBtn"><span>INDICATOR</span></button>
+  </div>
+
+  <div class="hint-output" id="hintOutput"></div>
+
+  <div class="controls">
+    <button id="checkBtn"><span>CHECK ANSWER</span></button>
+  </div>
+</div>
+
+<div class="success-modal" id="successModal">
+  <div class="success-content">
+    <div class="success-icon">✨</div>
+    <div class="success-title">BRILLIANT!</div>
+    <div class="success-message">You solved the puzzle!</div>
+    <div class="success-answer" id="successAnswer"></div>
+    <button class="controls" style="margin: 0;" onclick="closeSuccess()">
+      <span>CONTINUE</span>
+    </button>
+  </div>
+</div>
+
+<script>
+
+
+
+  
+  let ANSWER = "VENOM";
+  let DEFINITION = "An anti-hero parasite";
+  let FODDER = "FOMO? never!";
+  let INDICATOR =  "turns back in";
+
+  
+
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('data')) {
+    try {
+      const puzzleData = JSON.parse(decodeURIComponent(urlParams.get('data')));
+      ANSWER = puzzleData.answer;
+      DEFINITION = puzzleData.definition || "Definition not available";
+      FODDER = puzzleData.fodder || "Fodder not available";
+      INDICATOR = puzzleData.indicator || "Indicator not available";
+      
+      document.getElementById('puzzleDate').textContent = puzzleData.date;
+      document.getElementById('puzzleAuthor').textContent = 'By ' + puzzleData.author;
+      document.getElementById('puzzleClue').textContent = puzzleData.clue;
+      document.getElementById('puzzleDifficulty').textContent = puzzleData.difficulty.toUpperCase();
+    } catch (e) {
+      console.error('Error parsing puzzle data:', e);
+    }
+  }
+ const clueElement = document.getElementById("puzzleClue");
+const RAW_CLUE = clueElement.textContent;
+function highlightClue(target, className) {
+  // Reset to original clue
+  clueElement.innerHTML = RAW_CLUE;
+  // Escape regex characters
+  const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(escaped, 'i');
+  clueElement.innerHTML = clueElement.innerHTML.replace(
+    regex,
+    `<span class="${className}">$&</span>`
+  );
+} document.documentElement.style.setProperty("--letters", ANSWER.length);
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const answerRow = document.getElementById("answerRow");
+  for (let i = 0; i < ANSWER.length; i++) {
+    const input = document.createElement("input");
+    input.className = "cell";
+    input.type = "text";
+    input.maxLength = 1;
+    input.style.animationDelay = `${0.7 + i * 0.05}s`;
+    answerRow.appendChild(input);
+  }
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((cell, index) => {
+    cell.addEventListener("input", () => {
+      cell.value = cell.value.toUpperCase();
+      if (cell.value && index < cells.length - 1) {
+        cells[index + 1].focus();
+      }
+    });
+ cell.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !cell.value && index > 0) {
+        cells[index - 1].focus();
+      }
+    });
+  });
+  if (cells.length > 0) cells[0].focus();
+const hintOutput = document.getElementById("hintOutput");
+function showHint(text) {
+  hintOutput.style.display = "block";
+  hintOutput.textContent = text;
+}
+document.getElementById("defBtn").onclick = () => {
+  showHint("Definition: " + DEFINITION);
+  highlightClue(DEFINITION.trim(), "highlight-def");
+};
+
+document.getElementById("fodderBtn").onclick = () => {
+  showHint("Fodder: " + FODDER);
+  highlightClue(FODDER.trim(), "highlight-fodder");
+};
+
+document.getElementById("indicatorBtn").onclick = () => {
+  showHint("Indicator: " + INDICATOR);
+  highlightClue(INDICATOR.trim(), "highlight-indicator");
+};
+
+  document.getElementById("checkBtn").onclick = () => {
+    const guess = Array.from(cells).map(c => c.value).join("");
+
+    if (guess.length < ANSWER.length) {
+      alert("Complete the word first.");
+      return;
+    }
+
+    if (guess === ANSWER) {
+      cells.forEach(cell => cell.classList.add('correct'));
+      setTimeout(() => {
+        document.getElementById('successAnswer').textContent = ANSWER;
+        document.getElementById('successModal').style.display = 'flex';
+      }, 500);
+    } else {
+      alert("Not quite. Try again.");
+    }
+  };
+
+  function closeSuccess() {
+    document.getElementById('successModal').style.display = 'none';
+    window.history.back();
+  }
+  function createParticles() {
+    if (isMobile) return;
+    
+    for (let i = 0; i < 12; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.width = Math.random() * 4 + 2 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.animationDelay = Math.random() * 8 + 's';
+      particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      document.body.appendChild(particle);
+    }
+  }
+
+  createParticles();
+</script>
+
+</body>
+</html>
