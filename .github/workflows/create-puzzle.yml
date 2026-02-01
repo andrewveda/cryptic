@@ -1,0 +1,185 @@
+name: Create Puzzle from Issue
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  create-puzzle:
+    if: github.event.label.name == 'approved'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Parse issue and create JSON
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body;
+            
+            // Parse the issue body to extract form data
+            function extractField(label) {
+              const regex = new RegExp(`### ${label}\\s*\\n\\s*(.+?)\\s*\\n`, 's');
+              const match = body.match(regex);
+              return match ? match[1].trim() : '';
+            }
+            
+            function extractMultiSelect(label) {
+              const regex = new RegExp(`### ${label}\\s*\\n([\\s\\S]+?)\\n\\n### `, 's');
+              const match = body.match(regex);
+              if (!match) return '';
+              
+              const selected = match[1]
+                .split('\n')
+                .filter(line => line.includes('- [X]') || line.includes('- [x]'))
+                .map(line => line.replace(/- \[x\]/i, '').trim())
+                .join(', ');
+              
+              return selected;
+            }
+            
+            // Extract all fields
+            const puzzleId = extractField('Puzzle ID');
+            const date = extractField('Date');
+            const author = extractField('Author Name');
+            const difficulty = extractField('Difficulty Level');
+            const type = extractMultiSelect('Puzzle Type');
+            const clue = extractField('Clue');
+            const answer = extractField('Answer');
+            const definition = extractField('Definition');
+            const fodder = extractField('Fodder');
+            const indicator = extractField('Indicator');
+            
+            // Create JSON object
+            const puzzleData = {
+              id: parseInt(puzzleId),
+              date: date,
+              author: author,
+              difficulty: difficulty.toLowerCase(),
+              clue: clue,
+              answer: answer.toUpperCase(),
+              definition: definition,
+              fodder: fodder,
+              indicator: indicator
+            };
+            
+            // Create JSON file content
+            const jsonContent = JSON.stringify(puzzleData, null, 2);
+            
+            // Write the file
+            const fs = require('fs');
+            const path = `puzzles/${puzzleId}.json`;
+            
+            fs.writeFileSync(path, jsonContent);
+            
+            console.log(`Created ${path}`);
+            console.log(jsonContent);
+            
+            // Return data for next step
+            return { puzzleId, path, jsonContent };
+            
+      - name: Update index.html
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const issue = context.payload.issue;
+            const body = issue.body;
+            
+            function extractField(label) {
+              const regex = new RegExp(`### ${label}\\s*\\n\\s*(.+?)\\s*\\n`, 's');
+              const match = body.match(regex);
+              return match ? match[1].trim() : '';
+            }
+            
+            function extractMultiSelect(label) {
+              const regex = new RegExp(`### ${label}\\s*\\n([\\s\\S]+?)\\n\\n### `, 's');
+              const match = body.match(regex);
+              if (!match) return '';
+              
+              const selected = match[1]
+                .split('\n')
+                .filter(line => line.includes('- [X]') || line.includes('- [x]'))
+                .map(line => line.replace(/- \[x\]/i, '').trim())
+                .join(', ');
+              
+              return selected;
+            }
+            
+            const puzzleId = extractField('Puzzle ID');
+            const date = extractField('Date');
+            const difficulty = extractField('Difficulty Level');
+            const type = extractMultiSelect('Puzzle Type');
+            const clue = extractField('Clue');
+            const answer = extractField('Answer');
+            
+            // Read index.html
+            let indexHtml = fs.readFileSync('index.html', 'utf8');
+            
+            // Create new clue object string
+            const newClue = `{
+    id: ${puzzleId},
+    clue: "${clue.replace(/"/g, '\\"')}",
+    answer: "${answer.toUpperCase()}",
+    type: "${type}",
+    difficulty: "${difficulty}",
+    date: "${date}"
+  }`;
+            
+            // Find the clues array and add the new puzzle
+            const cluesArrayRegex = /(const clues = \[)([\s\S]*?)(\];)/;
+            const match = indexHtml.match(cluesArrayRegex);
+            
+            if (match) {
+              const existingClues = match[2];
+              const updatedClues = `${match[1]}\n\n${newClue},${existingClues}${match[3]}`;
+              indexHtml = indexHtml.replace(cluesArrayRegex, updatedClues);
+              
+              fs.writeFileSync('index.html', indexHtml);
+              console.log('Updated index.html with new puzzle');
+            }
+            
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add puzzles/*.json index.html
+          git commit -m "Add puzzle #${{ github.event.issue.number }} from issue"
+          git push
+          
+      - name: Comment on issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body;
+            
+            function extractField(label) {
+              const regex = new RegExp(`### ${label}\\s*\\n\\s*(.+?)\\s*\\n`, 's');
+              const match = body.match(regex);
+              return match ? match[1].trim() : '';
+            }
+            
+            const puzzleId = extractField('Puzzle ID');
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: `✅ Puzzle #${puzzleId} has been created successfully!\n\n🎯 View it here: [Solve Puzzle](https://yourdomain.com/cryptic-puzzle.html?id=${puzzleId})\n\nThe puzzle has been added to the collection and is now live on the website.`
+            });
+            
+      - name: Close issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              state: 'closed',
+              labels: ['approved', 'completed']
+            });
