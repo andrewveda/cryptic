@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title> Cryptic Clues</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background: #0a0a0a;
+  color: #f5f5f5;
+  overflow-x: hidden;
+}
+
+/* Background */
+.bg-pattern {
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px),
+    repeating-linear-gradient(-45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px);
+}
+
+/* Layout */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 60px 20px 40px;
+}
+
+h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, #d4af37, #f4e5b1, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: #d4af37;
+  letter-spacing: 4px;
+  font-size: 0.9rem;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 260px;
+  max-width: 400px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 16px;
+  background: transparent;
+  border: 2px solid #d4af37;
+  color: #f5f5f5;
+}
+
+.search-box input:focus {
+  outline: none;
+}
+
+.filter-btn {
+  padding: 14px 22px;
+  border: 2px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: #d4af37;
+  color: #0a0a0a;
+}
+
+/* Grid */
+.clue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 28px;
+}
+
+/* Cards */
+.clue-card {
+  border: 2px solid #d4af37;
+  padding: 26px;
+  position: relative;
+  background: rgba(212,175,55,0.06);
+  transition: transform 0.3s ease;
+}
+
+.clue-card:hover {
+  transform: translateY(-6px);
+}
+
+.clue-number {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #d4af37;
+  color: #0a0a0a;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clue-text {
+  font-size: 17px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+  padding-right: 56px;
+}
+
+.clue-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+}
+
+.clue-footer {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(212,175,55,0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date {
+  font-size: 13px;
+  color: #d4af37;
+}
+
+.solve-btn {
+  padding: 8px 18px;
+  border: 1.8px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.solve-btn:hover {
+  background: #d4af37;
+  color: #0a0a0a;
+}
+/* Mobile */
+@media (max-width: 768px) {
+  .clue-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clue-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+}
+
+  .search-box {
+  display: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg-pattern"></div>
+
+<div class="container">
+  <header>
+    <h1>CRYPTIC CLUES</h1>
+    <div class="subtitle">MASTERFUL PUZZLES • TIMELESS ELEGANCE</div>
+  </header>
+
+  <div class="controls">
+    <div class="search-box">
+      <input id="searchInput" type="text" placeholder="Search clues or answers…">
+    </div>
+    <button class="filter-btn active" data-filter="all">ALL</button>
+    <button class="filter-btn" data-filter="anagram">ANAGRAM</button>
+    <button class="filter-btn" data-filter="acrostic">ACROSTIC</button>
+    <button class="filter-btn" data-filter="charade">CHARADE</button>
+    <button class="filter-btn" data-filter="hidden">HIDDEN</button>
+    <button class="filter-btn" data-filter="homophone">HOMOPHONE</button>
+    <button class="filter-btn" data-filter="double">DOUBLE DEF</button>
+  </div>
+
+  <div id="clueGrid" class="clue-grid"></div>
+</div>
+
+<script>
+const clues = [
+
+{
+    id: 23,
+    clue: "Reminiscing in SCIT a.m. eh? Tambaram logical approach. (11)",
+    answer: "MATHEMATICS",
+    type: "hidden",
+    difficulty: "Medium",
+    date: "2026-01-29"
+  },
+{
+    id: 22,
+    clue: "Lightning travel looks back inside. Laughs alfalfa. (5).",
+    answer: "FLASH",
+    type: "hidden",
+    difficulty: "Medium",
+    date: "2026-01-29"
+  },
+{
+    id: 21,
+    clue: "An anti-hero parasite turns back in FOMO? never! (5).",
+    answer: "VENOM",
+    type: "hidden",
+    difficulty: "Medium",
+    date: "2026-01-29"
+  },
+{
+    id: 20,
+    clue: "Walking without caffeine motivation with the eye on the prize gets my eye on walk is chai alternately.(9).",
+    answer: "BATHRINATH",
+    type: "charade",
+    difficulty: "Medium",
+    date: "2026-01-29"
+  },
+{
+    id: 19,
+    clue: "Batman's better half with human. Resources in Hathi's heart for always being focused on becoming a better version (10).",
+    answer: "BATHRINATH",
+    type: "charade",
+    difficulty: "Medium",
+    date: "2026-01-29"
+  },
+{
+    id: 18,
+    clue: "Second draft genius hides in bath. Rin at home. (10)",
+    answer: "BATHRINATH",
+    type: "hidden",
+    difficulty: "Medium",
+    date: "2026-01-29"
+  },
+
+{
+    id: 17,
+    clue: " First bench livewire. Jewel at last a kid left behind alternate year (7)",
+    answer: "ELAKIYA",
+    type: "charade",
+    difficulty: "Medium",
+    date: "2026-01-29"
+  },
+
+{
+    id: 16,
+    clue: "Now Pacman trolls emulating Linux head to become an expert (5)",
+    answer: "NPTEL",
+    type: "acrostic",
+    difficulty: "Medium",
+    date: "2026-01-25"
+  },
+
+{
+    id: 15,
+    clue: "Inverse value solution  Toeplitz sum dancing at last for a perfect score. (5)",
+    answer: "MATHS",
+    type: "acrostic",
+    difficulty: "Medium",
+    date: "2026-01-14"
+  },
+
+{
+    id: 14,
+    clue: "Champions Magnus, Anand, Topalov, Hikaru, Short requires logical genius!(5)",
+    answer: "MATHS",
+    type: "acrostic",
+    difficulty: "Medium",
+    date: "2026-01-14"
+  },
+  {
+    id: 1,
+    clue: "I am last e4 Knight sleeping sounds for determined growth. (8)",
+    answer: "MEEEENZZ",
+    type: "charade, homophone",
+    difficulty: "Medium",
+    date: "2026-01-14"
+  },
+  {
+    id: 2,
+    clue: "Radiantly arise! Glow always magically! Aura's light igniting kindness around you, 42! (10)",
+    answer: "RAGAMALIKA",
+    type: "acrostic, Diwali wishes",
+    difficulty: "Easy",
+    date: "2026-01-13"
+
+  },
+  {
+    id: 3,
+    clue: "XX with headless light party or used to beat a classic cult (5,4)",
+    answer: "FIGHT CLUB",
+    type: "Double def",
+    difficulty: "Easy",
+    date: "2026-01-12"
+
+  },
+  {
+    id: 4,
+    clue: "Gambit by Botez. Neem turns back huge fan of Stranger Things (5)",
+    answer: "MEENZ",
+    type: "hidden",
+    difficulty: "Easy",
+    date: "2026-01-11"
+
+  },
+  {
+    id: 5,
+    clue: "Her favourite quote: Ever tried. Ever failed. No matter. Try again. Fail again. Fail better! is hidden in time enzymes (5)",
+    answer: "MEENZ",
+    type: "homophone",
+    difficulty: "Easy",
+    date: "2026-01-10"
+
+  },
+  {
+    id: 6,
+    clue: "Limitless. Emotions Time now blitzes for a clever kid who believes in Kipling's sixty seconds in 'If' 24/7, 22/7 approximately. (5)",
+    answer: "MEENZ",
+    type: "anagram",
+    difficulty: "Hard",
+    date: "2026-01-09"
+
+  },
+  {
+    id: 7,
+    clue: "Smart girl alternates MBE Vecna zombie (5)",
+    answer: "MEENZ",
+    type: "double",
+    difficulty: "Easy",
+    date: "2026-01-08"
+
+  },
+  {
+    id: 8,
+    clue: "Scrambled hike means a smart kid who believes in delayed gratification (9)",
+    answer: "MEENAKSHI",
+    type: "hidden",
+    difficulty: "Medium",
+    date: "2026-01-07"
+  },
+   {
+    id: 9,
+    clue: "Five enigma's torso, five headless MIDI, five icicles without legs for JC at Zela. (4,4,4)",
+    answer: "SILENT",
+    type: "anagram",
+    difficulty: "Easy",
+    date: "2026-01-13"
+
+  },
+   {
+    id: 10,
+    clue: "Reindeer and great applause made admirers look interested. Kind, affectionate leader for forty two. (10)",
+    answer: "RAGAMALIKA",
+    type: "acrostic, Christmas wishes",
+    difficulty: "Easy",
+    date: "2026-01-13"
+
+  },
+
+   {
+    id: 11,
+    clue: "Looking back, agar dances with Mila AK 42!)",
+    answer: "RAGAMALIKA",
+    type: "Charade",
+    difficulty: "Easy",
+    date: "2026-01-13"
+
+  },
+{
+    id: 12,
+    clue: "Pongal at college. Hello again, leader for leader (5).",
+    answer: "PACHA",
+    type: "ACROSTIC,",
+    difficulty: "Easy",
+    date: "2026-01-13"
+
+  },
+{
+    id: 13,
+    clue: "Confused e-name with leading King's solo h-file invasion for determined growth! (9).",
+    answer: "MEENAKSHI",
+    type: "ANAGRAM, ACROSTIC,",
+    difficulty: "Easy",
+    date: "2026-01-19"
+
+  }
+
+
+];
+
+const grid = document.getElementById('clueGrid');
+const searchInput = document.getElementById('searchInput');
+const buttons = document.querySelectorAll('.filter-btn');
+
+let currentFilter = 'all';
+let searchTerm = '';
+let searchTimeout;
+
+function render() {
+  const filtered = clues.filter(c => {
+    const f =
+      currentFilter === 'all' ||
+      c.type.split(',').map(t => t.trim()).includes(currentFilter);
+
+    const s =
+      c.clue.toLowerCase().includes(searchTerm) ||
+      c.answer.toLowerCase().includes(searchTerm);
+
+    return f && s;
+  });
+
+  grid.innerHTML = filtered.map(c => `
+    <div class="clue-card">
+      <div class="clue-number">${c.id}</div>
+      <div class="clue-text">${c.clue}</div>
+      <div class="clue-meta">
+        <span class="tag">${c.type.toUpperCase()}</span>
+        <span class="tag">${c.difficulty.toUpperCase()}</span>
+      </div>
+      <div class="clue-footer">
+        <span class="date">${c.date}</span>
+        <a class="solve-btn" href="cryptic-puzzle.html?id=${c.id}">SOLVE</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    render();
+  });
+});
+
+searchInput.addEventListener('input', e => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    searchTerm = e.target.value.toLowerCase();
+    render();
+  }, 250);
+});
+
+render();
+</script>
+
+</body>
+</html>
