@@ -4,6 +4,10 @@ on:
   issues:
     types: [labeled]
 
+permissions:
+  contents: write
+  issues: write
+
 jobs:
   create-puzzle:
     if: github.event.label.name == 'approved'
@@ -14,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Parse issue and create JSON
+        id: create-json
         uses: actions/github-script@v7
         with:
           script: |
@@ -71,15 +76,22 @@ jobs:
             
             // Write the file
             const fs = require('fs');
-            const path = `puzzles/${puzzleId}.json`;
+            const path = require('path');
             
-            fs.writeFileSync(path, jsonContent);
+            // Ensure puzzles directory exists
+            if (!fs.existsSync('puzzles')) {
+              fs.mkdirSync('puzzles');
+            }
             
-            console.log(`Created ${path}`);
+            const filePath = `puzzles/${puzzleId}.json`;
+            fs.writeFileSync(filePath, jsonContent);
+            
+            console.log(`Created ${filePath}`);
             console.log(jsonContent);
             
-            // Return data for next step
-            return { puzzleId, path, jsonContent };
+            // Store puzzle ID for later steps
+            core.setOutput('puzzle_id', puzzleId);
+            core.setOutput('puzzle_data', JSON.stringify(puzzleData));
             
       - name: Update index.html
         uses: actions/github-script@v7
@@ -129,7 +141,7 @@ jobs:
     date: "${date}"
   }`;
             
-            // Find the clues array and add the new puzzle
+            // Find the clues array and add the new puzzle at the beginning
             const cluesArrayRegex = /(const clues = \[)([\s\S]*?)(\];)/;
             const match = indexHtml.match(cluesArrayRegex);
             
@@ -140,6 +152,8 @@ jobs:
               
               fs.writeFileSync('index.html', indexHtml);
               console.log('Updated index.html with new puzzle');
+            } else {
+              console.log('Could not find clues array in index.html');
             }
             
       - name: Commit and push changes
@@ -147,7 +161,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add puzzles/*.json index.html
-          git commit -m "Add puzzle #${{ github.event.issue.number }} from issue"
+          git commit -m "Add puzzle from issue #${{ github.event.issue.number }}"
           git push
           
       - name: Comment on issue
@@ -169,10 +183,10 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue.number,
-              body: `✅ Puzzle #${puzzleId} has been created successfully!\n\n🎯 View it here: [Solve Puzzle](https://yourdomain.com/cryptic-puzzle.html?id=${puzzleId})\n\nThe puzzle has been added to the collection and is now live on the website.`
+              body: `✅ Puzzle #${puzzleId} has been created successfully!\n\n🎯 View it here: [Solve Puzzle](https://yourusername.github.io/yourrepo/cryptic-puzzle.html?id=${puzzleId})\n\nThe puzzle has been added to the collection and is now live on the website.`
             });
             
-      - name: Close issue
+      - name: Close issue and add completed label
         uses: actions/github-script@v7
         with:
           script: |
