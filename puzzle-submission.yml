@@ -1,0 +1,123 @@
+name: Submit New Puzzle
+description: Submit a new cryptic crossword puzzle
+title: "[PUZZLE] "
+labels: ["puzzle-submission"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Submit a New Cryptic Puzzle
+        Fill out the form below to submit a new puzzle. Once approved, it will be automatically added to the collection!
+        
+  - type: input
+    id: puzzle-id
+    attributes:
+      label: Puzzle ID
+      description: A unique number for this puzzle (check existing puzzles to avoid duplicates)
+      placeholder: "24"
+    validations:
+      required: true
+      
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: Publication date for this puzzle
+      placeholder: "February 2, 2026"
+    validations:
+      required: true
+      
+  - type: input
+    id: author
+    attributes:
+      label: Author Name
+      description: Your name or puzzle creator's name
+      placeholder: "Andrew Veda"
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty Level
+      description: How difficult is this puzzle?
+      options:
+        - Easy
+        - Medium
+        - Hard
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: type
+    attributes:
+      label: Puzzle Type
+      description: What type of cryptic clue is this?
+      options:
+        - anagram
+        - acrostic
+        - charade
+        - hidden
+        - homophone
+        - double
+        - mixed
+      multiple: true
+    validations:
+      required: true
+      
+  - type: textarea
+    id: clue
+    attributes:
+      label: Clue
+      description: The cryptic clue text (include letter count in parentheses)
+      placeholder: "Reminiscing in SCIT a.m. eh? Tambaram logical approach. (11)"
+    validations:
+      required: true
+      
+  - type: input
+    id: answer
+    attributes:
+      label: Answer
+      description: The answer to the puzzle (uppercase)
+      placeholder: "MATHEMATICS"
+    validations:
+      required: true
+      
+  - type: input
+    id: definition
+    attributes:
+      label: Definition
+      description: The definition part of the clue
+      placeholder: "logical approach"
+    validations:
+      required: true
+      
+  - type: input
+    id: fodder
+    attributes:
+      label: Fodder
+      description: The wordplay/fodder part of the clue
+      placeholder: "SCIT a.m. eh? Tambaram"
+    validations:
+      required: true
+      
+  - type: input
+    id: indicator
+    attributes:
+      label: Indicator
+      description: The indicator word(s) that signal the wordplay type
+      placeholder: "Reminiscing in"
+    validations:
+      required: true
+      
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Submission Agreement
+      description: By submitting this puzzle, you agree to the following
+      options:
+        - label: I confirm this is original content or I have permission to submit it
+          required: true
+        - label: I have checked that this puzzle ID is not already in use
+          required: true
