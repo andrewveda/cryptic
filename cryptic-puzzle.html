@@ -604,7 +604,7 @@
   // Fetch puzzle data from individual JSON file
   async function loadPuzzle() {
     try {
-      const response = await fetch(`/puzzles/${puzzleId}.json`);
+      const response = await fetch(`puzzles/${puzzleId}.json`);
       if (!response.ok) {
         throw new Error(`Puzzle file not found: ${puzzleId}.json`);
       }
