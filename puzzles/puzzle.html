@@ -312,6 +312,9 @@ header { padding: 60px 10px 20px; }
   .player-badge-name {
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
+.player-badge {
+  transform: translateZ(0); 
+}
 
 </style>
 </head>
@@ -391,17 +394,7 @@ const EDGE_URL  = "https://ahezssoczvpbkteffcgz.supabase.co/functions/v1/logQues
 const NAME_KEY  = "questPlayerName";
 const DEPT_KEY  = "questPlayerDept";
 
-const badge = document.getElementById('playerBadgeName');
-badge.style.opacity = 0;
-badge.style.transform = "translateY(-3px)";
 
-setTimeout(() => {
-  badge.textContent = `👤 ${name}${dept ? ' · ' + dept : ''}`;
-  badge.style.opacity = 1;
-  badge.style.transform = "translateY(0)";
-}, 180);
-
-  
   let puzzle      = null;
 let rawClue     = '';
 let hintsUsed   = 0;
@@ -476,6 +469,17 @@ function buildPuzzle() {
 
   const name = localStorage.getItem(NAME_KEY) || 'Guest';
 const dept = localStorage.getItem(DEPT_KEY) || '';
+
+const badge = document.getElementById('playerBadgeName');
+
+badge.style.opacity = 0;
+badge.style.transform = "translateY(-3px)";
+
+setTimeout(() => {
+  badge.textContent = `👤 ${name}${dept ? ' · ' + dept : ''}`;
+  badge.style.opacity = 1;
+  badge.style.transform = "translateY(0)";
+}, 180);
 
 document.getElementById('playerBadgeName').textContent =
   `👤 ${name}${dept ? ' · ' + dept : ''}`;
