@@ -321,15 +321,18 @@ h1 {
 const NAME_KEY = 'questPlayerName';
 const DEPT_KEY = 'questPlayerDept';
 
+let playerName = "";
+let playerDept = "";
 
 function setDisplay(name, dept) {
   document.getElementById('playerBarName').textContent =
     `👤 ${name} · ${dept}`;
 }
 
-  document.getElementById('nameInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveName(document.getElementById('nameInput').value);
+ document.getElementById('nameInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') beginApp();
 });
+
 
 /* ── PUZZLE DATA ── */
 let clues = [];
