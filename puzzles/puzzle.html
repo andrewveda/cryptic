@@ -577,10 +577,11 @@ function showSuccess() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       student_name: name,
-      correct:      1,
+       quest_id:     `cryptic_${puzzle.id}`, 
+      correct:      20,
       wrong:        hintsUsed,
       time_spent:   elapsed,
-      department:   'CrypticPuzzle',
+      department:   'Cryptic',
       answer:       `${puzzle.answer} (Puzzle #${puzzle.id})`
     })
   }).then(() => {
