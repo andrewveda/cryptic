@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Cryptic Puzzle</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Raleway', sans-serif;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    overflow-x: hidden;
+    position: relative;
+    text-align: center;
+    min-height: 100vh;
+  }
+  
+  .bg-pattern {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.03; pointer-events: none; z-index: 0;
+    background-image:
+      repeating-linear-gradient(45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px),
+      repeating-linear-gradient(-45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px);
+    animation: patternShift 20s linear infinite;
+  }
+  @keyframes patternShift { 0% { transform: translate(0,0); } 100% { transform: translate(50px,50px); } }
+
+  .particle {
+    position: fixed; background: #d4af37; border-radius: 50%;
+    pointer-events: none; opacity: 0; animation: float 8s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100%  { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10%      { opacity: 0.3; }
+    90%      { opacity: 0.3; }
+    50%      { transform: translateY(-20px) rotate(180deg); }
+  }
+
+  .page {
+    max-width: 600px;
+    width: min(600px, calc(100vw - 32px));
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 60px 10px 30px;
+    animation: fadeInUp 0.6s ease-out;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .puzzle-number {
+    font-family: 'Cinzel', serif; font-size: 14px; color: #d4af37;
+    letter-spacing: 3px; margin-bottom: 10px;
+    opacity: 0; animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  }
+  .date {
+    font-family: 'Cinzel', serif; font-size: clamp(24px,5vw,32px); font-weight: 700;
+    background: linear-gradient(135deg, #d4af37 0%, #f4e5b1 50%, #d4af37 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    opacity: 0; animation: fadeInUp 0.6s ease-out 0.3s forwards;
+  }
+  .author {
+    font-size: 16px; color: #d4af37; letter-spacing: 2px; margin-bottom: 10px;
+    opacity: 0; animation: fadeInUp 0.6s ease-out 0.4s forwards;
+  }
+  .difficulty-tag {
+    display: inline-block; padding: 6px 16px;
+    background: rgba(212,175,55,0.1); border: 1px solid #d4af37;
+    color: #d4af37; font-size: 12px; letter-spacing: 2px;
+    clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+    margin-top: 10px;
+    opacity: 0; animation: fadeInUp 0.6s ease-out 0.5s forwards;
+  }
+
+  /* ── TIMER BAR ── */
+  .timer-bar-wrap {
+    margin: 10px 0 0;
+    opacity: 0; animation: fadeInUp 0.6s ease-out 0.55s forwards;
+  }
+  .timer-bar-row {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    padding: 10px 18px;
+    background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.25);
+    clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  }
+  .timer-display {
+    font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700;
+    color: #d4af37; letter-spacing: 2px; min-width: 56px; text-align: center;
+    transition: color 0.4s;
+  }
+  .timer-display.amber { color: #f59e0b; }
+  .timer-display.danger { color: #ef4444; animation: timerPulse 0.6s ease-in-out infinite; }
+  @keyframes timerPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+  .hints-used-label {
+    font-size: 12px; color: rgba(212,175,55,0.7); letter-spacing: 2px; text-transform: uppercase;
+  }
+  .hints-used-val {
+    font-family: 'Cinzel', serif; font-size: 18px; color: #d4af37; font-weight: 700;
+  }
+
+  .timer-track {
+    flex: 1; height: 4px; background: rgba(212,175,55,0.15); border-radius: 2px; overflow: hidden;
+  }
+  .timer-fill {
+    height: 100%; width: 100%; background: #d4af37;
+    transition: width 1s linear, background 0.5s ease;
+    border-radius: 2px;
+  }
+  .timer-fill.amber { background: #f59e0b; }
+  .timer-fill.danger { background: #ef4444; }
+
+  /* ── CLUE ── */
+  .clue {
+    margin: 30px 0;
+    padding: 30px;
+    font-size: clamp(18px,4vw,22px); line-height: 1.6;
+    background: linear-gradient(135deg, rgba(212,175,55,0.03) 0%, rgba(212,175,55,0.08) 100%);
+    border: 2px solid #d4af37;
+    clip-path: polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);
+    position: relative; overflow: hidden;
+    opacity: 0; animation: fadeInUp 0.6s ease-out 0.6s forwards;
+  }
+  .clue::before {
+    content: ''; position: absolute; top: -2px; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent);
+    animation: shine 3s ease-in-out infinite;
+  }
+  @keyframes shine { 0%,100% { left: -100%; } 50% { left: 100%; } }
+
+  /* ── ANSWER ROW ── */
+  .answer-row {
+    display: grid;
+    grid-template-columns: repeat(var(--letters), minmax(32px, 1fr));
+    gap: 8px; width: 100%; max-width: 100%;
+    margin: 30px auto; padding: 0 12px;
+    opacity: 0; animation: fadeInUp 0.6s ease-out 0.7s forwards;
+  }
+  .cell {
+    aspect-ratio: 4/5; width: 100%; text-align: center;
+    font-size: clamp(18px,4vw,28px); font-weight: bold;
+    border: 3px solid #d4af37;
+    background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, rgba(212,175,55,0.1) 100%);
+    color: #f5f5f5; text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .cell:focus {
+    outline: none;
+    background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0.2) 100%);
+    box-shadow: 0 0 20px rgba(212,175,55,0.4);
+    transform: scale(1.05);
+  }
+  .cell.correct {
+    background: linear-gradient(135deg, rgba(212,175,55,0.3) 0%, rgba(212,175,55,0.4) 100%);
+    border-color: #f4e5b1;
+    animation: correctPulse 0.5s ease-out;
+  }
+  @keyframes correctPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+  /* ── HINT BUTTONS ── */
+  .hint-buttons {
+    margin-top: 30px; display: flex; justify-content: center;
+    gap: 12px; flex-wrap: wrap;
+    opacity: 0; animation: fadeInUp 0.6s ease-out 0.8s forwards;
+  }
+  .hint-buttons button {
+    padding: 12px 24px; background: transparent;
+    border: 2px solid #d4af37; color: #d4af37;
+    font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px;
+    cursor: pointer;
+    clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+    transition: all 0.3s ease; letter-spacing: 1px;
+    position: relative; overflow: hidden;
+  }
+  .hint-buttons button::before {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    width: 0; height: 0; background: #d4af37; border-radius: 50%;
+    transform: translate(-50%,-50%); transition: width 0.4s ease, height 0.4s ease;
+  }
+  .hint-buttons button:hover::before { width: 300px; height: 300px; }
+  .hint-buttons button:hover { color: #0a0a0a; }
+  .hint-buttons button span { position: relative; z-index: 1; }
+  .hint-buttons button.used {
+    opacity: 0.45; border-color: rgba(212,175,55,0.4);
+  }
+  .hint-count {
+    display: inline-block;
+    background: rgba(212,175,55,0.2);
+    color: #d4af37; border-radius: 50%;
+    width: 20px; height: 20px; line-height: 20px;
+    font-size: 11px; font-weight: 700; margin-left: 6px;
+    font-family: 'Cinzel', serif;
+    position: relative; z-index: 1;
+  }
+
+  /* ── HINT OUTPUT ── */
+  .hint-output {
+    margin: 20px 0; padding: 20px;
+    background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.12) 100%);
+    border: 2px solid #d4af37;
+    clip-path: polygon(15px 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,0 100%,0 15px);
+    font-size: 16px; color: #f5f5f5;
+    display: none; animation: slideDown 0.3s ease-out;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    margin: 40px 0 20px;
+    opacity: 0; animation: fadeInUp 0.6s ease-out 0.9s forwards;
+  }
+  .controls button {
+    padding: 16px 50px; background: #d4af37; color: #0a0a0a;
+    border: none; font-family: 'Raleway', sans-serif;
+    font-weight: 700; font-size: 18px; cursor: pointer;
+    clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+    transition: all 0.3s ease; letter-spacing: 2px;
+    position: relative; overflow: hidden;
+  }
+  .controls button::before {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    width: 0; height: 0; background: #f4e5b1; border-radius: 50%;
+    transform: translate(-50%,-50%); transition: width 0.5s ease, height 0.5s ease;
+  }
+  .controls button:hover::before { width: 400px; height: 400px; }
+  .controls button span { position: relative; z-index: 1; }
+
+  /* ── NAME MODAL (shown on correct answer) ── */
+  .name-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.92); display: none;
+    align-items: center; justify-content: center; z-index: 999;
+    padding: 20px; animation: modalFadeIn 0.3s ease-out;
+  }
+  @keyframes modalFadeIn { from{opacity:0} to{opacity:1} }
+  .name-content {
+    background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.05) 100%);
+    border: 2px solid #d4af37; padding: 40px 36px; max-width: 420px; width: 100%;
+    clip-path: polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);
+    text-align: center; animation: nameSlideUp 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes nameSlideUp {
+    from { opacity: 0; transform: translateY(30px) scale(0.9); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .name-icon { font-size: 60px; margin-bottom: 16px; animation: bounceIn 0.6s ease-out; }
+  @keyframes bounceIn { 0%{transform:scale(0.3)} 60%{transform:scale(1.15)} 80%{transform:scale(0.95)} 100%{transform:scale(1)} }
+  .name-title {
+    font-family: 'Cinzel', serif; font-size: 28px; color: #d4af37;
+    letter-spacing: 3px; margin-bottom: 8px;
+  }
+  .name-subtitle { font-size: 15px; color: rgba(245,245,245,0.7); margin-bottom: 6px; }
+  .name-stats {
+    font-family: 'Cinzel', serif; font-size: 14px; color: rgba(212,175,55,0.8);
+    letter-spacing: 1px; margin-bottom: 24px;
+  }
+  .name-input-wrap { position: relative; margin-bottom: 16px; }
+  .name-input {
+    width: 100%; padding: 14px 18px;
+    background: rgba(212,175,55,0.08); border: 2px solid rgba(212,175,55,0.4);
+    color: #f5f5f5; font-family: 'Cinzel', serif; font-size: 16px;
+    letter-spacing: 2px; text-align: center; outline: none;
+    clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+    transition: border-color 0.3s;
+  }
+  .name-input:focus { border-color: #d4af37; }
+  .name-input::placeholder { color: rgba(212,175,55,0.35); letter-spacing: 1px; }
+  .name-submit {
+    width: 100%; padding: 14px;
+    background: #d4af37; color: #0a0a0a; border: none;
+    font-family: 'Cinzel', serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 2px; cursor: pointer;
+    clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+    transition: all 0.3s ease;
+  }
+  .name-submit:hover { background: #f4e5b1; }
+  .name-skip {
+    margin-top: 12px; background: transparent; border: none;
+    color: rgba(212,175,55,0.5); font-size: 13px; cursor: pointer;
+    letter-spacing: 1px; transition: color 0.2s;
+  }
+  .name-skip:hover { color: #d4af37; }
+
+  /* ── SUCCESS MODAL ── */
+  .success-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); display: none;
+    align-items: center; justify-content: center; z-index: 1000;
+    padding: 20px; animation: modalFadeIn 0.3s ease-out;
+  }
+  .success-content {
+    background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.05) 100%);
+    border: 3px solid #d4af37; padding: 50px 40px; max-width: 500px; width: 100%;
+    clip-path: polygon(30px 0,100% 0,100% calc(100% - 30px),calc(100% - 30px) 100%,0 100%,0 30px);
+    text-align: center; animation: successSlideUp 0.5s ease-out;
+  }
+  @keyframes successSlideUp {
+    from { opacity:0; transform:translateY(30px) scale(0.9); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+  .success-icon { font-size: 80px; margin-bottom: 20px; animation: successPulse 1s ease-in-out infinite; }
+  @keyframes successPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+  .success-title {
+    font-family: 'Cinzel', serif; font-size: 36px; color: #d4af37;
+    margin-bottom: 15px; letter-spacing: 3px;
+  }
+  .success-message { font-size: 18px; color: #f5f5f5; margin-bottom: 10px; }
+  .success-answer {
+    font-family: 'Cinzel', serif; font-size: 28px; color: #f4e5b1;
+    margin-bottom: 10px; letter-spacing: 4px;
+  }
+  .success-meta { font-size: 14px; color: rgba(212,175,55,0.7); letter-spacing: 1px; margin-bottom: 30px; }
+  .success-submitted {
+    font-size: 14px; color: #d4af37; margin-bottom: 20px;
+    padding: 10px; border: 1px solid rgba(212,175,55,0.3);
+    clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
+  }
+
+  /* ── CLUE HIGHLIGHTS ── */
+  .highlight-def      { color: #7dd3fc; text-shadow: 0 0 8px rgba(125,211,252,0.6); }
+  .highlight-fodder   { color: #f472b6; text-shadow: 0 0 8px rgba(244,114,182,0.6); }
+  .highlight-indicator{ color: #facc15; text-shadow: 0 0 8px rgba(250,204,21,0.6); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    body { -webkit-font-smoothing: antialiased; }
+    .bg-pattern { animation: none; opacity: 0.02; }
+    .particle   { display: none; }
+    header      { padding: 50px 10px 20px; }
+    .clue       { padding: 20px; margin: 20px 0; }
+    .clue::before { display: none; }
+    .answer-row { gap: 6px; margin: 20px auto; }
+    .cell       { border-width: 2px; }
+    .hint-buttons { gap: 8px; }
+    .hint-buttons button { padding: 10px 18px; font-size: 13px; min-width: calc(50% - 4px); }
+    .hint-buttons button::before { display: none; }
+    .controls button { padding: 14px 40px; font-size: 16px; width: 100%; }
+    .success-content { padding: 40px 30px; }
+    .success-icon  { font-size: 60px; }
+    .success-title { font-size: 28px; }
+    .name-content  { padding: 30px 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    .particle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+
+<div class="page">
+  <header>
+    <div class="puzzle-number" id="puzzleNumber"></div>
+    <div class="date" id="puzzleDate">Cryptic Clues</div>
+    <div class="author" id="puzzleAuthor">By Andrew Veda</div>
+    <div class="difficulty-tag" id="puzzleDifficulty">MEDIUM</div>
+  </header>
+
+  <!-- Timer bar -->
+  <div class="timer-bar-wrap">
+    <div class="timer-bar-row">
+      <div id="timerDisplay" class="timer-display">0:00</div>
+      <div class="timer-track"><div id="timerFill" class="timer-fill" style="width:0%"></div></div>
+      <div>
+        <div class="hints-used-label">Hints</div>
+        <div class="hints-used-val" id="hintsUsedVal">0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clue" id="puzzleClue">
+    Very bad dish leaves behind as with most sisters (8)
+  </div>
+
+  <div class="answer-row" id="answerRow"></div>
+
+  <div class="hint-buttons">
+    <button id="defBtn"><span>DEFINITION</span><span class="hint-count" id="defUsed" style="display:none">✓</span></button>
+    <button id="fodderBtn"><span>FODDER</span><span class="hint-count" id="fodderUsed" style="display:none">✓</span></button>
+    <button id="indicatorBtn"><span>INDICATOR</span><span class="hint-count" id="indicatorUsed" style="display:none">✓</span></button>
+  </div>
+
+  <div class="hint-output" id="hintOutput"></div>
+
+  <div class="controls">
+    <button id="checkBtn"><span>CHECK ANSWER</span></button>
+  </div>
+</div>
+
+<!-- Name modal (shown after correct answer) -->
+<div class="name-modal" id="nameModal">
+  <div class="name-content">
+    <div class="name-icon">🏆</div>
+    <div class="name-title">BRILLIANT!</div>
+    <div class="name-subtitle">You solved the puzzle!</div>
+    <div class="name-stats" id="nameStats"></div>
+    <div class="name-input-wrap">
+      <input class="name-input" id="nameInput" type="text" maxlength="24"
+             placeholder="ENTER YOUR NAME" autocomplete="off" spellcheck="false">
+    </div>
+    <button class="name-submit" id="nameSubmit">CLAIM YOUR GLORY</button>
+    <button class="name-skip" id="nameSkip">Skip — solve anonymously</button>
+  </div>
+</div>
+
+<!-- Success modal (shown after name submitted or skipped) -->
+<div class="success-modal" id="successModal">
+  <div class="success-content">
+    <div class="success-icon">✨</div>
+    <div class="success-title">SOLVED!</div>
+    <div class="success-message" id="successMessage">Excellent work.</div>
+    <div class="success-answer" id="successAnswer"></div>
+    <div class="success-meta" id="successMeta"></div>
+    <div class="success-submitted" id="successSubmitted" style="display:none"></div>
+    <button class="controls" style="margin:0;" onclick="closeSuccess()">
+      <span>CONTINUE</span>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   PUZZLE DATA — swap these out per puzzle
+============================================================ */
+let PUZZLE_ID   = 27;
+let ANSWER      = "DISASTER";
+let DEFINITION  = "Very bad";
+let FODDER      = "dish as sisters";
+let INDICATOR   = "leaves behind with most";
+
+const EDGE_URL  = "https://ahezssoczvpbkteffcgz.supabase.co/functions/v1/logQuest";
+const NAME_KEY  = "cryptic-player-name";
+
+/* ============================================================
+   URL PARAMS OVERRIDE
+============================================================ */
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has('data')) {
+  try {
+    const d = JSON.parse(decodeURIComponent(urlParams.get('data')));
+    ANSWER     = d.answer      || ANSWER;
+    DEFINITION = d.definition  || DEFINITION;
+    FODDER     = d.fodder      || FODDER;
+    INDICATOR  = d.indicator   || INDICATOR;
+    PUZZLE_ID  = d.id          || PUZZLE_ID;
+    if (d.date)       document.getElementById('puzzleDate').textContent = d.date;
+    if (d.author)     document.getElementById('puzzleAuthor').textContent = 'By ' + d.author;
+    if (d.clue)       document.getElementById('puzzleClue').textContent = d.clue;
+    if (d.difficulty) document.getElementById('puzzleDifficulty').textContent = d.difficulty.toUpperCase();
+    if (d.id)         document.getElementById('puzzleNumber').textContent = 'PUZZLE #' + d.id;
+  } catch(e) { console.error('Error parsing puzzle data:', e); }
+}
+
+/* ============================================================
+   STATE
+============================================================ */
+let hintsUsed   = 0;
+let startTime   = null;     // set on first keypress
+let timerInterval = null;
+let solved      = false;
+const hintUsedMap = { def: false, fodder: false, indicator: false };
+
+/* ============================================================
+   CLUE HIGHLIGHT
+============================================================ */
+const clueEl = document.getElementById("puzzleClue");
+const RAW_CLUE = clueEl.textContent;
+
+function highlightClue(target, className) {
+  clueEl.innerHTML = RAW_CLUE;
+  const escaped = target.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(escaped, 'i');
+  clueEl.innerHTML = clueEl.innerHTML.replace(regex, `<span class="${className}">$&</span>`);
+}
+
+/* ============================================================
+   ANSWER CELLS
+============================================================ */
+document.documentElement.style.setProperty("--letters", ANSWER.length);
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const answerRow = document.getElementById("answerRow");
+
+for (let i = 0; i < ANSWER.length; i++) {
+  const input = document.createElement("input");
+  input.className = "cell";
+  input.type = "text";
+  input.maxLength = 1;
+  input.style.animationDelay = `${0.7 + i * 0.05}s`;
+  answerRow.appendChild(input);
+}
+
+const cells = document.querySelectorAll(".cell");
+cells.forEach((cell, index) => {
+  cell.addEventListener("focus", () => {
+    if (!startTime && !solved) startTimer();
+  });
+  cell.addEventListener("input", () => {
+    if (!startTime && !solved) startTimer();
+    cell.value = cell.value.toUpperCase();
+    if (cell.value && index < cells.length - 1) cells[index + 1].focus();
+  });
+  cell.addEventListener("keydown", (e) => {
+    if (e.key === "Backspace" && !cell.value && index > 0) cells[index - 1].focus();
+  });
+});
+if (cells.length > 0) cells[0].focus();
+
+/* ============================================================
+   TIMER
+============================================================ */
+function startTimer() {
+  if (startTime) return;
+  startTime = Date.now();
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
+
+function updateTimer() {
+  if (!startTime) return;
+  const elapsed = Math.round((Date.now() - startTime) / 1000);
+  const m = Math.floor(elapsed / 60);
+  const s = elapsed % 60;
+  const display = document.getElementById("timerDisplay");
+  const fill    = document.getElementById("timerFill");
+  display.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+
+  // Fill bar — grows with time, capped at 10 min for display
+  const pct = Math.min((elapsed / 600) * 100, 100);
+  fill.style.width = pct + '%';
+
+  // Colour states
+  display.classList.remove('amber','danger');
+  fill.classList.remove('amber','danger');
+  if (elapsed > 300) { display.classList.add('danger'); fill.classList.add('danger'); }
+  else if (elapsed > 180) { display.classList.add('amber'); fill.classList.add('amber'); }
+}
+
+function getElapsed() {
+  if (!startTime) return 0;
+  return Math.round((Date.now() - startTime) / 1000);
+}
+
+/* ============================================================
+   HINTS
+============================================================ */
+const hintOutput = document.getElementById("hintOutput");
+
+function showHint(text) {
+  hintOutput.style.display = "block";
+  hintOutput.textContent = text;
+  hintsUsed++;
+  document.getElementById("hintsUsedVal").textContent = hintsUsed;
+  if (!startTime && !solved) startTimer();
+}
+
+document.getElementById("defBtn").onclick = () => {
+  if (!hintUsedMap.def) {
+    hintUsedMap.def = true;
+    document.getElementById("defUsed").style.display = "inline-block";
+    document.getElementById("defBtn").classList.add("used");
+  }
+  showHint("Definition: " + DEFINITION);
+  highlightClue(DEFINITION.trim(), "highlight-def");
+};
+
+document.getElementById("fodderBtn").onclick = () => {
+  if (!hintUsedMap.fodder) {
+    hintUsedMap.fodder = true;
+    document.getElementById("fodderUsed").style.display = "inline-block";
+    document.getElementById("fodderBtn").classList.add("used");
+  }
+  showHint("Fodder: " + FODDER);
+  highlightClue(FODDER.trim(), "highlight-fodder");
+};
+
+document.getElementById("indicatorBtn").onclick = () => {
+  if (!hintUsedMap.indicator) {
+    hintUsedMap.indicator = true;
+    document.getElementById("indicatorUsed").style.display = "inline-block";
+    document.getElementById("indicatorBtn").classList.add("used");
+  }
+  showHint("Indicator: " + INDICATOR);
+  highlightClue(INDICATOR.trim(), "highlight-indicator");
+};
+
+/* ============================================================
+   CHECK ANSWER
+============================================================ */
+document.getElementById("checkBtn").onclick = () => {
+  const guess = Array.from(cells).map(c => c.value).join("");
+  if (guess.length < ANSWER.length) { alert("Complete the word first."); return; }
+  if (guess === ANSWER) {
+    solved = true;
+    stopTimer();
+    cells.forEach(cell => cell.classList.add('correct'));
+    setTimeout(() => showNameModal(), 600);
+  } else {
+    alert("Not quite. Try again!");
+  }
+};
+
+/* ============================================================
+   NAME MODAL
+============================================================ */
+function showNameModal() {
+  const elapsed = getElapsed();
+  const m = Math.floor(elapsed / 60);
+  const s = elapsed % 60;
+  const timeStr = `${m}:${s < 10 ? '0' : ''}${s}`;
+  document.getElementById("nameStats").textContent =
+    `⏱ ${timeStr}  ·  💡 ${hintsUsed} hint${hintsUsed !== 1 ? 's' : ''} used`;
+
+  // Pre-fill saved name
+  const saved = localStorage.getItem(NAME_KEY);
+  if (saved) document.getElementById("nameInput").value = saved;
+
+  document.getElementById("nameModal").style.display = "flex";
+  document.getElementById("nameInput").focus();
+}
+
+document.getElementById("nameSubmit").onclick = () => {
+  const name = document.getElementById("nameInput").value.trim() || "Solver";
+  localStorage.setItem(NAME_KEY, name);
+  document.getElementById("nameModal").style.display = "none";
+  submitToSupabase(name, true);
+  showSuccess(name);
+};
+
+document.getElementById("nameSkip").onclick = () => {
+  document.getElementById("nameModal").style.display = "none";
+  submitToSupabase("Anonymous", false);
+  showSuccess(null);
+};
+
+document.getElementById("nameInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("nameSubmit").click();
+});
+
+/* ============================================================
+   SUPABASE SUBMIT
+============================================================ */
+function submitToSupabase(name, namedEntry) {
+  const elapsed = getElapsed();
+  fetch(EDGE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      student_name: name,
+      correct:      1,
+      wrong:        hintsUsed,
+      time_spent:   elapsed,
+      department:   'CrypticPuzzle',
+      answer:       `${ANSWER} (Puzzle #${PUZZLE_ID})`
+    })
+  }).catch(() => {});
+}
+
+/* ============================================================
+   SUCCESS MODAL
+============================================================ */
+function showSuccess(name) {
+  const elapsed = getElapsed();
+  const m = Math.floor(elapsed / 60);
+  const s = elapsed % 60;
+  const timeStr = `${m}:${s < 10 ? '0' : ''}${s}`;
+
+  document.getElementById("successAnswer").textContent = ANSWER;
+  document.getElementById("successMessage").textContent =
+    name ? `Well done, ${name}!` : "Excellent work.";
+  document.getElementById("successMeta").textContent =
+    `⏱ Solved in ${timeStr}  ·  💡 ${hintsUsed} hint${hintsUsed !== 1 ? 's' : ''} used`;
+
+  if (name) {
+    const sub = document.getElementById("successSubmitted");
+    sub.style.display = "block";
+    sub.textContent = `✓ Score recorded for ${name}`;
+  }
+
+  document.getElementById("successModal").style.display = "flex";
+}
+
+function closeSuccess() {
+  document.getElementById("successModal").style.display = "none";
+  window.history.back();
+}
+
+/* ============================================================
+   PARTICLES
+============================================================ */
+function createParticles() {
+  if (isMobile) return;
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.width = (Math.random() * 4 + 2) + 'px';
+    p.style.height = p.style.width;
+    p.style.animationDelay = (Math.random() * 8) + 's';
+    p.style.animationDuration = (Math.random() * 4 + 6) + 's';
+    document.body.appendChild(p);
+  }
+}
+createParticles();
+</script>
+</body>
+</html>
