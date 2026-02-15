@@ -283,7 +283,7 @@ let currentFilter = 'all';
 
 async function loadClues() {
   try {
-    const res = await fetch('puzzles/puzzles.json');
+    const res = await fetch('puzzles.json');
     clues = await res.json();
     clues.sort((a, b) => b.id - a.id);
     render();
