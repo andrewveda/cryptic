@@ -188,24 +188,95 @@ h1 {
   .side-panel  { position: static; }
   .name-card   { padding: 36px 22px; }
 }
+  #nameForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
+  border: 2px solid #d4af37;
+
+  padding: 2.2rem 1.8rem;
+  border-radius: 22px;
+
+  max-width: 420px;
+  margin: 2rem auto;
+
+  box-shadow: 0 12px 35px rgba(212,175,55,0.12);
+}
+
+#nameInput, #departmentSelect {
+  width: 100%;
+  padding: 0.9rem 1rem;
+
+  background: rgba(0,0,0,0.35);
+  border: 2px solid rgba(212,175,55,0.35);
+
+  border-radius: 12px;
+  font-family: 'Cinzel', serif;
+  color: #f5f5f5;
+  letter-spacing: 1px;
+}
+
+#nameInput:focus, #departmentSelect:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.25);
+}
+
+#nameForm button {
+  width: 100%;
+  padding: 1rem;
+
+  background: linear-gradient(135deg, #d4af37, #f4e5b1);
+  color: #0a0a0a;
+
+  border: none;
+  border-radius: 14px;
+
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body>
 
 <div class="bg-pattern"></div>
 
-<!-- ── NAME MODAL ── -->
-<div class="name-modal" id="nameModal" style="display:none">
-  <div class="name-card">
-    <div class="name-logo">CRYPTIC CLUES</div>
-    <div class="name-sub">MASTERFUL PUZZLES • TIMELESS ELEGANCE</div>
-    <div class="name-prompt">Who's solving today?</div>
-    <input class="name-input" id="nameInput" type="text" maxlength="24"
-           placeholder="YOUR NAME" autocomplete="off" spellcheck="false">
-    <button class="name-submit" id="nameSubmit">BEGIN SOLVING</button>
-    <button class="name-guest"  id="nameGuest">Continue as Guest</button>
+<div id="nameForm">
+  <div class="hero-quote">
+    <div class="hero-text">Ready for a mental duel?</div>
+    <div class="hero-author">🧩✨</div>
   </div>
+
+  <input type="text" id="nameInput" placeholder="Enter your name"/>
+
+  <select id="departmentSelect">
+    <option value="">-- Select Department --</option>
+    <option value="Cyber Security">Cyber Security</option>
+    <option value="EIE">EIE</option>
+    <option value="CSE-1">CSE-1</option>
+    <option value="CSE-2">CSE-2</option>
+    <option value="CSE-3">CSE-3</option>
+    <option value="Mechanical Engineering">Mechanical Engineering</option>
+    <option value="ECE-1">ECE-1</option>
+    <option value="ECE-2">ECE-2</option>
+    <option value="ECE-3">ECE-3</option>
+    <option value="AI DS-1">AI DS-1</option>
+    <option value="AI DS-2">AI DS-2</option>
+    <option value="Agri and Civil">Agri and Civil</option>
+    <option value="EEE">EEE</option>
+    <option value="Medical Electronics">Medical Electronics</option>
+    <option value="IT-1">IT-1</option>
+    <option value="IT-2">IT-2</option>
+  </select>
+
+  <button onclick="beginApp()">Begin Solving</button>
 </div>
+
 
 <div class="container">
   <header>
@@ -213,7 +284,7 @@ h1 {
     <div class="subtitle">MASTERFUL PUZZLES • TIMELESS ELEGANCE</div>
     <div class="player-bar">
       <span class="player-bar-name" id="playerBarName">👤 Guest</span>
-      <span class="player-bar-change" onclick="showNameModal()">change</span>
+      <span class="player-bar-change" onclick="document.getElementById('nameForm').style.display='flex'">change</span>
     </div>
   </header>
 
@@ -247,33 +318,16 @@ h1 {
 </div>
 
 <script>
-const NAME_KEY = 'cryptic-player-name';
+const NAME_KEY = 'questPlayerName';
+const DEPT_KEY = 'questPlayerDept';
 
-/* ── NAME ── */
-function initName() {
-  const saved = localStorage.getItem(NAME_KEY);
-  if (!saved) showNameModal();
-  else setDisplay(saved);
-}
-function showNameModal() {
-  document.getElementById('nameModal').style.display = 'flex';
-  const saved = localStorage.getItem(NAME_KEY) || '';
-  document.getElementById('nameInput').value = saved;
-  setTimeout(() => document.getElementById('nameInput').focus(), 80);
-}
-function saveName(raw) {
-  const name = raw.trim() || 'Guest';
-  localStorage.setItem(NAME_KEY, name);
-  setDisplay(name);
-  document.getElementById('nameModal').style.display = 'none';
-}
-function setDisplay(name) {
-  document.getElementById('playerBarName').textContent = `👤 ${name}`;
+
+function setDisplay(name, dept) {
+  document.getElementById('playerBarName').textContent =
+    `👤 ${name} · ${dept}`;
 }
 
-document.getElementById('nameSubmit').onclick = () => saveName(document.getElementById('nameInput').value);
-document.getElementById('nameGuest').onclick  = () => saveName('Guest');
-document.getElementById('nameInput').addEventListener('keydown', e => {
+  document.getElementById('nameInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') saveName(document.getElementById('nameInput').value);
 });
 
@@ -322,8 +376,46 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     render();
   });
 });
+function beginApp() {
+  const nameField = document.getElementById("nameInput");
+  const deptField = document.getElementById("departmentSelect");
 
-initName();
+  if (!nameField.value.trim()) {
+    alert("Please enter your name!");
+    return;
+  }
+
+  if (!deptField.value) {
+    alert("Please select your department!");
+    return;
+  }
+
+  playerName = nameField.value.trim();
+  playerDept = deptField.value;
+
+  localStorage.setItem(NAME_KEY, playerName);
+  localStorage.setItem(DEPT_KEY, playerDept);
+
+  document.getElementById("nameForm").style.display = "none";
+
+  setDisplay(playerName, playerDept);
+}
+
+  window.addEventListener("load", () => {
+  const savedName = localStorage.getItem(NAME_KEY);
+  const savedDept = localStorage.getItem(DEPT_KEY);
+
+  if (savedName && savedDept) {
+    playerName = savedName;
+    playerDept = savedDept;
+
+    document.getElementById("nameForm").style.display = "none";
+    setDisplay(playerName, playerDept);
+  } else {
+    document.getElementById("nameForm").style.display = "flex";
+  }
+});
+
 loadClues();
 </script>
 </body>
