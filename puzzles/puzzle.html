@@ -309,6 +309,10 @@ header { padding: 60px 10px 20px; }
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .particle { display: none; }
 }
+  .player-badge-name {
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
 </style>
 </head>
 <body>
@@ -384,12 +388,21 @@ header { padding: 60px 10px 20px; }
    CONSTANTS
 ============================================================ */
 const EDGE_URL  = "https://ahezssoczvpbkteffcgz.supabase.co/functions/v1/logQuest";
-const NAME_KEY  = "cryptic-player-name";
+const NAME_KEY  = "questPlayerName";
+const DEPT_KEY  = "questPlayerDept";
 
-/* ============================================================
-   STATE
-============================================================ */
-let puzzle      = null;
+const badge = document.getElementById('playerBadgeName');
+badge.style.opacity = 0;
+badge.style.transform = "translateY(-3px)";
+
+setTimeout(() => {
+  badge.textContent = `👤 ${name}${dept ? ' · ' + dept : ''}`;
+  badge.style.opacity = 1;
+  badge.style.transform = "translateY(0)";
+}, 180);
+
+  
+  let puzzle      = null;
 let rawClue     = '';
 let hintsUsed   = 0;
 let startTime   = null;
@@ -461,9 +474,12 @@ function buildPuzzle() {
   });
   if (cells.length) cells[0].focus();
 
-  // Player name badge
   const name = localStorage.getItem(NAME_KEY) || 'Guest';
-  document.getElementById('playerBadgeName').textContent = `👤 ${name}`;
+const dept = localStorage.getItem(DEPT_KEY) || '';
+
+document.getElementById('playerBadgeName').textContent =
+  `👤 ${name}${dept ? ' · ' + dept : ''}`;
+
 
   // Hint buttons
   document.getElementById('defBtn').onclick       = () => showHint('def');
@@ -581,7 +597,7 @@ function showSuccess() {
       correct:      20,
       wrong:        hintsUsed,
       time_spent:   elapsed,
-      department:   'Cryptic',
+     department: localStorage.getItem(DEPT_KEY) || 'Unknown',
       answer:       `${puzzle.answer} (Puzzle #${puzzle.id})`
     })
   }).then(() => {
@@ -599,18 +615,10 @@ function goBack() { window.location.href = '../index.html'; }
    CHANGE NAME (from badge)
 ============================================================ */
 function changeName() {
-  const current = localStorage.getItem(NAME_KEY) || '';
-  const input   = prompt('Enter your name (or leave blank for Guest):', current);
-  if (input === null) return; // cancelled
-  const name = input.trim() || 'Guest';
-  localStorage.setItem(NAME_KEY, name);
-  document.getElementById('playerBadgeName').textContent = `👤 ${name}`;
+  window.location.href = "../index.html";
 }
 
-/* ============================================================
-   PARTICLES
-============================================================ */
-function createParticles() {
+  function createParticles() {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) return;
   for (let i = 0; i < 12; i++) {
