@@ -405,7 +405,7 @@ const hintUsed  = { def: false, fodder: false, indicator: false };
   if (!id) return showError('No puzzle ID specified.');
 
   try {
-    const res  = await fetchfetch('/cryptic/puzzles/puzzles.json');
+    const res  = await fetch('/cryptic/puzzles/puzzles.json');
     const all  = await res.json();
     puzzle     = all.find(p => p.id === id);
     if (!puzzle) return showError(`Puzzle #${id} not found.`);
