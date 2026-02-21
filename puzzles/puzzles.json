@@ -1,5 +1,16 @@
 [
   {
+    "id": 28,
+    "clue": "Strategic sport in Nietzsche's silence (5)",
+    "answer": "CHESS",
+    "definition": "Strategic sport",
+    "fodder": "Nietzsche's silence",
+    "indicator": "in",
+    "type": "hidden",
+    "difficulty": "Easy",
+    "date": "2026-02-21"
+  },
+  {
     "id": 27,
     "clue": "Very bad dish leaves behind as with most sisters (8)",
     "answer": "DISASTER",
