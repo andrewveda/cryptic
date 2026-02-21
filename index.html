@@ -82,9 +82,10 @@ body {
 .container { max-width: 1500px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
 
 /* ── HEADER ── */
-header { text-align: center; padding: 60px 20px 30px; }
+header { text-align: center; padding: 20px 20px 12px; }
+  
 h1 {
-  font-family: 'Cinzel', serif; font-size: clamp(2.5rem,6vw,5rem);
+  font-family: 'Cinzel', serif; font-size: clamp(1.4rem,3vw,2.2rem);
   font-weight: 700; letter-spacing: 4px;
   background: linear-gradient(135deg, #d4af37, #f4e5b1, #d4af37);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -104,9 +105,8 @@ h1 {
 }
 .player-bar-change:hover { color: #d4af37; }
 
-/* ── MAIN LAYOUT ── */
-.main-layout { display: grid; grid-template-columns: 1fr 290px; gap: 28px; align-items: start; }
-@media (max-width: 1024px) {
+.main-layout { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; }
+  @media (max-width: 1024px) {
   .main-layout { grid-template-columns: 1fr; }
   .side-panel  { order: -1; }
 }
@@ -302,18 +302,6 @@ h1 {
       <div id="clueGrid" class="clue-grid"></div>
     </div>
 
-    <div class="side-panel">
-      <div class="panel-header">
-        <span>🏆</span>
-        <span class="panel-title">LEADERBOARD</span>
-      </div>
-      <div class="panel-body">
-        <p class="panel-desc">See how your solve times and hint counts stack up against everyone else.</p>
-        <a class="panel-btn"
-           href="https://andrewveda.github.io/SRM-VEC-English-PWA/buttons/leaderboard_live"
-           target="_blank">VIEW LEADERBOARD →</a>
-      </div>
-    </div>
   </div>
 </div>
 
