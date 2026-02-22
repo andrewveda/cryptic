@@ -1,5 +1,16 @@
 [
   {
+    "id": 29,
+    "clue": "Ok in Jerry's torso for a chaotic Ledger",
+    "answer": "JOKER",
+    "definition": "chaotic Ledger",
+    "fodder": "Ok in Jerry's",
+    "indicator": "torso for",
+    "type": "hidden",
+    "difficulty": "Easy",
+    "date": "2026-02-22"
+  },
+{
     "id": 28,
     "clue": "Strategic sport in Nietzsche's silence (5)",
     "answer": "CHESS",
