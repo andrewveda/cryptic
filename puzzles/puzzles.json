@@ -1,5 +1,16 @@
 [
-  {
+   {
+    "id": 30,
+    "clue": "Sounds like a spy dermatologist's better half knight for a friendly neighborhood(9)",
+    "answer": "SPIDERMAN",
+    "definition": "friendly neighborhood",
+    "fodder": "spy dermatologist's napping",
+    "indicator": "better half",
+    "type": "homophone",
+    "difficulty": "Easy",
+    "date": "2026-02-22"
+  },
+{
     "id": 29,
     "clue": "Ok in Jerry's torso for a chaotic Ledger (5)",
     "answer": "JOKER",
