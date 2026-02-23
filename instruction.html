@@ -13,16 +13,53 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* ── THEME VARIABLES ── */
 :root {
-  --gold: #d4af37;
-  --gold-light: #f4e5b1;
-  --gold-dim: rgba(212,175,55,0.35);
-  --gold-ghost: rgba(212,175,55,0.07);
-  --ink: #0a0a0a;
-  --paper: #f5f5f5;
-  --blue: #7dd3fc;
-  --pink: #f472b6;
-  --yellow: #facc15;
+  --gold:        #d4af37;
+  --gold-light:  #f4e5b1;
+  --gold-dim:    rgba(212,175,55,0.35);
+  --gold-ghost:  rgba(212,175,55,0.07);
+  --ink:         #0a0a0a;
+  --paper:       #f5f5f5;
+  --text-dim:    rgba(245,245,245,0.68);
+  --text-dimmer: rgba(245,245,245,0.62);
+  --text-faint:  rgba(245,245,245,0.6);
+  --text-pale:   rgba(245,245,245,0.4);
+  --text-muted:  rgba(245,245,245,0.58);
+  --border-faint:rgba(212,175,55,0.18);
+  --border-soft: rgba(212,175,55,0.16);
+  --border-sub:  rgba(212,175,55,0.22);
+  --nav-bg:      rgba(10,10,10,0.97);
+  --nav-bottom:  rgba(10,10,10,1);
+  --progress-bg: rgba(212,175,55,0.12);
+  --pattern-op:  0.025;
+  --blue:        #7dd3fc;
+  --pink:        #f472b6;
+  --yellow:      #facc15;
+}
+
+html.light {
+  --gold:        #8a6500;
+  --gold-light:  #b08000;
+  --gold-dim:    rgba(138,101,0,0.45);
+  --gold-ghost:  rgba(138,101,0,0.07);
+  --ink:         #f5eedc;
+  --paper:       #2a1f00;
+  --text-dim:    rgba(42,31,0,0.75);
+  --text-dimmer: rgba(42,31,0,0.65);
+  --text-faint:  rgba(42,31,0,0.6);
+  --text-pale:   rgba(42,31,0,0.4);
+  --text-muted:  rgba(42,31,0,0.58);
+  --border-faint:rgba(138,101,0,0.2);
+  --border-soft: rgba(138,101,0,0.18);
+  --border-sub:  rgba(138,101,0,0.25);
+  --nav-bg:      rgba(245,238,220,0.97);
+  --nav-bottom:  rgba(245,238,220,1);
+  --progress-bg: rgba(138,101,0,0.12);
+  --pattern-op:  0.055;
+  --blue:        #0284c7;
+  --pink:        #be185d;
+  --yellow:      #b45309;
 }
 
 html, body {
@@ -33,19 +70,22 @@ html, body {
   font-family: 'Raleway', sans-serif;
   -webkit-font-smoothing: antialiased;
   touch-action: none;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .bg-pattern {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.025;
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: var(--pattern-op);
   background-image:
     repeating-linear-gradient(45deg, transparent, transparent 35px, var(--gold) 35px, var(--gold) 36px),
     repeating-linear-gradient(-45deg, transparent, transparent 35px, var(--gold) 35px, var(--gold) 36px);
+  transition: opacity 0.3s ease;
 }
 
 /* ── PROGRESS BAR ── */
 .progress-bar {
   position: fixed; top: 0; left: 0; right: 0; height: 3px;
-  background: rgba(212,175,55,0.12); z-index: 100;
+  background: var(--progress-bg); z-index: 100;
 }
 .progress-fill {
   height: 100%; background: var(--gold);
@@ -57,10 +97,11 @@ html, body {
   position: fixed; top: 0; left: 0; right: 0; z-index: 99;
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 20px 10px;
-  background: linear-gradient(to bottom, rgba(10,10,10,0.97) 60%, transparent);
+  background: linear-gradient(to bottom, var(--nav-bg) 60%, transparent);
 }
 .nav-logo { font-family: 'Cinzel', serif; font-size: 12px; color: var(--gold); letter-spacing: 3px; text-decoration: none; }
 .nav-counter { font-family: 'Cinzel', serif; font-size: 12px; color: var(--gold-dim); letter-spacing: 2px; }
+.nav-right { display: flex; align-items: center; gap: 8px; }
 .nav-skip {
   font-size: 11px; color: var(--gold-dim); letter-spacing: 1px;
   text-decoration: none; border: 1px solid var(--gold-dim);
@@ -69,6 +110,18 @@ html, body {
   transition: all 0.2s;
 }
 .nav-skip:active { background: var(--gold-dim); color: var(--paper); }
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  font-size: 15px; cursor: pointer;
+  background: transparent; border: 1px solid var(--gold-dim);
+  padding: 5px 9px; color: var(--gold);
+  clip-path: polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px);
+  transition: background 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none; line-height: 1;
+}
+.theme-toggle:active { transform: scale(0.93); background: var(--gold-dim); }
 
 /* ── SLIDE VIEWPORT ── */
 .slides-wrap { position: fixed; inset: 0; z-index: 1; overflow: hidden; }
@@ -92,17 +145,18 @@ html, body {
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
   padding: 14px 22px 30px;
-  background: linear-gradient(to top, rgba(10,10,10,1) 65%, transparent);
+  background: linear-gradient(to top, var(--nav-bottom) 65%, transparent);
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
 .dot-row { display: flex; gap: 6px; align-items: center; flex: 1; justify-content: center; overflow: hidden; }
 .dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: rgba(212,175,55,0.2); flex-shrink: 0;
+  background: var(--gold-dim); flex-shrink: 0;
   transition: all 0.3s; cursor: pointer;
 }
 .dot.active { background: var(--gold); transform: scale(1.5); }
 .dot.nearby { background: rgba(212,175,55,0.45); }
+html.light .dot.nearby { background: rgba(138,101,0,0.45); }
 
 .nav-btn {
   width: 48px; height: 48px; flex-shrink: 0;
@@ -112,7 +166,7 @@ html, body {
   transition: all 0.2s; display: flex; align-items: center; justify-content: center;
   -webkit-tap-highlight-color: transparent; font-family: sans-serif;
 }
-.nav-btn:active { background: rgba(212,175,55,0.15); border-color: var(--gold); }
+.nav-btn:active { background: var(--gold-ghost); border-color: var(--gold); }
 .nav-btn:disabled { opacity: 0.2; pointer-events: none; }
 .nav-btn.primary { background: var(--gold); color: var(--ink); border-color: var(--gold); }
 .nav-btn.primary:active { background: var(--gold-light); }
@@ -144,18 +198,18 @@ html, body {
 .big-title {
   font-family: 'Cinzel', serif; font-size: clamp(2.4rem,11vw,3.8rem);
   font-weight: 900; line-height: 1.05; letter-spacing: 2px;
-  background: linear-gradient(135deg,#d4af37,#f4e5b1,#b8922a);
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), #b8922a);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   margin-bottom: 16px;
 }
 .big-sub {
   font-family: 'Playfair Display', serif; font-style: italic;
-  font-size: clamp(0.9rem,3.5vw,1.1rem); color: rgba(212,175,55,0.5);
+  font-size: clamp(0.9rem,3.5vw,1.1rem); color: var(--gold-dim);
   line-height: 1.65; margin-bottom: 28px;
 }
 .chips { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
 .chip {
-  padding: 4px 11px; border: 1px solid var(--gold-dim); color: rgba(212,175,55,0.6);
+  padding: 4px 11px; border: 1px solid var(--gold-dim); color: var(--gold-dim);
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
   clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
 }
@@ -169,8 +223,9 @@ html, body {
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   margin-bottom: 18px;
 }
-.body-text { font-size: 14px; color: rgba(245,245,245,0.68); line-height: 1.8; margin-bottom: 18px; }
+.body-text { font-size: 14px; color: var(--text-dim); line-height: 1.8; margin-bottom: 18px; }
 .body-text em { color: var(--gold-light); font-style: normal; }
+html.light .body-text em { color: var(--gold); }
 
 /* ANATOMY STACK */
 .anatomy-stack { display: flex; flex-direction: column; gap: 12px; }
@@ -182,13 +237,13 @@ html, body {
 .acard-badge { position: absolute; top: 9px; right: 11px; font-size: 8px; letter-spacing: 2px; color: var(--gold-dim); font-family: 'Cinzel', serif; }
 .acard-icon { font-size: 20px; margin-bottom: 6px; }
 .acard-title { font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold); letter-spacing: 2px; margin-bottom: 5px; }
-.acard-desc { font-size: 12px; color: rgba(245,245,245,0.62); line-height: 1.6; }
+.acard-desc { font-size: 12px; color: var(--text-dimmer); line-height: 1.6; }
 
 /* NOTE BOX */
 .note {
   padding: 13px 16px; border-left: 3px solid var(--gold);
   background: var(--gold-ghost); margin-top: 14px;
-  font-size: 12px; color: rgba(245,245,245,0.6); line-height: 1.6;
+  font-size: 12px; color: var(--text-faint); line-height: 1.6;
   font-family: 'Playfair Display', serif; font-style: italic;
 }
 
@@ -205,13 +260,13 @@ html, body {
 
 /* PILLS */
 .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-.pill { padding: 4px 9px; border: 1px solid rgba(212,175,55,0.22); font-size: 10px; letter-spacing: 1px; color: rgba(212,175,55,0.6);
+.pill { padding: 4px 9px; border: 1px solid var(--border-sub); font-size: 10px; letter-spacing: 1px; color: var(--gold-dim);
   clip-path: polygon(3px 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%,0 3px); }
 
 /* EXAMPLE CARD */
 .ex {
   border: 2px solid var(--gold);
-  background: linear-gradient(135deg,rgba(212,175,55,0.04),rgba(212,175,55,0.09));
+  background: var(--gold-ghost);
   padding: 16px 18px; margin-bottom: 12px;
   clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
 }
@@ -220,8 +275,8 @@ html, body {
 .ex-rows { display: flex; flex-direction: column; gap: 7px; margin-bottom: 12px; }
 .ex-row { display: flex; gap: 10px; font-size: 12px; }
 .ex-k { min-width: 72px; font-size: 8px; letter-spacing: 2px; color: var(--gold-dim); text-transform: uppercase; font-family: 'Cinzel', serif; padding-top: 2px; flex-shrink: 0; }
-.ex-v { color: rgba(245,245,245,0.7); line-height: 1.5; }
-.ex-ans { display: flex; align-items: center; gap: 10px; padding-top: 11px; border-top: 1px solid rgba(212,175,55,0.18); }
+.ex-v { color: var(--text-dim); line-height: 1.5; }
+.ex-ans { display: flex; align-items: center; gap: 10px; padding-top: 11px; border-top: 1px solid var(--border-faint); }
 .ex-ans-lbl { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 2px; color: var(--gold-dim); }
 .ex-ans-val {
   font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700; letter-spacing: 4px;
@@ -237,7 +292,7 @@ html, body {
 
 /* LEGEND */
 .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
-.leg { display: flex; align-items: center; gap: 5px; font-size: 10px; color: rgba(245,245,245,0.4); }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text-pale); }
 .leg-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
 /* TIPS */
@@ -248,13 +303,13 @@ html, body {
   clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
 }
 .tip-n { font-family: 'Cinzel', serif; font-size: 10px; color: var(--gold-dim); letter-spacing: 1px; flex-shrink: 0; padding-top: 2px; }
-.tip-t { font-size: 13px; color: rgba(245,245,245,0.68); line-height: 1.55; }
+.tip-t { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
 
 /* TOOLS GRID */
 .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
 .tool {
   display: flex; align-items: center; gap: 8px; padding: 9px 11px;
-  border: 1px solid rgba(212,175,55,0.16); font-size: 11px; color: rgba(245,245,245,0.58);
+  border: 1px solid var(--border-soft); font-size: 11px; color: var(--text-muted);
   clip-path: polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px);
 }
 .tool-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
@@ -268,7 +323,7 @@ html, body {
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   margin-bottom: 12px; letter-spacing: 2px;
 }
-.cta-sub { font-size: 14px; color: rgba(212,175,55,0.48); margin-bottom: 34px; line-height: 1.65; max-width: 300px; }
+.cta-sub { font-size: 14px; color: var(--gold-dim); margin-bottom: 34px; line-height: 1.65; max-width: 300px; }
 .cta-btn {
   display: block; width: fit-content; padding: 15px 42px;
   background: var(--gold); color: var(--ink);
@@ -278,7 +333,7 @@ html, body {
   transition: background 0.2s;
 }
 .cta-btn:active { background: var(--gold-light); }
-.cta-restart { background: none; border: none; color: rgba(212,175,55,0.35); font-size: 11px; cursor: pointer; letter-spacing: 2px; text-decoration: underline; font-family: 'Raleway', sans-serif; }
+.cta-restart { background: none; border: none; color: var(--gold-dim); font-size: 11px; cursor: pointer; letter-spacing: 2px; text-decoration: underline; font-family: 'Raleway', sans-serif; }
 
 /* entrance anim */
 @keyframes fadeUp {
@@ -296,7 +351,10 @@ html, body {
 <nav class="top-nav">
   <span class="nav-logo">CRYPTIC</span>
   <span class="nav-counter" id="counter">1 / 13</span>
-  <a class="nav-skip" href="index.html">SKIP →</a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+    <a class="nav-skip" href="index.html">SKIP →</a>
+  </div>
 </nav>
 
 <div class="slides-wrap">
@@ -314,7 +372,6 @@ html, body {
           <span class="chip">Intent Detection</span><span class="chip">Adaptability</span>
           <span class="chip">Interpretive Precision</span><span class="chip">Ambiguity Tolerance</span>
           <span class="chip">Inferential Reasoning</span><span class="chip">Cognitive Agility</span>
-        
         </div>
       </div>
     </div></div>
@@ -381,7 +438,7 @@ html, body {
       <div class="note">💡 Golden Rule: if the indicator and fodder are at one end, the definition must be at the other. Letter count appears in parentheses.</div>
     </div></div>
 
-    <!-- 3 · ANAGRAM -->
+    <!-- 4 · ANAGRAM -->
     <div class="slide"><div class="slide-inner">
       <div class="sec-label">Clue Type 1 of 6</div>
       <div class="type-header">
@@ -419,7 +476,7 @@ html, body {
       </div>
     </div></div>
 
-    <!-- 4 · ACROSTIC -->
+    <!-- 5 · ACROSTIC -->
     <div class="slide"><div class="slide-inner">
       <div class="sec-label">Clue Type 2 of 6</div>
       <div class="type-header">
@@ -452,7 +509,7 @@ html, body {
       </div>
     </div></div>
 
-    <!-- 5 · CHARADE -->
+    <!-- 6 · CHARADE -->
     <div class="slide"><div class="slide-inner">
       <div class="sec-label">Clue Type 3 of 6</div>
       <div class="type-header">
@@ -479,7 +536,7 @@ html, body {
       </div>
     </div></div>
 
-    <!-- 6 · HIDDEN WORD -->
+    <!-- 7 · HIDDEN WORD -->
     <div class="slide"><div class="slide-inner">
       <div class="sec-label">Clue Type 4 of 6</div>
       <div class="type-header">
@@ -510,7 +567,7 @@ html, body {
       </div>
     </div></div>
 
-    <!-- 7 · DELETION -->
+    <!-- 8 · DELETION -->
     <div class="slide"><div class="slide-inner">
       <div class="sec-label">Clue Type 5 of 6</div>
       <div class="type-header">
@@ -541,7 +598,7 @@ html, body {
       </div>
     </div></div>
 
-    <!-- 8 · DOUBLE DEF -->
+    <!-- 9 · DOUBLE DEF -->
     <div class="slide"><div class="slide-inner">
       <div class="sec-label">Clue Type 6 of 6</div>
       <div class="type-header">
@@ -574,7 +631,7 @@ html, body {
       </div>
     </div></div>
 
-    <!-- 9 · TOOLKIT -->
+    <!-- 10 · TOOLKIT -->
     <div class="slide"><div class="slide-inner">
       <div class="sec-label">Chapter 2</div>
       <h2 class="sec-heading">The Solver's Toolkit</h2>
@@ -598,7 +655,7 @@ html, body {
       <div class="note" style="margin-top:14px">💡 Words are just another form of code. Seeing beyond the obvious is what makes a great solver.</div>
     </div></div>
 
-    <!-- 10 · STRATEGY A -->
+    <!-- 11 · STRATEGY A -->
     <div class="slide"><div class="slide-inner">
       <div class="sec-label">Chapter 3</div>
       <h2 class="sec-heading">Solving Strategy</h2>
@@ -611,7 +668,7 @@ html, body {
       </div>
     </div></div>
 
-    <!-- 11 · STRATEGY B -->
+    <!-- 12 · STRATEGY B -->
     <div class="slide"><div class="slide-inner">
       <div class="sec-label">Chapter 3 continued</div>
       <h2 class="sec-heading">More Strategy</h2>
@@ -624,7 +681,7 @@ html, body {
       </div>
     </div></div>
 
-    <!-- 12 · CTA -->
+    <!-- 13 · CTA -->
     <div class="slide"><div class="slide-inner">
       <div class="cta-wrap">
         <div class="cta-icon">✨</div>
@@ -646,10 +703,23 @@ html, body {
 </div>
 
 <script>
+/* ── THEME — shared key with puzzle.html ── */
+const THEME_KEY = 'crypticTheme';
+function applyTheme(t) {
+  document.documentElement.classList.toggle('light', t === 'light');
+  document.getElementById('themeToggle').textContent = t === 'light' ? '🌙' : '☀️';
+}
+function toggleTheme() {
+  const next = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+/* ── SLIDES ── */
 const TOTAL = 13;
 let cur = 0;
 
-/* build dots */
 const dotRow = document.getElementById('dotRow');
 for (let i = 0; i < TOTAL; i++) {
   const d = document.createElement('div');
@@ -679,7 +749,6 @@ function ui() {
     d.classList.toggle('nearby', Math.abs(i - cur) === 1);
   });
 
-  /* re-run entrance animation on current slide */
   const slide = document.querySelectorAll('.slide')[cur];
   const inner = slide.querySelector('.slide-inner');
   inner.style.animation = 'none';
@@ -697,25 +766,9 @@ function goTo(i) { cur = i; ui(); }
 /* swipe */
 let sx = 0, sy = 0, dragging = false;
 const wrap = document.querySelector('.slides-wrap');
-
-wrap.addEventListener('touchstart', e => {
-  sx = e.touches[0].clientX;
-  sy = e.touches[0].clientY;
-  dragging = false;
-}, { passive: true });
-
-wrap.addEventListener('touchmove', e => {
-  const dx = e.touches[0].clientX - sx;
-  const dy = e.touches[0].clientY - sy;
-  if (!dragging && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) dragging = true;
-}, { passive: true });
-
-wrap.addEventListener('touchend', e => {
-  if (!dragging) return;
-  const dx = e.changedTouches[0].clientX - sx;
-  if (Math.abs(dx) > 48) { dx < 0 ? next() : prev(); }
-  dragging = false;
-});
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; dragging = false; }, { passive: true });
+wrap.addEventListener('touchmove', e => { const dx = e.touches[0].clientX - sx; const dy = e.touches[0].clientY - sy; if (!dragging && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) dragging = true; }, { passive: true });
+wrap.addEventListener('touchend', e => { if (!dragging) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 48) { dx < 0 ? next() : prev(); } dragging = false; });
 
 /* keyboard */
 document.addEventListener('keydown', e => {
