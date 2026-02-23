@@ -9,107 +9,165 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── THEME VARIABLES ── */
+:root {
+  --bg:          #0a0a0a;
+  --bg-modal:    rgba(0,0,0,0.97);
+  --surface:     rgba(212,175,55,0.04);
+  --surface2:    rgba(212,175,55,0.07);
+  --surface3:    rgba(212,175,55,0.1);
+  --surface4:    rgba(212,175,55,0.15);
+  --border:      rgba(212,175,55,0.22);
+  --border2:     rgba(212,175,55,0.3);
+  --border3:     rgba(212,175,55,0.35);
+  --border4:     rgba(212,175,55,0.4);
+  --gold:        #d4af37;
+  --gold-light:  #f4e5b1;
+  --gold-dim:    rgba(212,175,55,0.55);
+  --gold-faint:  rgba(212,175,55,0.28);
+  --text:        #f5f5f5;
+  --text-dim:    rgba(245,245,245,0.4);
+  --input-bg:    rgba(0,0,0,0.35);
+  --pattern-op:  0.03;
+  --card-shadow: rgba(212,175,55,0.1);
+}
+
+html.light {
+  --bg:          #f5eedc;
+  --bg-modal:    rgba(230,215,180,0.98);
+  --surface:     rgba(138,101,0,0.05);
+  --surface2:    rgba(138,101,0,0.08);
+  --surface3:    rgba(138,101,0,0.12);
+  --surface4:    rgba(138,101,0,0.15);
+  --border:      rgba(138,101,0,0.2);
+  --border2:     rgba(138,101,0,0.3);
+  --border3:     rgba(138,101,0,0.4);
+  --border4:     rgba(138,101,0,0.45);
+  --gold:        #8a6500;
+  --gold-light:  #b08000;
+  --gold-dim:    rgba(138,101,0,0.6);
+  --gold-faint:  rgba(138,101,0,0.25);
+  --text:        #2a1f00;
+  --text-dim:    rgba(42,31,0,0.45);
+  --input-bg:    rgba(245,238,220,0.6);
+  --pattern-op:  0.055;
+  --card-shadow: rgba(138,101,0,0.1);
+}
 
 body {
   font-family: 'Raleway', sans-serif;
-  background: #0a0a0a; color: #f5f5f5; overflow-x: hidden;
+  background: var(--bg); color: var(--text);
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .bg-pattern {
-  position: fixed; inset: 0; opacity: 0.03; pointer-events: none; z-index: 0;
+  position: fixed; inset: 0; opacity: var(--pattern-op);
+  pointer-events: none; z-index: 0;
   background-image:
-    repeating-linear-gradient(45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px),
-    repeating-linear-gradient(-45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px);
+    repeating-linear-gradient(45deg, transparent, transparent 35px, var(--gold) 35px, var(--gold) 36px),
+    repeating-linear-gradient(-45deg, transparent, transparent 35px, var(--gold) 35px, var(--gold) 36px);
+  transition: opacity 0.3s ease;
 }
 
-/* ── NAME MODAL ── */
-.name-modal {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.97);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 200; padding: 20px;
-  animation: fadeIn 0.4s ease-out;
+/* ── NAME FORM ── */
+#nameForm {
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  background: linear-gradient(135deg, var(--surface4), var(--surface));
+  border: 2px solid var(--gold);
+  padding: 2.2rem 1.8rem; border-radius: 22px;
+  max-width: 420px; margin: 2rem auto;
+  box-shadow: 0 12px 35px var(--card-shadow);
+  position: relative; z-index: 1;
 }
-@keyframes fadeIn { from{opacity:0} to{opacity:1} }
-.name-card {
-  background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.04));
-  border: 2px solid #d4af37; padding: 50px 40px; max-width: 440px; width: 100%;
-  clip-path: polygon(22px 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%,0 22px);
-  text-align: center;
-  animation: cardUp 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+
+.hero-text {
+  font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold);
+  letter-spacing: 2px; text-align: center;
 }
-@keyframes cardUp {
-  from { opacity:0; transform:translateY(32px) scale(0.92); }
-  to   { opacity:1; transform:translateY(0) scale(1); }
+.hero-author { text-align: center; font-size: 22px; margin-top: 4px; }
+
+#nameInput, #departmentSelect {
+  width: 100%; padding: 0.9rem 1rem;
+  background: var(--input-bg); border: 2px solid var(--border3);
+  border-radius: 12px; font-family: 'Cinzel', serif;
+  color: var(--text); letter-spacing: 1px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
 }
-.name-logo {
-  font-family: 'Cinzel', serif; font-size: clamp(26px,5vw,38px); font-weight: 700;
-  background: linear-gradient(135deg, #d4af37, #f4e5b1, #d4af37);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  letter-spacing: 3px; margin-bottom: 6px;
+#nameInput::placeholder { color: var(--gold-faint); }
+#nameInput:focus, #departmentSelect:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--surface3);
 }
-.name-sub { color: rgba(212,175,55,0.55); letter-spacing: 3px; font-size: 11px; margin-bottom: 34px; }
-.name-prompt {
-  font-family: 'Cinzel', serif; font-size: 15px; color: #f5f5f5;
-  letter-spacing: 2px; margin-bottom: 20px;
+#departmentSelect option { background: var(--bg); color: var(--text); }
+
+#nameForm button {
+  width: 100%; padding: 1rem;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--bg); border: none; border-radius: 14px;
+  font-family: 'Cinzel', serif; font-weight: 700;
+  letter-spacing: 2px; cursor: pointer;
+  transition: opacity 0.2s;
 }
-.name-input {
-  width: 100%; padding: 14px 18px; margin-bottom: 12px;
-  background: rgba(212,175,55,0.07); border: 2px solid rgba(212,175,55,0.4);
-  color: #f5f5f5; font-family: 'Cinzel', serif; font-size: 16px;
-  letter-spacing: 2px; text-align: center; outline: none;
-  clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
-  transition: border-color 0.3s;
-}
-.name-input:focus  { border-color: #d4af37; }
-.name-input::placeholder { color: rgba(212,175,55,0.28); }
-.name-submit {
-  width: 100%; padding: 15px; background: #d4af37; color: #0a0a0a;
-  border: none; font-family: 'Cinzel', serif; font-weight: 700;
-  font-size: 15px; letter-spacing: 3px; cursor: pointer;
-  clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
-  transition: background 0.2s; margin-bottom: 14px;
-}
-.name-submit:hover { background: #f4e5b1; }
-.name-guest {
-  background: none; border: none; color: rgba(212,175,55,0.4);
-  font-size: 13px; cursor: pointer; letter-spacing: 1px;
-  transition: color 0.2s; font-family: 'Raleway', sans-serif;
-}
-.name-guest:hover { color: #d4af37; }
+#nameForm button:hover { opacity: 0.88; }
 
 /* ── LAYOUT ── */
 .container { max-width: 1500px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
 
 /* ── HEADER ── */
 header { text-align: center; padding: 20px 20px 12px; }
-  
+
 h1 {
   font-family: 'Cinzel', serif; font-size: clamp(1.4rem,3vw,2.2rem);
   font-weight: 700; letter-spacing: 4px;
-  background: linear-gradient(135deg, #d4af37, #f4e5b1, #d4af37);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
-.subtitle { margin-top: 8px; color: #d4af37; letter-spacing: 4px; font-size: 0.85rem; }
+.subtitle { margin-top: 8px; color: var(--gold); letter-spacing: 4px; font-size: 0.85rem; }
+
+/* ── HEADER ROW (HOW TO PLAY + THEME) ── */
+.header-actions {
+  display: inline-flex; align-items: center; gap: 10px; margin-top: 14px;
+}
+.solve-btn {
+  padding: 6px 15px; border: 1.5px solid var(--gold);
+  background: transparent; color: var(--gold);
+  font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 11px;
+  letter-spacing: 1px; text-decoration: none; transition: all 0.2s;
+  clip-path: polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px);
+  display: inline-block;
+}
+.solve-btn:hover { background: var(--gold); color: var(--bg); }
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  font-size: 15px; cursor: pointer;
+  background: var(--surface2); border: 1.5px solid var(--border2);
+  color: var(--gold); padding: 6px 10px;
+  clip-path: polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px);
+  transition: background 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent; user-select: none; line-height: 1;
+}
+.theme-toggle:hover { background: var(--surface3); transform: scale(1.08); }
+.theme-toggle:active { transform: scale(0.93); }
 
 .player-bar {
   display: inline-flex; align-items: center; gap: 10px;
   margin-top: 16px; padding: 8px 20px;
-  background: rgba(212,175,55,0.07); border: 1px solid rgba(212,175,55,0.3);
+  background: var(--surface2); border: 1px solid var(--border2);
   clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
 }
-.player-bar-name { font-family: 'Cinzel', serif; font-size: 14px; color: #d4af37; letter-spacing: 1px; }
+.player-bar-name { font-family: 'Cinzel', serif; font-size: 14px; color: var(--gold); letter-spacing: 1px; }
 .player-bar-change {
-  font-size: 12px; color: rgba(212,175,55,0.5); cursor: pointer;
+  font-size: 12px; color: var(--gold-dim); cursor: pointer;
   text-decoration: underline; transition: color 0.2s;
 }
-.player-bar-change:hover { color: #d4af37; }
+.player-bar-change:hover { color: var(--gold); }
 
 .main-layout { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; }
-  @media (max-width: 1024px) {
-  .main-layout { grid-template-columns: 1fr; }
-  .side-panel  { order: -1; }
-}
 
 /* ── FILTER CONTROLS ── */
 .controls {
@@ -117,129 +175,47 @@ h1 {
   justify-content: flex-start; margin: 0 0 24px;
 }
 .filter-btn {
-  padding: 10px 18px; border: 2px solid #d4af37;
-  background: transparent; color: #d4af37;
+  padding: 10px 18px; border: 2px solid var(--gold);
+  background: transparent; color: var(--gold);
   font-family: 'Raleway', sans-serif; font-weight: 600;
   font-size: 12px; letter-spacing: 1px; cursor: pointer; transition: all 0.2s;
   clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
 }
-.filter-btn.active, .filter-btn:hover { background: #d4af37; color: #0a0a0a; }
+.filter-btn.active, .filter-btn:hover { background: var(--gold); color: var(--bg); }
 
 /* ── CLUE GRID ── */
 .clue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(295px,1fr)); gap: 20px; }
 
 /* ── CARDS ── */
 .clue-card {
-  border: 2px solid #d4af37; padding: 20px; position: relative;
-  background: rgba(212,175,55,0.04); transition: transform 0.3s, box-shadow 0.3s;
+  border: 2px solid var(--gold); padding: 20px; position: relative;
+  background: var(--surface); transition: transform 0.3s, box-shadow 0.3s;
   clip-path: polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);
 }
-.clue-card:hover { transform: translateY(-5px); box-shadow: 0 10px 26px rgba(212,175,55,0.1); }
+.clue-card:hover { transform: translateY(-5px); box-shadow: 0 10px 26px var(--card-shadow); }
 .clue-num {
   position: absolute; top: 12px; right: 12px;
   width: 36px; height: 36px; border-radius: 50%;
-  background: #d4af37; color: #0a0a0a;
+  background: var(--gold); color: var(--bg);
   font-family: 'Cinzel', serif; font-weight: 700; font-size: 12px;
   display: flex; align-items: center; justify-content: center;
 }
-.clue-text { font-size: 15px; line-height: 1.6; margin-bottom: 13px; padding-right: 48px; }
+.clue-text { font-size: 15px; line-height: 1.6; margin-bottom: 13px; padding-right: 48px; color: var(--text); }
 .clue-meta { display: flex; gap: 6px; flex-wrap: wrap; }
-.tag { font-size: 10px; padding: 3px 8px; border: 1px solid #d4af37; color: #d4af37; letter-spacing: 1px; }
+.tag { font-size: 10px; padding: 3px 8px; border: 1px solid var(--gold); color: var(--gold); letter-spacing: 1px; }
 .clue-footer {
-  margin-top: 13px; padding-top: 11px; border-top: 1px solid rgba(212,175,55,0.22);
+  margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--border);
   display: flex; justify-content: space-between; align-items: center; gap: 8px;
 }
-.clue-date { font-size: 12px; color: rgba(212,175,55,0.55); }
-.solve-btn {
-  padding: 6px 15px; border: 1.5px solid #d4af37;
-  background: transparent; color: #d4af37;
-  font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 11px;
-  letter-spacing: 1px; text-decoration: none; transition: all 0.2s;
-  clip-path: polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px);
-}
-.solve-btn:hover { background: #d4af37; color: #0a0a0a; }
-
-/* ── SIDE PANEL ── */
-.side-panel {
-  position: sticky; top: 20px;
-  border: 2px solid #d4af37; background: rgba(212,175,55,0.04);
-  clip-path: polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);
-}
-.panel-header {
-  padding: 15px 18px; border-bottom: 1px solid rgba(212,175,55,0.22);
-  display: flex; align-items: center; gap: 9px;
-}
-.panel-title { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; color: #d4af37; letter-spacing: 2px; }
-.panel-body  { padding: 24px 18px; text-align: center; }
-.panel-desc  { font-size: 13px; color: rgba(212,175,55,0.55); line-height: 1.6; margin-bottom: 20px; }
-.panel-btn {
-  display: block; padding: 12px 16px; background: #d4af37; color: #0a0a0a;
-  font-family: 'Cinzel', serif; font-weight: 700; font-size: 12px; letter-spacing: 2px;
-  text-decoration: none; transition: background 0.2s;
-  clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
-}
-.panel-btn:hover { background: #f4e5b1; }
+.clue-date { font-size: 12px; color: var(--gold-dim); }
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .clue-grid   { grid-template-columns: 1fr; }
   .clue-footer { flex-direction: column; align-items: stretch; }
   .solve-btn   { text-align: center; display: block; }
-  .side-panel  { position: static; }
-  .name-card   { padding: 36px 22px; }
+  #nameForm    { padding: 36px 22px; }
 }
-  #nameForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-
-  background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
-  border: 2px solid #d4af37;
-
-  padding: 2.2rem 1.8rem;
-  border-radius: 22px;
-
-  max-width: 420px;
-  margin: 2rem auto;
-
-  box-shadow: 0 12px 35px rgba(212,175,55,0.12);
-}
-
-#nameInput, #departmentSelect {
-  width: 100%;
-  padding: 0.9rem 1rem;
-
-  background: rgba(0,0,0,0.35);
-  border: 2px solid rgba(212,175,55,0.35);
-
-  border-radius: 12px;
-  font-family: 'Cinzel', serif;
-  color: #f5f5f5;
-  letter-spacing: 1px;
-}
-
-#nameInput:focus, #departmentSelect:focus {
-  border-color: #d4af37;
-  box-shadow: 0 0 0 3px rgba(212,175,55,0.25);
-}
-
-#nameForm button {
-  width: 100%;
-  padding: 1rem;
-
-  background: linear-gradient(135deg, #d4af37, #f4e5b1);
-  color: #0a0a0a;
-
-  border: none;
-  border-radius: 14px;
-
-  font-family: 'Cinzel', serif;
-  font-weight: 700;
-  letter-spacing: 2px;
-  cursor: pointer;
-}
-
 </style>
 </head>
 <body>
@@ -277,12 +253,15 @@ h1 {
   <button onclick="beginApp()">Begin Solving</button>
 </div>
 
-
 <div class="container">
   <header>
     <h1>CRYPTIC CLUES</h1>
     <div class="subtitle">Miniature Turing Tests</div>
-    <a href="https://andrewveda.github.io/cryptic/instruction" target="_blank" class="solve-btn" style="display:inline-block;margin-top:14px;padding:8px 20px;letter-spacing:2px;font-size:12px;">HOW TO PLAY →</a>
+    <div class="header-actions">
+      <a href="https://andrewveda.github.io/cryptic/instruction" target="_blank" class="solve-btn" style="padding:8px 20px;letter-spacing:2px;font-size:12px;">HOW TO PLAY →</a>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+    </div>
+    <br>
     <div class="player-bar">
       <span class="player-bar-name" id="playerBarName">👤 Guest</span>
       <span class="player-bar-change" onclick="document.getElementById('nameForm').style.display='flex'">change</span>
@@ -302,26 +281,63 @@ h1 {
       </div>
       <div id="clueGrid" class="clue-grid"></div>
     </div>
-
   </div>
 </div>
 
 <script>
-const NAME_KEY = 'questPlayerName';
-const DEPT_KEY = 'questPlayerDept';
+const NAME_KEY  = 'questPlayerName';
+const DEPT_KEY  = 'questPlayerDept';
+const THEME_KEY = 'crypticTheme';
 
 let playerName = "";
 let playerDept = "";
 
+/* ── THEME ── */
+function applyTheme(t) {
+  document.documentElement.classList.toggle('light', t === 'light');
+  document.getElementById('themeToggle').textContent = t === 'light' ? '🌙' : '☀️';
+}
+function toggleTheme() {
+  const next = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+/* ── NAME FORM ── */
 function setDisplay(name, dept) {
-  document.getElementById('playerBarName').textContent =
-    `👤 ${name} · ${dept}`;
+  document.getElementById('playerBarName').textContent = `👤 ${name} · ${dept}`;
 }
 
- document.getElementById('nameInput').addEventListener('keydown', e => {
+document.getElementById('nameInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') beginApp();
 });
 
+function beginApp() {
+  const nameField = document.getElementById("nameInput");
+  const deptField = document.getElementById("departmentSelect");
+  if (!nameField.value.trim()) { alert("Please enter your name!"); return; }
+  if (!deptField.value)        { alert("Please select your department!"); return; }
+  playerName = nameField.value.trim();
+  playerDept = deptField.value;
+  localStorage.setItem(NAME_KEY, playerName);
+  localStorage.setItem(DEPT_KEY, playerDept);
+  document.getElementById("nameForm").style.display = "none";
+  setDisplay(playerName, playerDept);
+}
+
+window.addEventListener("load", () => {
+  const savedName = localStorage.getItem(NAME_KEY);
+  const savedDept = localStorage.getItem(DEPT_KEY);
+  if (savedName && savedDept) {
+    playerName = savedName;
+    playerDept = savedDept;
+    document.getElementById("nameForm").style.display = "none";
+    setDisplay(playerName, playerDept);
+  } else {
+    document.getElementById("nameForm").style.display = "flex";
+  }
+});
 
 /* ── PUZZLE DATA ── */
 let clues = [];
@@ -367,45 +383,6 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     currentFilter = btn.dataset.filter;
     render();
   });
-});
-function beginApp() {
-  const nameField = document.getElementById("nameInput");
-  const deptField = document.getElementById("departmentSelect");
-
-  if (!nameField.value.trim()) {
-    alert("Please enter your name!");
-    return;
-  }
-
-  if (!deptField.value) {
-    alert("Please select your department!");
-    return;
-  }
-
-  playerName = nameField.value.trim();
-  playerDept = deptField.value;
-
-  localStorage.setItem(NAME_KEY, playerName);
-  localStorage.setItem(DEPT_KEY, playerDept);
-
-  document.getElementById("nameForm").style.display = "none";
-
-  setDisplay(playerName, playerDept);
-}
-
-  window.addEventListener("load", () => {
-  const savedName = localStorage.getItem(NAME_KEY);
-  const savedDept = localStorage.getItem(DEPT_KEY);
-
-  if (savedName && savedDept) {
-    playerName = savedName;
-    playerDept = savedDept;
-
-    document.getElementById("nameForm").style.display = "none";
-    setDisplay(playerName, playerDept);
-  } else {
-    document.getElementById("nameForm").style.display = "flex";
-  }
 });
 
 loadClues();
