@@ -1,5 +1,16 @@
 [
    {
+    "id": 31,
+    "clue": "Sounds like cryptic head on destroyed by Zod (7)",
+    "answer": "KRYPTON",
+    "definition": "destroyed by Zod",
+    "fodder": "cryptic on",
+    "indicator": "Sounds like head",
+    "type": "homophone",
+    "difficulty": "Easy",
+    "date": "2026-02-23"
+  },
+{
     "id": 30,
     "clue": "Sounds like a spy dermatologist's better half knight for a friendly neighborhood(9)",
     "answer": "SPIDERMAN",
