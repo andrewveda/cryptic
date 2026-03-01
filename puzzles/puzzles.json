@@ -276,11 +276,11 @@
   },
   {
     "id": 6,
-    "clue": "Limitless. Emotions Time now blitzes for a clever kid who believes in Kipling's sixty seconds in 'If' 24/7, 22/7 approximately. (5)",
+    "clue": "22/7 approximately limitless. Emotions Time now blitzes for a clever kid who believes in Kipling's sixty seconds in 'If' 24/7 (5)",
     "answer": "MEENZ",
-    "definition": "clever kid",
-    "fodder": "Emotions Time now blitzes",
-    "indicator": "Limitless",
+    "definition": "a clever kid who believes in Kipling's sixty seconds in 'If' 24/7",
+    "fodder": "limitless. Emotions Time now blitzes",
+    "indicator": "22/7 approximately",
     "type": "anagram",
     "difficulty": "Hard",
     "date": "2026-01-09"
