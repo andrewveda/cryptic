@@ -333,17 +333,7 @@ header { padding: 60px 10px 20px; }
   100% { transform: scale(1) rotateY(0deg); opacity: 1; }
 }
 
-/* ── REVEAL MODE: cells glow to invite selection ── */
-.answer-row.reveal-mode .cell:not(.revealed):not(.correct) {
-  border-color: var(--gold);
-  box-shadow: 0 0 10px rgba(212,175,55,0.3);
-  cursor: pointer;
-  animation: revealPulse 1s ease-in-out infinite;
-}
-@keyframes revealPulse {
-  0%,100% { box-shadow: 0 0 6px rgba(212,175,55,0.2); }
-  50%     { box-shadow: 0 0 18px rgba(212,175,55,0.55); }
-}
+
 
 /* ── SHAKE (wrong answer) ── */
 @keyframes shake {
@@ -419,18 +409,7 @@ header { padding: 60px 10px 20px; }
 }
 #revealBtn:hover::after { border-color: transparent; }
 #revealBtn:hover        { border-color: var(--gold); color: var(--bg); }
-#revealBtn.active-mode {
-  border-color: var(--gold-light) !important;
-  color: var(--gold-light) !important;
-  box-shadow: 0 0 16px rgba(244,229,177,0.35);
-  animation: revealBtnPulse 1s ease-in-out infinite;
-}
-#revealBtn.active-mode::before { display: none; }
-@keyframes revealBtnPulse {
-  0%,100% { box-shadow: 0 0 8px rgba(244,229,177,0.2); }
-  50%     { box-shadow: 0 0 22px rgba(244,229,177,0.5); }
-}
-#revealBtn.used:hover { color: var(--gold-dimmer) !important; }
+
 
 /* ── HINT OUTPUT ── */
 .hint-output {
@@ -761,8 +740,8 @@ let timerHandle = null;
 let solved      = false;
 const hintUsed  = { def: false, fodder: false, indicator: false };
 
-// Reveal letter state
-let revealMode = false;   // waiting for the player to click a cell
+// Reveal letter state — tracks how many letters have been revealed so far
+let revealCount = 0;
 
 // Swipe tracking
 let touchStartX = 0;
@@ -880,7 +859,7 @@ function resetPuzzleState() {
   hintsUsed = 0;
   startTime = null;
   solved    = false;
-  revealMode = false;
+  revealCount = 0;
   hintUsed.def = hintUsed.fodder = hintUsed.indicator = false;
   stopTimer();
   document.getElementById('hintOutput').style.display = 'none';
@@ -910,7 +889,7 @@ function buildPuzzle() {
   document.getElementById('fodderBtn').onclick    = () => showHint('fodder');
   document.getElementById('indicatorBtn').onclick = () => showHint('indicator');
   document.getElementById('checkBtn').onclick     = checkAnswer;
-  document.getElementById('revealBtn').onclick    = toggleRevealMode;
+  document.getElementById('revealBtn').onclick    = revealNextLetter;
 
   // Show puzzle, hide loader
   document.getElementById('loadingState').style.display  = 'none';
@@ -939,6 +918,7 @@ function populatePuzzleData() {
   });
   document.getElementById('revealBtn').classList.remove('active-mode');
   document.getElementById('hintsUsedVal').textContent = 0;
+  revealCount = 0;
   document.getElementById('timerDisplay').textContent = '0:00';
   document.getElementById('timerFill').style.width = '0%';
   document.getElementById('timerDisplay').classList.remove('amber','danger');
@@ -962,6 +942,7 @@ function populatePuzzleData() {
   cells.forEach((cell, i) => {
     cell.addEventListener('focus', () => { if (!startTime && !solved) startTimer(); });
     cell.addEventListener('input', () => {
+      if (cell.classList.contains('revealed')) return; // filled by reveal, not user typing
       if (!startTime && !solved) startTimer();
       cell.value = cell.value.toUpperCase();
       if (cell.value) {
@@ -981,12 +962,6 @@ function populatePuzzleData() {
       if (e.key === 'ArrowRight' && i < cells.length - 1) { e.preventDefault(); cells[i + 1].focus(); }
     });
 
-    // Reveal mode: clicking a cell reveals its letter
-    cell.addEventListener('click', () => {
-      if (!revealMode) return;
-      if (cell.classList.contains('revealed') || cell.classList.contains('correct')) return;
-      revealCell(cell, i);
-    });
   });
   if (cells.length) cells[0].focus();
 
@@ -998,34 +973,24 @@ function populatePuzzleData() {
 }
 
 /* ============================================================
-   REVEAL LETTER
+   REVEAL LETTER — reveals next unrevealed cell in sequence
 ============================================================ */
-function toggleRevealMode() {
+function revealNextLetter() {
   if (solved) return;
   if (!startTime) startTimer();
 
-  revealMode = !revealMode;
-  const btn = document.getElementById('revealBtn');
-  const row = document.getElementById('answerRow');
-
-  if (revealMode) {
-    btn.classList.add('active-mode');
-    row.classList.add('reveal-mode');
-    showToast('Click any letter cell to reveal it', 'reveal', 3000);
-  } else {
-    btn.classList.remove('active-mode');
-    row.classList.remove('reveal-mode');
-  }
-}
-
-function revealCell(cell, idx) {
+  const cells = document.querySelectorAll('.cell');
   const targetLetters = puzzle.answer.replace(/\s/g, '');
-  const letter = targetLetters[idx];
 
-  // Fill and lock the cell
-  cell.value = letter;
+  // Find the next cell that hasn't been revealed yet
+  const cell = cells[revealCount];
+  if (!cell) return;
+
+  const letter = targetLetters[revealCount];
   cell.classList.add('revealed');
   cell.readOnly = true;
+  cell.value = letter;
+  revealCount++;
 
   // Count as a hint (worth 2 per revealed letter)
   hintsUsed += 2;
@@ -1033,20 +998,14 @@ function revealCell(cell, idx) {
 
   showToast(`Revealed: ${letter}`, 'reveal', 1500);
 
-  // Check if all cells are now filled — auto-submit
-  const cells = document.querySelectorAll('.cell');
-  const allFilled = Array.from(cells).every(c => c.value);
-  if (allFilled) {
-    revealMode = false;
-    document.getElementById('revealBtn').classList.remove('active-mode');
-    document.getElementById('answerRow').classList.remove('reveal-mode');
+  // If all cells are now filled, auto-submit
+  if (revealCount >= targetLetters.length) {
     setTimeout(checkAnswer, 300);
     return;
   }
 
-  // Stay in reveal mode — focus next unrevealed empty cell
-  const next = Array.from(cells).find((c, i) => i > idx && !c.value && !c.classList.contains('revealed'));
-  if (next) next.focus();
+  // Focus the next empty cell
+  cells[revealCount].focus();
 }
 
 /* ============================================================
@@ -1079,15 +1038,6 @@ function setupSwipe() {
 ============================================================ */
 function setupKeyboard() {
   document.addEventListener('keydown', e => {
-    // Escape cancels reveal mode
-    if (e.key === 'Escape' && revealMode) {
-      revealMode = false;
-      document.getElementById('revealBtn').classList.remove('active-mode');
-      document.getElementById('answerRow').classList.remove('reveal-mode');
-      return;
-    }
-
-    // Only trigger nav if no cell is focused (to avoid interfering with typing)
     const active = document.activeElement;
     const isCell = active && active.classList.contains('cell');
     if (isCell) return;
