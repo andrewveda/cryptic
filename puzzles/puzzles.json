@@ -1,5 +1,16 @@
 [
 {
+    "id": 92,
+    "clue": "Smart clothes or legal fights (5)",
+    "answer": "SUITS",
+    "definition": "Smart clothes legal fights",
+    "fodder": "Double definition",
+    "indicator": "or",
+    "type": "double",
+    "difficulty": "Easy",
+    "date": "2026-03-07" 
+  },
+{
     "id": 91,
     "clue": "March forth into the heart of rare confused for a fast mover (5)",
     "answer": "RACER",
