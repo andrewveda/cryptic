@@ -1,4 +1,16 @@
 [
+
+{
+    "id": 93,
+    "clue": "Concealed chemical chemistry is a fable about following your dream (9)",
+    "answer": "ALCHEMIST",
+    "definition": "a fable about following your dream",
+    "fodder": "chemical chemistry",
+    "indicator": "Concealed",
+    "type": "hidden",
+    "difficulty": "Easy",
+    "date": "2026-03-08" 
+  },
 {
     "id": 92,
     "clue": "Smart clothes or legal fights (5)",
