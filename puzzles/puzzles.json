@@ -1,5 +1,15 @@
 [
-
+{
+    "id": 97,
+    "clue": "Friday the 13...th for fake money (4)",
+    "answer": "FIAT",
+    "definition": "fake money",
+    "fodder": "Friday the",
+    "indicator": "13...",
+    "type": "charade",
+    "difficulty": "Easy",
+    "date": "2026-03-13" 
+  },
 
 {
     "id": 96,
