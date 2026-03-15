@@ -1,4 +1,15 @@
 [
+    {
+    "id": 98,
+    "clue": "Hikaru takes a gun on. Even needed for a syllable (5)",
+    "answer": "VOWEL",
+    "definition": "needed for a syllable",
+    "fodder": "Hikaru takes a gun on",
+    "indicator": "Even",
+    "type": "charade",
+    "difficulty": "Medium",
+    "date": "2026-03-15" 
+  },
 {
     "id": 97,
     "clue": "Friday the 13...th for fake money (4)",
@@ -7,7 +18,7 @@
     "fodder": "Friday the",
     "indicator": "13...",
     "type": "charade",
-    "difficulty": "Easy",
+    "difficulty": "Medium",
     "date": "2026-03-13" 
   },
 
