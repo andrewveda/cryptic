@@ -1,4 +1,17 @@
 [
+
+ {
+    "id": 99,
+    "clue": "Very huge and powerful, sounds like Jayanthi doesn't say hello (5)",
+    "answer": "GIANT",
+    "definition": "Very huge and powerful",
+    "fodder": "Jayanthi",
+    "indicator": "sounds like doesn't say hello",
+    "type": "charade",
+    "difficulty": "Medium",
+    "date": "2026-03-18" 
+  },
+
     {
     "id": 98,
     "clue": "Hikaru takes a gun on. Even needed for a syllable (5)",
