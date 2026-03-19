@@ -1,5 +1,18 @@
 [
 
+
+{
+    "id": 100,
+    "clue": "Mahathi wants birthday bumps for a lofty goal (3)",
+    "answer": "AIM",
+    "definition": "a lofty goal",
+    "fodder": "Mahathi",
+    "indicator": "wants birthday bumps",
+    "type": "charade",
+    "difficulty": "Medium",
+    "date": "2026-03-19" 
+  },
+
  {
     "id": 99,
     "clue": "Very huge and powerful, sounds like Jayanthi doesn't say hello (5)",
