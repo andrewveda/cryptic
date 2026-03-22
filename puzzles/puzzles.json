@@ -1,6 +1,16 @@
 [
 
-
+{
+    "id": 100,
+    "clue": "For Lord Voldemort's only love, with a big heart, Meenakshi cooks! (5)",
+    "answer": "SNAKE",
+    "definition": "Lord Voldemort's only love",
+    "fodder": "Meenakshi",
+    "indicator": "with a big heart cooks",
+    "type": "hidden,anagram",
+    "difficulty": "Medium",
+    "date": "2026-03-20" 
+  },
 {
     "id": 100,
     "clue": "Mahathi wants birthday bumps for a lofty goal (3)",
