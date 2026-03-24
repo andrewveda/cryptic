@@ -1,6 +1,18 @@
 [
 
 {
+    "id": 102,
+    "clue": "Nishanth's outbursts - vibrant energy, laughter, triumphs! Youth leading for something new. (7)",
+    "answer": "NOVELTY",
+    "definition": " something new",
+    "fodder": "Nishanth's outbursts - vibrant energy, laughter, triumphs! Youth",
+    "indicator": " leading",
+    "type": "acrostic",
+    "difficulty": "Easy",
+    "date": "2026-03-24" 
+  },
+
+{
     "id": 101,
     "clue": "For Lord Voldemort's only love, with a big heart, Meenakshi cooks! (5)",
     "answer": "SNAKE",
