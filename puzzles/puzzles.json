@@ -1,5 +1,38 @@
 [
-
+{
+    "id": 105,
+    "clue": "Very fast leader dances quietly? Udhaya captures images klandestinely (5)",
+    "answer": "QUICK",
+    "definition": "Very fast",
+    "fodder": " quietly? Udhaya captures images klandestinely",
+    "indicator": "leader dances",
+    "type": "anagram, acrostic",
+    "difficulty": "Easy",
+    "date": "2026-03-25" 
+  },
+{
+    "id": 104,
+    "clue": "Sounds like your knee's worsened without legs for cosmos (8)",
+    "answer": "UNIVERSE",
+    "definition": "cosmos",
+    "fodder": "your knee's worsened",
+    "indicator": "Sounds like without legs",
+    "type": "homophone",
+    "difficulty": "Easy",
+    "date": "2026-03-25" 
+  },
+    
+{
+    "id": 103,
+    "clue": "To teach or transport with coaches (5)",
+    "answer": "TRAIN",
+    "definition": "double definition",
+    "fodder": "double definition",
+    "indicator": "or",
+    "type": "double definition",
+    "difficulty": "Easy",
+    "date": "2026-03-25" 
+  },
 {
     "id": 102,
     "clue": "Nishanth's older! Vibrant energy, laughter, triumphs! Youth leading for something new. (7)",
