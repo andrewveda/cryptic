@@ -1,5 +1,16 @@
 [
 {
+    "id": 106,
+    "clue": "A fur in confused for what they don't deserve (6)",
+    "answer": "UNFAIR",
+    "definition": "what they don't deserve",
+    "fodder": " A fur in",
+    "indicator": "confused",
+    "type": "anagram",
+    "difficulty": "Easy",
+    "date": "2026-03-26" 
+  },
+{
     "id": 105,
     "clue": "Very fast leader dances quietly? Udhaya captures images klandestinely (5)",
     "answer": "QUICK",
