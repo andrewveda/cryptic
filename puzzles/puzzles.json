@@ -1,5 +1,16 @@
 [
 {
+    "id": 107,
+    "clue": "A chance to do something out. Patients harbour a French thank you (11)",
+    "answer": "OPPORTUNITY",
+    "definition": "A chance to do something",
+    "fodder": "out. Patient harbour a French thank you",
+    "indicator": "charade",
+    "type": "charade",
+    "difficulty": "Medium",
+    "date": "2026-03-29" 
+  },
+    {
     "id": 106,
     "clue": "A fur in confused for what they don't deserve (6)",
     "answer": "UNFAIR",
