@@ -1,5 +1,16 @@
 [
 {
+    "id": 108,
+    "clue": "Failing better with great skill, Meenakshi's Abundant Strength, Tenacity, Energy, Resilience. You're first! (7)",
+    "answer": "MASTERY",
+    "definition": "Failing better with great skill You're first",
+    "fodder": "Meenakshi's Abundant Strength, Tenacity, Energy, Resilience. You're",
+    "indicator": "acrostic",
+    "type": "charade",
+    "difficulty": "Easy",
+    "date": "2026-03-31" 
+  },
+{
     "id": 107,
     "clue": "A chance to do something out. Patients harbour a French Roman, one thank you (11)",
     "answer": "OPPORTUNITY",
