@@ -1,581 +1,553 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title> Cryptic Clues</title>
-
+<title>Cryptic Clues</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:          #0a0a0a;
+  --bg-modal:    rgba(0,0,0,0.97);
+  --surface:     rgba(212,175,55,0.04);
+  --surface2:    rgba(212,175,55,0.07);
+  --surface3:    rgba(212,175,55,0.1);
+  --surface4:    rgba(212,175,55,0.15);
+  --border:      rgba(212,175,55,0.22);
+  --border2:     rgba(212,175,55,0.3);
+  --border3:     rgba(212,175,55,0.35);
+  --border4:     rgba(212,175,55,0.4);
+  --gold:        #d4af37;
+  --gold-light:  #f4e5b1;
+  --gold-dim:    rgba(212,175,55,0.55);
+  --gold-faint:  rgba(212,175,55,0.28);
+  --text:        #f5f5f5;
+  --text-dim:    rgba(245,245,245,0.4);
+  --input-bg:    rgba(0,0,0,0.35);
+  --pattern-op:  0.03;
+  --card-shadow: rgba(212,175,55,0.1);
+  --green:       #66bb6a;
+  --green-dim:   rgba(102,187,106,0.15);
+  --green-border:rgba(102,187,106,0.4);
+}
+
+html.light {
+  --bg:          #f5eedc;
+  --bg-modal:    rgba(230,215,180,0.98);
+  --surface:     rgba(138,101,0,0.05);
+  --surface2:    rgba(138,101,0,0.08);
+  --surface3:    rgba(138,101,0,0.12);
+  --surface4:    rgba(138,101,0,0.15);
+  --border:      rgba(138,101,0,0.2);
+  --border2:     rgba(138,101,0,0.3);
+  --border3:     rgba(138,101,0,0.4);
+  --border4:     rgba(138,101,0,0.45);
+  --gold:        #8a6500;
+  --gold-light:  #b08000;
+  --gold-dim:    rgba(138,101,0,0.6);
+  --gold-faint:  rgba(138,101,0,0.25);
+  --text:        #2a1f00;
+  --text-dim:    rgba(42,31,0,0.45);
+  --input-bg:    rgba(245,238,220,0.6);
+  --pattern-op:  0.055;
+  --card-shadow: rgba(138,101,0,0.1);
+  --green:       #2e7d32;
+  --green-dim:   rgba(46,125,50,0.1);
+  --green-border:rgba(46,125,50,0.35);
 }
 
 body {
   font-family: 'Raleway', sans-serif;
-  background: #0a0a0a;
-  color: #f5f5f5;
+  background: var(--bg); color: var(--text);
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Background */
 .bg-pattern {
-  position: fixed;
-  inset: 0;
-  opacity: 0.03;
-  pointer-events: none;
-  z-index: 0;
+  position: fixed; inset: 0; opacity: var(--pattern-op);
+  pointer-events: none; z-index: 0;
   background-image:
-    repeating-linear-gradient(45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px),
-    repeating-linear-gradient(-45deg, transparent, transparent 35px, #d4af37 35px, #d4af37 36px);
+    repeating-linear-gradient(45deg, transparent, transparent 35px, var(--gold) 35px, var(--gold) 36px),
+    repeating-linear-gradient(-45deg, transparent, transparent 35px, var(--gold) 35px, var(--gold) 36px);
+  transition: opacity 0.3s ease;
 }
 
-/* Layout */
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
-  position: relative;
-  z-index: 1;
+/* ── NAME FORM ── */
+#nameForm {
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  background: linear-gradient(135deg, var(--surface4), var(--surface));
+  border: 2px solid var(--gold);
+  padding: 2.2rem 1.8rem; border-radius: 22px;
+  max-width: 420px; margin: 2rem auto;
+  box-shadow: 0 12px 35px var(--card-shadow);
+  position: relative; z-index: 1;
 }
 
-/* Header */
-header {
-  text-align: center;
-  padding: 60px 20px 40px;
-}
+.hero-text { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); letter-spacing: 2px; text-align: center; }
+.hero-author { text-align: center; font-size: 22px; margin-top: 4px; }
 
-h1 {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 700;
-  letter-spacing: 4px;
-  background: linear-gradient(135deg, #d4af37, #f4e5b1, #d4af37);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.subtitle {
-  margin-top: 10px;
-  color: #d4af37;
-  letter-spacing: 4px;
-  font-size: 0.9rem;
-}
-
-/* Controls */
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin: 40px 0;
-}
-
-.search-box {
-  flex: 1;
-  min-width: 260px;
-  max-width: 400px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 14px 18px;
-  font-size: 16px;
-  background: transparent;
-  border: 2px solid #d4af37;
-  color: #f5f5f5;
-}
-
-.search-box input:focus {
+#nameInput, #departmentSelect {
+  width: 100%; padding: 0.9rem 1rem;
+  background: var(--input-bg); border: 2px solid var(--border3);
+  border-radius: 12px; font-family: 'Cinzel', serif;
+  color: var(--text); letter-spacing: 1px;
+  transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
 }
-
-.filter-btn {
-  padding: 14px 22px;
-  border: 2px solid #d4af37;
-  background: transparent;
-  color: #d4af37;
-  font-weight: 600;
-  cursor: pointer;
+#nameInput::placeholder { color: var(--gold-faint); }
+#nameInput:focus, #departmentSelect:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--surface3);
 }
+#departmentSelect option { background: var(--bg); color: var(--text); }
 
-.filter-btn.active {
-  background: #d4af37;
-  color: #0a0a0a;
+#nameForm button {
+  width: 100%; padding: 1rem;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--bg); border: none; border-radius: 14px;
+  font-family: 'Cinzel', serif; font-weight: 700;
+  letter-spacing: 2px; cursor: pointer;
+  transition: opacity 0.2s;
 }
+#nameForm button:hover { opacity: 0.88; }
 
-/* Grid */
-.clue-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 28px;
+/* ── LAYOUT ── */
+.container { max-width: 1500px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+
+/* ── HEADER ── */
+header { text-align: center; padding: 20px 20px 12px; }
+
+h1 {
+  font-family: 'Cinzel', serif; font-size: clamp(1.4rem,3vw,2.2rem);
+  font-weight: 700; letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
+.subtitle { margin-top: 8px; color: var(--gold); letter-spacing: 4px; font-size: 0.85rem; }
 
-/* Cards */
-.clue-card {
-  border: 2px solid #d4af37;
-  padding: 26px;
-  position: relative;
-  background: rgba(212,175,55,0.06);
-  transition: transform 0.3s ease;
-}
-
-.clue-card:hover {
-  transform: translateY(-6px);
-}
-
-.clue-number {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #d4af37;
-  color: #0a0a0a;
-  font-family: 'Cinzel', serif;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.clue-text {
-  font-size: 17px;
-  line-height: 1.6;
-  margin-bottom: 18px;
-  padding-right: 56px;
-}
-
-.clue-meta {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.tag {
-  font-size: 12px;
-  padding: 4px 10px;
-  border: 1px solid #d4af37;
-  color: #d4af37;
-}
-
-.clue-footer {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(212,175,55,0.4);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.date {
-  font-size: 13px;
-  color: #d4af37;
-}
-
+.header-actions { display: inline-flex; align-items: center; gap: 10px; margin-top: 14px; }
 .solve-btn {
-  padding: 8px 18px;
-  border: 1.8px solid #d4af37;
-  background: transparent;
-  color: #d4af37;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.25s ease;
+  padding: 6px 15px; border: 1.5px solid var(--gold);
+  background: transparent; color: var(--gold);
+  font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 11px;
+  letter-spacing: 1px; text-decoration: none; transition: all 0.2s;
+  clip-path: polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px);
+  display: inline-block;
 }
+.solve-btn:hover { background: var(--gold); color: var(--bg); }
 
-.solve-btn:hover {
-  background: #d4af37;
-  color: #0a0a0a;
+.theme-toggle {
+  font-size: 15px; cursor: pointer;
+  background: var(--surface2); border: 1.5px solid var(--border2);
+  color: var(--gold); padding: 6px 10px;
+  clip-path: polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px);
+  transition: background 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent; user-select: none; line-height: 1;
 }
-/* Mobile */
-@media (max-width: 768px) {
-  .clue-grid {
-    grid-template-columns: 1fr;
-  }
+.theme-toggle:hover { background: var(--surface3); transform: scale(1.08); }
+.theme-toggle:active { transform: scale(0.93); }
 
-  .clue-footer {
-    flex-direction: column;
-    gap: 10px;
-    align-items: stretch;
-  }
-
+/* ── PROGRESS SUMMARY ── */
+.progress-summary {
+  display: inline-flex; align-items: center; gap: 16px;
+  margin-top: 14px; padding: 10px 22px;
+  background: var(--surface2); border: 1px solid var(--border2);
+  clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
+  flex-wrap: wrap; justify-content: center;
 }
+.progress-summary-name {
+  font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold); letter-spacing: 1px;
+}
+.progress-summary-stat {
+  font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold-dim); letter-spacing: 1px;
+}
+.progress-summary-stat span {
+  color: var(--gold); font-weight: 600;
+}
+.progress-summary-stat.loaded span {
+  color: var(--green);
+}
+.progress-bar-wrap {
+  width: 120px; height: 4px; background: var(--surface3);
+  border-radius: 2px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px; transition: width 1s ease;
+}
+.progress-bar-fill.complete { background: linear-gradient(90deg, var(--green), #a5d6a7); }
+.pip-live {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+}
+.pip-live.loading { animation: pipPulse 1s ease infinite; }
+@keyframes pipPulse { 0%,100%{opacity:1} 50%{opacity:.15} }
+.change-link {
+  font-size: 11px; color: var(--gold-dim); cursor: pointer;
+  text-decoration: underline; transition: color 0.2s; font-family: 'Raleway', sans-serif;
+}
+.change-link:hover { color: var(--gold); }
 
-  .search-box {
+.main-layout { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; }
+
+/* ── FILTER CONTROLS ── */
+.controls {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: flex-start; margin: 0 0 24px;
+}
+.filter-btn {
+  padding: 10px 18px; border: 2px solid var(--gold);
+  background: transparent; color: var(--gold);
+  font-family: 'Raleway', sans-serif; font-weight: 600;
+  font-size: 12px; letter-spacing: 1px; cursor: pointer; transition: all 0.2s;
+  clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
+}
+.filter-btn.active, .filter-btn:hover { background: var(--gold); color: var(--bg); }
+
+/* ── CLUE GRID ── */
+.clue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(295px,1fr)); gap: 20px; }
+
+/* ── CARDS ── */
+.clue-card {
+  border: 2px solid var(--gold); padding: 20px; position: relative;
+  background: var(--surface); transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, background 0.3s;
+  clip-path: polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);
+}
+.clue-card:hover { transform: translateY(-5px); box-shadow: 0 10px 26px var(--card-shadow); }
+
+/* Solved state */
+.clue-card.solved {
+  border-color: var(--green);
+  background: var(--green-dim);
+}
+.clue-card.solved .clue-num {
+  background: var(--green);
+}
+.solved-tick {
   display: none;
+  position: absolute; top: 10px; left: 12px;
+  font-size: 13px; color: var(--green);
+  font-weight: 700;
 }
+.clue-card.solved .solved-tick { display: block; }
 
+/* Skeleton shimmer */
+@keyframes sk { 0%,100%{opacity:.25} 50%{opacity:.7} }
+.skel { border-color: var(--border2) !important; pointer-events: none; }
+.skel .clue-text, .skel .clue-meta, .skel .clue-footer { visibility: hidden; }
+.skel::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 20%, var(--surface3) 50%, transparent 80%);
+  background-size: 200% 100%; animation: shimmer 1.4s ease infinite;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+.clue-num {
+  position: absolute; top: 12px; right: 12px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--gold); color: var(--bg);
+  font-family: 'Cinzel', serif; font-weight: 700; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+}
+.clue-text { font-size: 15px; line-height: 1.6; margin-bottom: 13px; padding-right: 48px; color: var(--text); }
+.clue-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font-size: 10px; padding: 3px 8px; border: 1px solid var(--gold); color: var(--gold); letter-spacing: 1px; }
+.clue-card.solved .tag { border-color: var(--green); color: var(--green); }
+.clue-footer {
+  margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+}
+.clue-card.solved .clue-footer { border-top-color: var(--green-border); }
+.clue-date { font-size: 12px; color: var(--gold-dim); }
+
+/* Solved label replaces SOLVE button */
+.solved-label {
+  display: none; font-size: 11px; letter-spacing: 1px;
+  color: var(--green); font-family: 'Raleway', sans-serif; font-weight: 600;
+}
+.clue-card.solved .solve-link { display: none; }
+.clue-card.solved .solved-label { display: inline; }
+
+@media (max-width: 768px) {
+  .clue-grid   { grid-template-columns: 1fr; }
+  .clue-footer { flex-direction: column; align-items: stretch; }
+  .solve-btn   { text-align: center; display: block; }
+  #nameForm    { padding: 36px 22px; }
+  .progress-summary { gap: 10px; }
+}
 </style>
 </head>
-
 <body>
 
 <div class="bg-pattern"></div>
 
+<div id="nameForm">
+  <div class="hero-quote">
+    <div class="hero-text">Ready for a mental duel?</div>
+    <div class="hero-author">🧩✨</div>
+  </div>
+  <input type="text" id="nameInput" placeholder="Enter your name"/>
+  <select id="departmentSelect">
+    <option value="">-- Select Department --</option>
+    <option value="Friends and Family">Friends and Family</option>
+    <option value="Cyber Security">Cyber Security</option>
+    <option value="EIE">EIE</option>
+    <option value="CSE-1">CSE-1</option>
+    <option value="CSE-2">CSE-2</option>
+    <option value="CSE-3">CSE-3</option>
+    <option value="Mechanical Engineering">Mechanical Engineering</option>
+    <option value="ECE-1">ECE-1</option>
+    <option value="ECE-2">ECE-2</option>
+    <option value="ECE-3">ECE-3</option>
+    <option value="AI DS-1">AI DS-1</option>
+    <option value="AI DS-2">AI DS-2</option>
+    <option value="Agri and Civil">Agri and Civil</option>
+    <option value="EEE">EEE</option>
+    <option value="Medical Electronics">Medical Electronics</option>
+    <option value="IT-1">IT-1</option>
+    <option value="IT-2">IT-2</option>
+  </select>
+  <button onclick="beginApp()">Begin Solving</button>
+</div>
+
 <div class="container">
   <header>
     <h1>CRYPTIC CLUES</h1>
-    <div class="subtitle">MASTERFUL PUZZLES • TIMELESS ELEGANCE</div>
+    <div class="subtitle">Miniature Turing Tests</div>
+    <div class="header-actions">
+      <a href="https://andrewveda.github.io/cryptic/instruction" target="_blank" class="solve-btn" style="padding:8px 20px;letter-spacing:2px;font-size:12px;">HOW TO PLAY →</a>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+    </div>
+    <br>
+    <div class="progress-summary" id="progressSummary">
+      <span class="pip-live" id="progressPip"></span>
+      <span class="progress-summary-name" id="playerBarName">👤 Guest</span>
+      <span class="progress-summary-stat" id="progressStat">— / — solved</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+      <span class="change-link" onclick="document.getElementById('nameForm').style.display='flex'">change</span>
+    </div>
   </header>
 
-  <div class="controls">
-    <div class="search-box">
-      <input id="searchInput" type="text" placeholder="Search clues or answers…">
+  <div class="main-layout">
+    <div>
+      <div class="controls">
+        <button class="filter-btn active" data-filter="all">ALL</button>
+        <button class="filter-btn" data-filter="anagram">ANAGRAM</button>
+        <button class="filter-btn" data-filter="acrostic">ACROSTIC</button>
+        <button class="filter-btn" data-filter="charade">CHARADE</button>
+        <button class="filter-btn" data-filter="hidden">HIDDEN</button>
+        <button class="filter-btn" data-filter="homophone">HOMOPHONE</button>
+        <button class="filter-btn" data-filter="double">DOUBLE DEF</button>
+      </div>
+      <div id="clueGrid" class="clue-grid"></div>
     </div>
-    <button class="filter-btn active" data-filter="all">ALL</button>
-    <button class="filter-btn" data-filter="anagram">ANAGRAM</button>
-    <button class="filter-btn" data-filter="acrostic">ACROSTIC</button>
-    <button class="filter-btn" data-filter="charade">CHARADE</button>
-    <button class="filter-btn" data-filter="hidden">HIDDEN</button>
-    <button class="filter-btn" data-filter="homophone">HOMOPHONE</button>
-    <button class="filter-btn" data-filter="double">DOUBLE DEF</button>
   </div>
-
-  <div id="clueGrid" class="clue-grid"></div>
 </div>
 
-<script>
-const clues = [
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm";
 
+const supabase = createClient(
+  "https://yellow-lab-4999.andrewveda.workers.dev",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFoZXpzc29jenZwYmt0ZWZmY2d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4NTk1ODUsImV4cCI6MjA3ODQzNTU4NX0.2ZlqXnZxv0opkhynAT7OlK4S-xPygcc7ETUyTXRfGHE"
+);
 
+const NAME_KEY  = 'questPlayerName';
+const DEPT_KEY  = 'questPlayerDept';
+const THEME_KEY = 'crypticTheme';
 
-{
-    id: 26,
-    clue: "Cryptic menthol message at 221b (6)",
-    answer: "HOLMES",
-    type: "hidden",
-    difficulty: "Easy",
-    date: "2026-02-08",
-    url: "puzzles/26.html"
-  },
-
-{
-    id: 25,
-    clue: "I'm alt. Confused? Proud culture. (5)",
-    answer: "TAMIL",
-    type: "acrostic",
-    difficulty: "Medium",
-    date: "2026-02-02",
-    url: "puzzles/25.html"
-  },
-
-{
-    id: 25,
-    clue: "Very bad dish leaves behind as with most sisters (8)",
-    answer: "DISASTER",
-    type: "charade",
-    difficulty: "Medium",
-    date: "2026-02-13",
-    url: "puzzles/27.html"
-  },
-{
-    id: 24,
-    clue: "Tomorrow Means I Like A dancing champion - old and classical! (5)",
-    answer: "TAMIL",
-    type: "acrostic",
-    difficulty: "Medium",
-    date: "2026-02-02",
-    url: "puzzles/24.html"
-  },
-{
-    id: 23,
-    clue: "Reminiscing in SCIT a.m. eh? Tambaram logical approach. (11)",
-    answer: "MATHEMATICS",
-    type: "hidden",
-    difficulty: "Medium",
-    date: "2026-01-29",
-    url: "puzzles/23.html"
-  },
-{
-    id: 22,
-    clue: "Lightning travel looks back inside. Laughs alfalfa. (5).",
-    answer: "FLASH",
-    type: "hidden",
-    difficulty: "Medium",
-    date: "2026-01-29",
-    url: "puzzles/22.html"
-  },
-{
-    id: 21,
-    clue: "An anti-hero parasite turns back in FOMO? never! (5).",
-    answer: "VENOM",
-    type: "hidden",
-    difficulty: "Medium",
-    date: "2026-01-29",
-    url: "puzzles/21.html"
-  },
-{
-    id: 20,
-    clue: "Walking without caffeine motivation with the eye on the prize gets my eye on walk is chai alternately.(9).",
-    answer: "BATHRINATH",
-    type: "charade",
-    difficulty: "Medium",
-    date: "2026-01-29",
-    url: "puzzles/20.html"
-  },
-{
-    id: 19,
-    clue: "Batman's better half with human. Resources in Hathi's heart for always being focused on becoming a better version (10).",
-    answer: "BATHRINATH",
-    type: "charade",
-    difficulty: "Medium",
-    date: "2026-01-29",
-    url: "puzzles/19.html"
-  },
-{
-    id: 18,
-    clue: "Second draft genius hides in bath. Rin at home. (10)",
-    answer: "BATHRINATH",
-    type: "hidden",
-    difficulty: "Medium",
-    date: "2026-01-29",
-    url: "puzzles/18.html"
-  },
-
-{
-    id: 17,
-    clue: " First bench livewire. Jewel at last a kid left behind alternate year (7)",
-    answer: "ELAKIYA",
-    type: "charade",
-    difficulty: "Medium",
-    date: "2026-01-29",
-    url: "puzzles/17.html"
-  },
-
-{
-    id: 16,
-    clue: "Now Pacman trolls emulating Linux head to become an expert (5)",
-    answer: "NPTEL",
-    type: "acrostic",
-    difficulty: "Medium",
-    date: "2026-01-25",
-    url: "puzzles/16.html"
-  },
-
-{
-    id: 15,
-    clue: "Inverse value solution  Toeplitz sum dancing at last for a perfect score. (5)",
-    answer: "MATHS",
-    type: "acrostic",
-    difficulty: "Medium",
-    date: "2026-01-14",
-    url: "puzzles/15.html"
-  },
-
-{
-    id: 14,
-    clue: "Champions Magnus, Anand, Topalov, Hikaru, Short requires logical genius!(5)",
-    answer: "MATHS",
-    type: "acrostic",
-    difficulty: "Medium",
-    date: "2026-01-14",
-    url: "puzzles/14.html"
-  },
-  {
-    id: 1,
-    clue: "I am last e4 Knight sleeping sounds for determined growth. (8)",
-    answer: "MEEEENZZ",
-    type: "charade, homophone",
-    difficulty: "Medium",
-    date: "2026-01-14",
-    url: "puzzles/1.html"
-  },
-  {
-    id: 2,
-    clue: "Radiantly arise! Glow always magically! Aura's light igniting kindness around you, 42! (10)",
-    answer: "RAGAMALIKA",
-    type: "acrostic, Diwali wishes",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/4.html"
-
-  },
-  {
-    id: 3,
-    clue: "XX with headless light party or used to beat a classic cult (5,4)",
-    answer: "FIGHT CLUB",
-    type: "Double def",
-    difficulty: "Easy",
-    date: "2026-01-12",     
-    url: "puzzles/5.html"
-
-  },
-  {
-    id: 4,
-    clue: "Gambit by Botez. Neem turns back huge fan of Stranger Things (5)",
-    answer: "MEENZ",
-    type: "hidden",
-    difficulty: "Easy",
-    date: "2026-01-11",     
-    url: "puzzles/6.html"
-
-  },
-  {
-    id: 5,
-    clue: "Her favourite quote: Ever tried. Ever failed. No matter. Try again. Fail again. Fail better! is hidden in time enzymes (5)",
-    answer: "MEENZ",
-    type: "homophone",
-    difficulty: "Easy",
-    date: "2026-01-10",     
-    url: "puzzles/7.html"
-
-  },
-  {
-    id: 6,
-    clue: "Limitless. Emotions Time now blitzes for a clever kid who believes in Kipling's sixty seconds in 'If' 24/7, 22/7 approximately. (5)",
-    answer: "MEENZ",
-    type: "anagram",
-    difficulty: "Hard",
-    date: "2026-01-09",     
-    url: "puzzles/8.html"
-
-  },
-  {
-    id: 7,
-    clue: "Smart girl alternates MBE Vecna zombie (5)",
-    answer: "MEENZ",
-    type: "double",
-    difficulty: "Easy",
-    date: "2026-01-08",     
-    url: "puzzles/9.html"
-
-  },
-  {
-    id: 8,
-    clue: "Scrambled hike means a smart kid who believes in delayed gratification (9)",
-    answer: "MEENAKSHI",
-    type: "hidden",
-    difficulty: "Medium",
-    date: "2026-01-07",
-url: "puzzles/10.html"
-  },
-   {
-    id: 9,
-    clue: "Five enigma's torso, five headless MIDI, five icicles without legs for JC at Zela. (4,4,4)",
-    answer: "SILENT",
-    type: "anagram",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/11.html"
-
-  },
-   {
-    id: 10,
-    clue: "Reindeer and great applause made admirers look interested. Kind, affectionate leader for forty two. (10)",
-    answer: "RAGAMALIKA",
-    type: "acrostic, Christmas wishes",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/12.html"
-
-  },
-
-   {
-    id: 11,
-    clue: "Looking back, agar dances with Mila AK 42!)",
-    answer: "RAGAMALIKA",
-    type: "Charade",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/13.html"
-
-  },
-{
-    id: 12,
-    clue: "Pongal at college. Hello again, leader for leader (5).",
-    answer: "PACHA",
-    type: "ACROSTIC,",
-    difficulty: "Easy",
-    date: "2026-01-13",
-    url: "puzzles/2.html"
-
-  },
-{
-    id: 13,
-    clue: "Confused e-name with leading King's solo h-file invasion for determined growth! (9).",
-    answer: "MEENAKSHI",
-    type: "ANAGRAM, ACROSTIC,",
-    difficulty: "Easy",
-    date: "2026-01-19",
-    url: "puzzles/3.html"
-
-  }
-
-
-];
-
-const grid = document.getElementById('clueGrid');
-const searchInput = document.getElementById('searchInput');
-const buttons = document.querySelectorAll('.filter-btn');
-
+let playerName   = "";
+let playerDept   = "";
+let clues        = [];
+let solvedIds    = new Set();
 let currentFilter = 'all';
-let searchTerm = '';
-let searchTimeout;
 
-function render() {
-  const filtered = clues.filter(c => {
-    const f =
-      currentFilter === 'all' ||
-      c.type.split(',').map(t => t.trim()).includes(currentFilter);
+/* ── THEME ── */
+function applyTheme(t) {
+  document.documentElement.classList.toggle('light', t === 'light');
+  document.getElementById('themeToggle').textContent = t === 'light' ? '🌙' : '☀️';
+}
+function toggleTheme() {
+  const next = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+window.toggleTheme = toggleTheme;
+applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
 
-    const s =
-      c.clue.toLowerCase().includes(searchTerm) ||
-      c.answer.toLowerCase().includes(searchTerm);
+/* ── PLAYER BAR ── */
+function setDisplay(name, dept) {
+  document.getElementById('playerBarName').textContent = `👤 ${name}${dept ? ' · ' + dept : ''}`;
+}
 
-    return f && s;
+/* ── SUPABASE FETCH ── */
+async function fetchSolved() {
+  if (!playerName) return;
+  const pip = document.getElementById('progressPip');
+  pip.classList.add('loading');
+
+  // Show skeleton cards while loading
+  renderSkeletons();
+
+  try {
+    const { data, error } = await supabase
+      .from('report_card_view')
+      .select('quest_list')
+      .ilike('name', playerName);
+
+    solvedIds = new Set();
+    if (!error && data) {
+      data.forEach(row => {
+        (row.quest_list || '').split(',').forEach(item => {
+          const m = item.trim().match(/Quest\s+(\d+)/i);
+          if (m) solvedIds.add(Number(m[1]));
+        });
+      });
+    }
+  } catch (e) {
+    console.warn('Supabase fetch failed', e);
+  } finally {
+    pip.classList.remove('loading');
+    render();
+    updateProgressBar();
+  }
+}
+
+function updateProgressBar() {
+  const total  = clues.length;
+  const done   = clues.filter(c => solvedIds.has(c.id)).length;
+  const pct    = total ? Math.round((done / total) * 100) : 0;
+  const stat   = document.getElementById('progressStat');
+  const fill   = document.getElementById('progressFill');
+
+  stat.innerHTML = `<span>${done}</span> / ${total} solved`;
+  stat.classList.toggle('loaded', done > 0);
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      fill.style.width = pct + '%';
+      fill.classList.toggle('complete', done === total && total > 0);
+    }, 80);
   });
+}
 
-  grid.innerHTML = filtered.map(c => `
-    <div class="clue-card">
-      <div class="clue-number">${c.id}</div>
+/* ── NAME FORM ── */
+document.getElementById('nameInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') beginApp();
+});
+
+window.beginApp = function () {
+  const nameField = document.getElementById("nameInput");
+  const deptField = document.getElementById("departmentSelect");
+  if (!nameField.value.trim()) { alert("Please enter your name!"); return; }
+  if (!deptField.value)        { alert("Please select your department!"); return; }
+  playerName = nameField.value.trim();
+  playerDept = deptField.value;
+  localStorage.setItem(NAME_KEY, playerName);
+  localStorage.setItem(DEPT_KEY, playerDept);
+  document.getElementById("nameForm").style.display = "none";
+  setDisplay(playerName, playerDept);
+  fetchSolved();
+};
+
+window.addEventListener("load", () => {
+  const savedName = localStorage.getItem(NAME_KEY);
+  const savedDept = localStorage.getItem(DEPT_KEY);
+  if (savedName && savedDept) {
+    playerName = savedName;
+    playerDept = savedDept;
+    document.getElementById("nameInput").value  = savedName;
+    document.getElementById("departmentSelect").value = savedDept;
+    document.getElementById("nameForm").style.display = "none";
+    setDisplay(playerName, playerDept);
+  } else {
+    document.getElementById("nameForm").style.display = "flex";
+  }
+});
+
+/* ── RENDER SKELETONS ── */
+function renderSkeletons() {
+  const filtered = clues.filter(c => passesFilter(c));
+  document.getElementById('clueGrid').innerHTML = filtered.map(c => `
+    <div class="clue-card skel">
+      <div class="clue-num">${c.id}</div>
       <div class="clue-text">${c.clue}</div>
       <div class="clue-meta">
         <span class="tag">${c.type.toUpperCase()}</span>
         <span class="tag">${c.difficulty.toUpperCase()}</span>
       </div>
       <div class="clue-footer">
-        <span class="date">${c.date}</span>
-        <a class="solve-btn" href="${c.url}">SOLVE</a>
+        <span class="clue-date">${c.date}</span>
+        <a class="solve-btn solve-link" href="puzzles/puzzle.html?id=${c.id}">SOLVE →</a>
+        <span class="solved-label">✓ SOLVED</span>
       </div>
     </div>
   `).join('');
 }
 
+/* ── RENDER ── */
+function passesFilter(c) {
+  if (currentFilter === 'all') return true;
+  return c.type.split(',').map(t => t.trim().toLowerCase()).some(t => t.includes(currentFilter));
+}
 
-buttons.forEach(btn => {
+function render() {
+  const filtered = clues.filter(c => passesFilter(c));
+  document.getElementById('clueGrid').innerHTML = filtered.map(c => {
+    const solved = solvedIds.has(c.id);
+    return `
+      <div class="clue-card${solved ? ' solved' : ''}">
+        <span class="solved-tick">✓</span>
+        <div class="clue-num">${c.id}</div>
+        <div class="clue-text">${c.clue}</div>
+        <div class="clue-meta">
+          <span class="tag">${c.type.toUpperCase()}</span>
+          <span class="tag">${c.difficulty.toUpperCase()}</span>
+        </div>
+        <div class="clue-footer">
+          <span class="clue-date">${c.date}</span>
+          <a class="solve-btn solve-link" href="puzzles/puzzle.html?id=${c.id}">SOLVE →</a>
+          <span class="solved-label">✓ SOLVED</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ── FILTERS ── */
+document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    buttons.forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentFilter = btn.dataset.filter;
     render();
   });
 });
 
-searchInput.addEventListener('input', e => {
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(() => {
-    searchTerm = e.target.value.toLowerCase();
+/* ── LOAD CLUES ── */
+async function loadClues() {
+  try {
+    const res = await fetch('/cryptic/puzzles/puzzles.json');
+    clues = await res.json();
+    clues.sort((a, b) => b.id - a.id);
     render();
-  }, 250);
-});
-
-function openPuzzle(id) {
-  console.log(`Opening puzzle ${id}`);
-  // location.href = `puzzle.html?id=${id}`;
+    updateProgressBar();
+    // Now fetch solved status if player is known
+    if (playerName) fetchSolved();
+  } catch(e) {
+    document.getElementById('clueGrid').innerHTML =
+      '<p style="color:rgba(212,175,55,0.45);padding:40px;text-align:center;font-family:Cinzel,serif;letter-spacing:2px;">Could not load puzzles.</p>';
+  }
 }
 
-render();
+loadClues();
 </script>
-
 </body>
 </html>
