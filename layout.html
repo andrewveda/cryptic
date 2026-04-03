@@ -399,7 +399,7 @@ async function fetchSolved() {
   try {
     const { data, error } = await supabase
       .from('report_card_view')
-      .select('quest_list')
+      .select('cryptic_list')
       .ilike('name', playerName);
 
     solvedIds = new Set();
