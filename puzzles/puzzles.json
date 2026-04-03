@@ -1,5 +1,16 @@
 [
 {
+    "id": 110,
+    "clue": "Passover not over. First on Good Friday (7)",
+    "answer": "PASSION",
+    "definition": "Good Friday",
+    "fodder": "Passover First on",
+    "indicator": "not over.",
+    "type": "charade",
+    "difficulty": "Easy",
+    "date": "2026-04-03" 
+  },
+{
     "id": 109,
     "clue": "Gifted bootstrapper's accessory assieged Cosmos. Esoteric earnest Catherine beats dragon's Countdown (9)",
     "answer": "PRESENTED",
