@@ -11,7 +11,6 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ── THEME VARIABLES ── */
 :root {
   --bg:          #0a0a0a;
   --bg-modal:    rgba(0,0,0,0.97);
@@ -32,6 +31,9 @@
   --input-bg:    rgba(0,0,0,0.35);
   --pattern-op:  0.03;
   --card-shadow: rgba(212,175,55,0.1);
+  --green:       #66bb6a;
+  --green-dim:   rgba(102,187,106,0.15);
+  --green-border:rgba(102,187,106,0.4);
 }
 
 html.light {
@@ -54,6 +56,9 @@ html.light {
   --input-bg:    rgba(245,238,220,0.6);
   --pattern-op:  0.055;
   --card-shadow: rgba(138,101,0,0.1);
+  --green:       #2e7d32;
+  --green-dim:   rgba(46,125,50,0.1);
+  --green-border:rgba(46,125,50,0.35);
 }
 
 body {
@@ -83,10 +88,7 @@ body {
   position: relative; z-index: 1;
 }
 
-.hero-text {
-  font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold);
-  letter-spacing: 2px; text-align: center;
-}
+.hero-text { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); letter-spacing: 2px; text-align: center; }
 .hero-author { text-align: center; font-size: 22px; margin-top: 4px; }
 
 #nameInput, #departmentSelect {
@@ -128,10 +130,7 @@ h1 {
 }
 .subtitle { margin-top: 8px; color: var(--gold); letter-spacing: 4px; font-size: 0.85rem; }
 
-/* ── HEADER ROW (HOW TO PLAY + THEME) ── */
-.header-actions {
-  display: inline-flex; align-items: center; gap: 10px; margin-top: 14px;
-}
+.header-actions { display: inline-flex; align-items: center; gap: 10px; margin-top: 14px; }
 .solve-btn {
   padding: 6px 15px; border: 1.5px solid var(--gold);
   background: transparent; color: var(--gold);
@@ -142,7 +141,6 @@ h1 {
 }
 .solve-btn:hover { background: var(--gold); color: var(--bg); }
 
-/* ── THEME TOGGLE ── */
 .theme-toggle {
   font-size: 15px; cursor: pointer;
   background: var(--surface2); border: 1.5px solid var(--border2);
@@ -154,18 +152,47 @@ h1 {
 .theme-toggle:hover { background: var(--surface3); transform: scale(1.08); }
 .theme-toggle:active { transform: scale(0.93); }
 
-.player-bar {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin-top: 16px; padding: 8px 20px;
+/* ── PROGRESS SUMMARY ── */
+.progress-summary {
+  display: inline-flex; align-items: center; gap: 16px;
+  margin-top: 14px; padding: 10px 22px;
   background: var(--surface2); border: 1px solid var(--border2);
   clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
+  flex-wrap: wrap; justify-content: center;
 }
-.player-bar-name { font-family: 'Cinzel', serif; font-size: 14px; color: var(--gold); letter-spacing: 1px; }
-.player-bar-change {
-  font-size: 12px; color: var(--gold-dim); cursor: pointer;
-  text-decoration: underline; transition: color 0.2s;
+.progress-summary-name {
+  font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold); letter-spacing: 1px;
 }
-.player-bar-change:hover { color: var(--gold); }
+.progress-summary-stat {
+  font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold-dim); letter-spacing: 1px;
+}
+.progress-summary-stat span {
+  color: var(--gold); font-weight: 600;
+}
+.progress-summary-stat.loaded span {
+  color: var(--green);
+}
+.progress-bar-wrap {
+  width: 120px; height: 4px; background: var(--surface3);
+  border-radius: 2px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px; transition: width 1s ease;
+}
+.progress-bar-fill.complete { background: linear-gradient(90deg, var(--green), #a5d6a7); }
+.pip-live {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+}
+.pip-live.loading { animation: pipPulse 1s ease infinite; }
+@keyframes pipPulse { 0%,100%{opacity:1} 50%{opacity:.15} }
+.change-link {
+  font-size: 11px; color: var(--gold-dim); cursor: pointer;
+  text-decoration: underline; transition: color 0.2s; font-family: 'Raleway', sans-serif;
+}
+.change-link:hover { color: var(--gold); }
 
 .main-layout { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; }
 
@@ -189,32 +216,71 @@ h1 {
 /* ── CARDS ── */
 .clue-card {
   border: 2px solid var(--gold); padding: 20px; position: relative;
-  background: var(--surface); transition: transform 0.3s, box-shadow 0.3s;
+  background: var(--surface); transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, background 0.3s;
   clip-path: polygon(13px 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%,0 13px);
 }
 .clue-card:hover { transform: translateY(-5px); box-shadow: 0 10px 26px var(--card-shadow); }
+
+/* Solved state */
+.clue-card.solved {
+  border-color: var(--green);
+  background: var(--green-dim);
+}
+.clue-card.solved .clue-num {
+  background: var(--green);
+}
+.solved-tick {
+  display: none;
+  position: absolute; top: 10px; left: 12px;
+  font-size: 13px; color: var(--green);
+  font-weight: 700;
+}
+.clue-card.solved .solved-tick { display: block; }
+
+/* Skeleton shimmer */
+@keyframes sk { 0%,100%{opacity:.25} 50%{opacity:.7} }
+.skel { border-color: var(--border2) !important; pointer-events: none; }
+.skel .clue-text, .skel .clue-meta, .skel .clue-footer { visibility: hidden; }
+.skel::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 20%, var(--surface3) 50%, transparent 80%);
+  background-size: 200% 100%; animation: shimmer 1.4s ease infinite;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
 .clue-num {
   position: absolute; top: 12px; right: 12px;
   width: 36px; height: 36px; border-radius: 50%;
   background: var(--gold); color: var(--bg);
   font-family: 'Cinzel', serif; font-weight: 700; font-size: 12px;
   display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
 }
 .clue-text { font-size: 15px; line-height: 1.6; margin-bottom: 13px; padding-right: 48px; color: var(--text); }
 .clue-meta { display: flex; gap: 6px; flex-wrap: wrap; }
 .tag { font-size: 10px; padding: 3px 8px; border: 1px solid var(--gold); color: var(--gold); letter-spacing: 1px; }
+.clue-card.solved .tag { border-color: var(--green); color: var(--green); }
 .clue-footer {
   margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--border);
   display: flex; justify-content: space-between; align-items: center; gap: 8px;
 }
+.clue-card.solved .clue-footer { border-top-color: var(--green-border); }
 .clue-date { font-size: 12px; color: var(--gold-dim); }
 
-/* ── MOBILE ── */
+/* Solved label replaces SOLVE button */
+.solved-label {
+  display: none; font-size: 11px; letter-spacing: 1px;
+  color: var(--green); font-family: 'Raleway', sans-serif; font-weight: 600;
+}
+.clue-card.solved .solve-link { display: none; }
+.clue-card.solved .solved-label { display: inline; }
+
 @media (max-width: 768px) {
   .clue-grid   { grid-template-columns: 1fr; }
   .clue-footer { flex-direction: column; align-items: stretch; }
   .solve-btn   { text-align: center; display: block; }
   #nameForm    { padding: 36px 22px; }
+  .progress-summary { gap: 10px; }
 }
 </style>
 </head>
@@ -227,12 +293,10 @@ h1 {
     <div class="hero-text">Ready for a mental duel?</div>
     <div class="hero-author">🧩✨</div>
   </div>
-
   <input type="text" id="nameInput" placeholder="Enter your name"/>
-
   <select id="departmentSelect">
     <option value="">-- Select Department --</option>
-<option value="Friends and Family">Friends and Family</option>
+    <option value="Friends and Family">Friends and Family</option>
     <option value="Cyber Security">Cyber Security</option>
     <option value="EIE">EIE</option>
     <option value="CSE-1">CSE-1</option>
@@ -250,7 +314,6 @@ h1 {
     <option value="IT-1">IT-1</option>
     <option value="IT-2">IT-2</option>
   </select>
-
   <button onclick="beginApp()">Begin Solving</button>
 </div>
 
@@ -263,9 +326,12 @@ h1 {
       <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
     </div>
     <br>
-    <div class="player-bar">
-      <span class="player-bar-name" id="playerBarName">👤 Guest</span>
-      <span class="player-bar-change" onclick="document.getElementById('nameForm').style.display='flex'">change</span>
+    <div class="progress-summary" id="progressSummary">
+      <span class="pip-live" id="progressPip"></span>
+      <span class="progress-summary-name" id="playerBarName">👤 Guest</span>
+      <span class="progress-summary-stat" id="progressStat">— / — solved</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+      <span class="change-link" onclick="document.getElementById('nameForm').style.display='flex'">change</span>
     </div>
   </header>
 
@@ -285,13 +351,23 @@ h1 {
   </div>
 </div>
 
-<script>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm";
+
+const supabase = createClient(
+  "https://yellow-lab-4999.andrewveda.workers.dev",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFoZXpzc29jenZwYmt0ZWZmY2d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4NTk1ODUsImV4cCI6MjA3ODQzNTU4NX0.2ZlqXnZxv0opkhynAT7OlK4S-xPygcc7ETUyTXRfGHE"
+);
+
 const NAME_KEY  = 'questPlayerName';
 const DEPT_KEY  = 'questPlayerDept';
 const THEME_KEY = 'crypticTheme';
 
-let playerName = "";
-let playerDept = "";
+let playerName   = "";
+let playerDept   = "";
+let clues        = [];
+let solvedIds    = new Set();
+let currentFilter = 'all';
 
 /* ── THEME ── */
 function applyTheme(t) {
@@ -303,18 +379,71 @@ function toggleTheme() {
   localStorage.setItem(THEME_KEY, next);
   applyTheme(next);
 }
+window.toggleTheme = toggleTheme;
 applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
 
-/* ── NAME FORM ── */
+/* ── PLAYER BAR ── */
 function setDisplay(name, dept) {
-  document.getElementById('playerBarName').textContent = `👤 ${name} · ${dept}`;
+  document.getElementById('playerBarName').textContent = `👤 ${name}${dept ? ' · ' + dept : ''}`;
 }
 
+/* ── SUPABASE FETCH ── */
+async function fetchSolved() {
+  if (!playerName) return;
+  const pip = document.getElementById('progressPip');
+  pip.classList.add('loading');
+
+  // Show skeleton cards while loading
+  renderSkeletons();
+
+  try {
+    const { data, error } = await supabase
+      .from('report_card_view')
+      .select('cryptic_list')
+      .ilike('name', playerName);
+
+    solvedIds = new Set();
+    if (!error && data) {
+      data.forEach(row => {
+        (row.cryptic_list || '').split(',').forEach(item => {
+          const m = item.trim().match(/Cryptic\s+(\d+)/i);
+          if (m) solvedIds.add(Number(m[1]));
+        });
+      });
+    }
+  } catch (e) {
+    console.warn('Supabase fetch failed', e);
+  } finally {
+    pip.classList.remove('loading');
+    render();
+    updateProgressBar();
+  }
+}
+
+function updateProgressBar() {
+  const total  = clues.length;
+  const done   = clues.filter(c => solvedIds.has(c.id)).length;
+  const pct    = total ? Math.round((done / total) * 100) : 0;
+  const stat   = document.getElementById('progressStat');
+  const fill   = document.getElementById('progressFill');
+
+  stat.innerHTML = `<span>${done}</span> / ${total} solved`;
+  stat.classList.toggle('loaded', done > 0);
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      fill.style.width = pct + '%';
+      fill.classList.toggle('complete', done === total && total > 0);
+    }, 80);
+  });
+}
+
+/* ── NAME FORM ── */
 document.getElementById('nameInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') beginApp();
 });
 
-function beginApp() {
+window.beginApp = function () {
   const nameField = document.getElementById("nameInput");
   const deptField = document.getElementById("departmentSelect");
   if (!nameField.value.trim()) { alert("Please enter your name!"); return; }
@@ -325,7 +454,8 @@ function beginApp() {
   localStorage.setItem(DEPT_KEY, playerDept);
   document.getElementById("nameForm").style.display = "none";
   setDisplay(playerName, playerDept);
-}
+  fetchSolved();
+};
 
 window.addEventListener("load", () => {
   const savedName = localStorage.getItem(NAME_KEY);
@@ -333,6 +463,8 @@ window.addEventListener("load", () => {
   if (savedName && savedDept) {
     playerName = savedName;
     playerDept = savedDept;
+    document.getElementById("nameInput").value  = savedName;
+    document.getElementById("departmentSelect").value = savedDept;
     document.getElementById("nameForm").style.display = "none";
     setDisplay(playerName, playerDept);
   } else {
@@ -340,29 +472,11 @@ window.addEventListener("load", () => {
   }
 });
 
-/* ── PUZZLE DATA ── */
-let clues = [];
-let currentFilter = 'all';
-
-async function loadClues() {
-  try {
-    const res = await fetch('/cryptic/puzzles/puzzles.json');
-    clues = await res.json();
-    clues.sort((a, b) => b.id - a.id);
-    render();
-  } catch(e) {
-    document.getElementById('clueGrid').innerHTML =
-      '<p style="color:rgba(212,175,55,0.45);padding:40px;text-align:center;font-family:Cinzel,serif;letter-spacing:2px;">Could not load puzzles.</p>';
-  }
-}
-
-function render() {
-  const filtered = clues.filter(c => {
-    if (currentFilter === 'all') return true;
-    return c.type.split(',').map(t => t.trim().toLowerCase()).includes(currentFilter);
-  });
+/* ── RENDER SKELETONS ── */
+function renderSkeletons() {
+  const filtered = clues.filter(c => passesFilter(c));
   document.getElementById('clueGrid').innerHTML = filtered.map(c => `
-    <div class="clue-card">
+    <div class="clue-card skel">
       <div class="clue-num">${c.id}</div>
       <div class="clue-text">${c.clue}</div>
       <div class="clue-meta">
@@ -371,12 +485,43 @@ function render() {
       </div>
       <div class="clue-footer">
         <span class="clue-date">${c.date}</span>
-        <a class="solve-btn" href="puzzles/puzzle.html?id=${c.id}">SOLVE →</a>
+        <a class="solve-btn solve-link" href="puzzles/puzzle.html?id=${c.id}">SOLVE →</a>
+        <span class="solved-label">✓ SOLVED</span>
       </div>
     </div>
   `).join('');
 }
 
+/* ── RENDER ── */
+function passesFilter(c) {
+  if (currentFilter === 'all') return true;
+  return c.type.split(',').map(t => t.trim().toLowerCase()).some(t => t.includes(currentFilter));
+}
+
+function render() {
+  const filtered = clues.filter(c => passesFilter(c));
+  document.getElementById('clueGrid').innerHTML = filtered.map(c => {
+    const solved = solvedIds.has(c.id);
+    return `
+      <div class="clue-card${solved ? ' solved' : ''}">
+        <span class="solved-tick">✓</span>
+        <div class="clue-num">${c.id}</div>
+        <div class="clue-text">${c.clue}</div>
+        <div class="clue-meta">
+          <span class="tag">${c.type.toUpperCase()}</span>
+          <span class="tag">${c.difficulty.toUpperCase()}</span>
+        </div>
+        <div class="clue-footer">
+          <span class="clue-date">${c.date}</span>
+          <a class="solve-btn solve-link" href="puzzles/puzzle.html?id=${c.id}">SOLVE →</a>
+          <span class="solved-label">✓ SOLVED</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ── FILTERS ── */
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -385,6 +530,22 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     render();
   });
 });
+
+/* ── LOAD CLUES ── */
+async function loadClues() {
+  try {
+    const res = await fetch('/cryptic/puzzles/puzzles.json');
+    clues = await res.json();
+    clues.sort((a, b) => b.id - a.id);
+    render();
+    updateProgressBar();
+    // Now fetch solved status if player is known
+    if (playerName) fetchSolved();
+  } catch(e) {
+    document.getElementById('clueGrid').innerHTML =
+      '<p style="color:rgba(212,175,55,0.45);padding:40px;text-align:center;font-family:Cinzel,serif;letter-spacing:2px;">Could not load puzzles.</p>';
+  }
+}
 
 loadClues();
 </script>
