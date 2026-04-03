@@ -272,7 +272,7 @@ h1 {
   display: none; font-size: 11px; letter-spacing: 1px;
   color: var(--green); font-family: 'Raleway', sans-serif; font-weight: 600;
 }
-.clue-card.solved .solve-link { display: none; }
+
 .clue-card.solved .solved-label { display: inline; }
 
 @media (max-width: 768px) {
@@ -486,7 +486,7 @@ function renderSkeletons() {
       <div class="clue-footer">
         <span class="clue-date">${c.date}</span>
         <a class="solve-btn solve-link" href="puzzles/puzzle.html?id=${c.id}">SOLVE →</a>
-        <span class="solved-label">✓ SOLVED✓ ${playerName} is a genius! </span>
+        <span class="solved-label">✓ SOLVED</span>
       </div>
     </div>
   `).join('');
@@ -513,8 +513,8 @@ function render() {
         </div>
         <div class="clue-footer">
           <span class="clue-date">${c.date}</span>
-          <a class="solve-btn solve-link" href="puzzles/puzzle.html?id=${c.id}">SOLVE →</a>
-          <span class="solved-label">✓ SOLVED</span>
+          <a class="solve-btn solve-link" href="puzzles/puzzle.html?id=${c.id}">${solved ? 'TRY AGAIN →' : 'SOLVE →'}</a>
+          <span class="solved-label">✓ ${playerName} is a genius!</span>
         </div>
       </div>
     `;
