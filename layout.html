@@ -406,7 +406,7 @@ async function fetchSolved() {
     if (!error && data) {
       data.forEach(row => {
         (row.quest_list || '').split(',').forEach(item => {
-          const m = item.trim().match(/Quest\s+(\d+)/i);
+          const m = item.trim().match(/Cryptic\s+(\d+)/i);
           if (m) solvedIds.add(Number(m[1]));
         });
       });
