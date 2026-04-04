@@ -1,6 +1,16 @@
 [
 
-
+{
+    "id": 112,
+    "clue": "Calm and quiet in Europe a certainty (5)",
+    "answer": "PEACE",
+    "definition": "Calm and quiet",
+    "fodder": "Europe a certainty",
+    "indicator": "in",
+    "type": "hidden",
+    "difficulty": "Easy",
+    "date": "2026-04-04" 
+  },
 {
     "id": 111,
     "clue": "Concealed pass, ionised strong emotions after Palm Sunday (7)",
