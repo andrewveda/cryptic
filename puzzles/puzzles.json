@@ -1,4 +1,16 @@
 [
+
+{
+    "id": 114,
+    "clue": "Potter likes to fly or to groom (5)",
+    "answer": "BROOM",
+    "definition": "Potter likes to fly to groom",
+    "fodder": "double definition",
+    "indicator": "double definition",
+    "type": "double definition",
+    "difficulty": "Easy",
+    "date": "2026-04-06" 
+  },
 {
     "id": 113,
     "clue": "A confident desire has our positive energy first (4)",
