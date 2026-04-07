@@ -1024,12 +1024,7 @@ function showHint(type) {
   highlightClue(text, `highlight-${type === 'def' ? 'def' : type === 'fodder' ? 'fodder' : 'indicator'}`);
 }
 
-/* ============================================================
-   CLUE HIGHLIGHT
-============================================================ */
-// Words too common/short to highlight individually
-const SKIP_WORDS = new Set(['a','an','the','in','of','at','to','for','and','or','with','by','on','as','is','it','its','be','my','his','her','our','your','their','from','up','but','so','if','no','not','do']);
-
+const SKIP_WORDS = new Set();
 function highlightClue(target, cls) {
   const el = document.getElementById('puzzleClue');
 
