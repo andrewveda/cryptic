@@ -1,6 +1,17 @@
 [
 
 {
+    "id": 115,
+    "clue": "A famous circular représentation with a tea in delta instead of fifty prolonged hostile acts of vengeance (8)",
+    "answer": "VENDETTA",
+    "definition": " prolonged hostile acts of vengeance",
+    "fodder": "A famous circular représentation tea delta fifty ",
+    "indicator": " with a in delta instead of",
+    "type": "charade",
+    "difficulty": "Easy",
+    "date": "2026-04-07" 
+  },
+{
     "id": 114,
     "clue": "Potter likes to fly or to groom (5)",
     "answer": "BROOM",
