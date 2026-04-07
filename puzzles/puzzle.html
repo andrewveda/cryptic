@@ -13,7 +13,6 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ── THEME VARIABLES ── */
 :root {
   --bg:          #0a0a0a;
   --bg2:         rgba(10,10,10,0.8);
@@ -36,7 +35,6 @@
   --pattern-op:  0.03;
   --modal-bg:    rgba(0,0,0,0.95);
   --modal-bg2:   rgba(0,0,0,0.92);
-  --toggle-icon: '☀️';
 }
 
 html.light {
@@ -61,7 +59,6 @@ html.light {
   --pattern-op:  0.06;
   --modal-bg:    rgba(230,215,180,0.97);
   --modal-bg2:   rgba(230,215,180,0.95);
-  --toggle-icon: '🌙';
 }
 
 body {
@@ -111,36 +108,19 @@ body {
   border-color: var(--gold);
   box-shadow: 0 0 18px rgba(212,175,55,0.25);
 }
-.nav-arrow:disabled {
-  opacity: 0.18; cursor: not-allowed; pointer-events: none;
-}
-.nav-arrow.left  {
-  left: 0;
-  clip-path: polygon(0 0, 100% 10px, 100% calc(100% - 10px), 0 100%);
-}
-.nav-arrow.right {
-  right: 0;
-  clip-path: polygon(0 10px, 100% 0, 100% 100%, 0 calc(100% - 10px));
-}
+.nav-arrow:disabled { opacity: 0.18; cursor: not-allowed; pointer-events: none; }
+.nav-arrow.left  { left: 0; clip-path: polygon(0 0, 100% 10px, 100% calc(100% - 10px), 0 100%); }
+.nav-arrow.right { right: 0; clip-path: polygon(0 10px, 100% 0, 100% 100%, 0 calc(100% - 10px)); }
 
-/* ── PROGRESS BAR (top) ── */
-.progress-strip {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: 3px; background: var(--border); z-index: 60;
-}
-.progress-strip-fill {
-  height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  transition: width 0.4s ease; border-radius: 0 2px 2px 0;
-}
+/* ── PROGRESS BAR ── */
+.progress-strip { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--border); z-index: 60; }
+.progress-strip-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.4s ease; border-radius: 0 2px 2px 0; }
 
 /* ── THEME TOGGLE ── */
 .theme-toggle {
-  position: fixed; top: 10px; left: 12px;
-  z-index: 60; cursor: pointer;
-  background: var(--bg2);
-  border: 1px solid var(--border2);
-  color: var(--gold); font-size: 15px;
-  padding: 4px 10px; line-height: 1.6;
+  position: fixed; top: 10px; left: 12px; z-index: 60; cursor: pointer;
+  background: var(--bg2); border: 1px solid var(--border2);
+  color: var(--gold); font-size: 15px; padding: 4px 10px; line-height: 1.6;
   clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
   transition: background 0.2s, border-color 0.2s, transform 0.15s;
   user-select: none; -webkit-tap-highlight-color: transparent;
@@ -152,20 +132,14 @@ body {
 .puzzle-counter {
   position: fixed; top: 10px; right: 12px;
   font-family: 'Cinzel', serif; font-size: 11px;
-  color: var(--gold-dim); letter-spacing: 2px;
-  z-index: 60;
-  background: var(--bg2);
-  padding: 4px 10px;
+  color: var(--gold-dim); letter-spacing: 2px; z-index: 60;
+  background: var(--bg2); padding: 4px 10px;
   clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
-  border: 1px solid var(--border);
-  line-height: 1.6;
+  border: 1px solid var(--border); line-height: 1.6;
 }
-.counter-solved {
-  display: block; font-size: 10px;
-  color: var(--gold); letter-spacing: 1px;
-}
+.counter-solved { display: block; font-size: 10px; color: var(--gold); letter-spacing: 1px; }
 
-/* ── PAGE SLIDE ANIMATION ── */
+/* ── PAGE SLIDE ── */
 .page {
   max-width: 600px; width: min(600px, calc(100vw - 32px));
   margin: 0 auto; padding: 20px 16px 40px;
@@ -175,99 +149,42 @@ body {
 .page.slide-out-right { animation: slideOutRight 0.3s ease-in forwards; }
 .page.slide-in-right  { animation: slideInRight  0.3s ease-out forwards; }
 .page.slide-in-left   { animation: slideInLeft   0.3s ease-out forwards; }
-
 @keyframes slideOutLeft  { to { opacity:0; transform: translateX(-60px); } }
 @keyframes slideOutRight { to { opacity:0; transform: translateX(60px); } }
 @keyframes slideInRight  { from { opacity:0; transform: translateX(60px); } to { opacity:1; transform: translateX(0); } }
 @keyframes slideInLeft   { from { opacity:0; transform: translateX(-60px); } to { opacity:1; transform: translateX(0); } }
 
-/* ── SWIPE HINT ── */
-.swipe-hint {
-  font-size: 11px; color: var(--gold-dimmer);
-  letter-spacing: 2px; margin-top: 14px;
-  animation: fadeInUp 0.6s ease-out 1.2s both;
-}
+.swipe-hint { font-size: 11px; color: var(--gold-dimmer); letter-spacing: 2px; margin-top: 14px; animation: fadeInUp 0.6s ease-out 1.2s both; }
 
 /* ── LOADING ── */
-#loadingState {
-  padding: 100px 20px; text-align: center;
-}
-.loading-spinner {
-  width: 40px; height: 40px; border: 3px solid var(--border);
-  border-top-color: var(--gold); border-radius: 50%;
-  animation: spin 0.8s linear infinite; margin: 0 auto 20px;
-}
+#loadingState { padding: 100px 20px; text-align: center; }
+.loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.loading-text {
-  font-family: 'Cinzel', serif; color: var(--gold-hint);
-  letter-spacing: 3px; font-size: 13px;
-}
+.loading-text { font-family: 'Cinzel', serif; color: var(--gold-hint); letter-spacing: 3px; font-size: 13px; }
 
 /* ── HEADER ── */
 header { padding: 60px 10px 20px; }
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.puzzle-number {
-  font-family: 'Cinzel', serif; font-size: 14px; color: var(--gold);
-  letter-spacing: 3px; margin-bottom: 10px;
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.1s forwards;
-}
-.puzzle-date {
-  font-family: 'Cinzel', serif; font-size: clamp(20px,4vw,28px); font-weight: 700;
-  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.2s forwards;
-}
-.puzzle-author {
-  font-size: 15px; color: var(--gold); letter-spacing: 2px; margin-bottom: 10px;
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.3s forwards;
-}
-.difficulty-tag {
-  display: inline-block; padding: 5px 14px;
-  background: var(--surface3); border: 1px solid var(--gold);
-  color: var(--gold); font-size: 11px; letter-spacing: 2px;
-  clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.4s forwards;
-}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.puzzle-number { font-family: 'Cinzel', serif; font-size: 14px; color: var(--gold); letter-spacing: 3px; margin-bottom: 10px; opacity: 0; animation: fadeInUp 0.6s ease-out 0.1s forwards; }
+.puzzle-date { font-family: 'Cinzel', serif; font-size: clamp(20px,4vw,28px); font-weight: 700; background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; opacity: 0; animation: fadeInUp 0.6s ease-out 0.2s forwards; }
+.puzzle-author { font-size: 15px; color: var(--gold); letter-spacing: 2px; margin-bottom: 10px; opacity: 0; animation: fadeInUp 0.6s ease-out 0.3s forwards; }
+.difficulty-tag { display: inline-block; padding: 5px 14px; background: var(--surface3); border: 1px solid var(--gold); color: var(--gold); font-size: 11px; letter-spacing: 2px; clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px); opacity: 0; animation: fadeInUp 0.6s ease-out 0.4s forwards; }
 
 /* ── PLAYER BADGE ── */
-.player-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  margin-top: 12px; padding: 6px 14px;
-  background: var(--surface2); border: 1px solid var(--border2);
-  clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.45s forwards;
-}
-.player-badge-name { font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold); letter-spacing: 1px; }
+.player-badge { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 6px 14px; background: var(--surface2); border: 1px solid var(--border2); clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); opacity: 0; animation: fadeInUp 0.6s ease-out 0.45s forwards; }
+.player-badge-name { font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold); letter-spacing: 1px; transition: transform 0.25s ease, opacity 0.25s ease; }
 .player-badge-change { font-size: 11px; color: var(--gold-dim); cursor: pointer; text-decoration: underline; }
 .player-badge-change:hover { color: var(--gold); }
 
 /* ── TIMER BAR ── */
-.timer-bar-wrap {
-  margin: 16px 0 0;
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.5s forwards;
-}
-.timer-bar-row {
-  display: flex; align-items: center; gap: 14px; padding: 10px 18px;
-  background: var(--surface); border: 1px solid var(--border);
-  clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
-}
-.timer-display {
-  font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700;
-  color: var(--gold); letter-spacing: 2px; min-width: 56px; text-align: center;
-  transition: color 0.4s;
-}
+.timer-bar-wrap { margin: 16px 0 0; opacity: 0; animation: fadeInUp 0.6s ease-out 0.5s forwards; }
+.timer-bar-row { display: flex; align-items: center; gap: 14px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+.timer-display { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: 2px; min-width: 56px; text-align: center; transition: color 0.4s; }
 .timer-display.amber { color: #f59e0b; }
 .timer-display.danger { color: #ef4444; animation: timerPulse 0.6s ease-in-out infinite; }
 @keyframes timerPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
 .timer-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.timer-fill {
-  height: 100%; width: 0%; background: var(--gold);
-  transition: width 1s linear, background 0.5s ease; border-radius: 2px;
-}
+.timer-fill { height: 100%; width: 0%; background: var(--gold); transition: width 1s linear, background 0.5s ease; border-radius: 2px; }
 .timer-fill.amber  { background: #f59e0b; }
 .timer-fill.danger { background: #ef4444; }
 .hints-block { text-align: right; }
@@ -275,106 +192,58 @@ header { padding: 60px 10px 20px; }
 .hints-used-val { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); font-weight: 700; }
 
 /* ── CLUE ── */
-.clue {
-  margin: 28px 0; padding: 28px;
-  font-size: clamp(17px,3.5vw,21px); line-height: 1.65;
-  background: linear-gradient(135deg, var(--surface), var(--surface3));
-  border: 2px solid var(--gold);
-  clip-path: polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);
-  position: relative; overflow: hidden;
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.55s forwards;
-}
-.clue::before {
-  content: ''; position: absolute; top: -2px; left: -100%; width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, var(--gold-faint), transparent);
-  animation: shine 4s ease-in-out infinite;
-}
+.clue { margin: 28px 0; padding: 28px; font-size: clamp(17px,3.5vw,21px); line-height: 1.65; background: linear-gradient(135deg, var(--surface), var(--surface3)); border: 2px solid var(--gold); clip-path: polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px); position: relative; overflow: hidden; opacity: 0; animation: fadeInUp 0.6s ease-out 0.55s forwards; }
+.clue::before { content: ''; position: absolute; top: -2px; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, var(--gold-faint), transparent); animation: shine 4s ease-in-out infinite; }
 @keyframes shine { 0%,100%{left:-100%} 50%{left:100%} }
 
 /* ── ANSWER ROW ── */
-.answer-row {
-  display: grid; grid-template-columns: repeat(var(--letters), minmax(28px, 1fr));
-  gap: 7px; width: 100%; margin: 26px auto; padding: 0 10px;
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.6s forwards;
-}
-.cell {
-  aspect-ratio: 4/5; width: 100%; text-align: center;
-  font-size: clamp(16px,3.5vw,26px); font-weight: bold;
-  border: 3px solid var(--gold);
-  background: linear-gradient(135deg, var(--surface), var(--surface3));
-  color: var(--text); text-transform: uppercase; font-family: 'Cinzel', serif;
-  clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.cell:focus {
-  outline: none;
-  background: linear-gradient(135deg, var(--gold-faint), var(--surface3));
-  box-shadow: 0 0 18px var(--gold-hint); transform: scale(1.05);
-}
-.cell.correct {
-  background: linear-gradient(135deg, var(--surface3), var(--gold-faint));
-  border-color: var(--gold-light); animation: correctPulse 0.5s ease-out;
-}
+.answer-row { display: grid; grid-template-columns: repeat(var(--letters), minmax(28px, 1fr)); gap: 7px; width: 100%; margin: 26px auto; padding: 0 10px; opacity: 0; animation: fadeInUp 0.6s ease-out 0.6s forwards; }
+.cell { aspect-ratio: 4/5; width: 100%; text-align: center; font-size: clamp(16px,3.5vw,26px); font-weight: bold; border: 3px solid var(--gold); background: linear-gradient(135deg, var(--surface), var(--surface3)); color: var(--text); text-transform: uppercase; font-family: 'Cinzel', serif; clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px); transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent; }
+.cell:focus { outline: none; background: linear-gradient(135deg, var(--gold-faint), var(--surface3)); box-shadow: 0 0 18px var(--gold-hint); transform: scale(1.05); }
+.cell.correct { background: linear-gradient(135deg, var(--surface3), var(--gold-faint)); border-color: var(--gold-light); animation: correctPulse 0.5s ease-out; }
 @keyframes correctPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
-
-/* ── SHAKE (wrong answer) ── */
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  15%     { transform: translateX(-6px); }
-  30%     { transform: translateX(6px); }
-  45%     { transform: translateX(-5px); }
-  60%     { transform: translateX(5px); }
-  75%     { transform: translateX(-3px); }
-  90%     { transform: translateX(3px); }
-}
-.cell.wrong {
-  border-color: #ef4444;
-  background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.25));
-  animation: shake 0.5s ease-out;
-}
+@keyframes shake { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-6px)} 30%{transform:translateX(6px)} 45%{transform:translateX(-5px)} 60%{transform:translateX(5px)} 75%{transform:translateX(-3px)} 90%{transform:translateX(3px)} }
+.cell.wrong { border-color: #ef4444; background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.25)); animation: shake 0.5s ease-out; }
 
 /* ── TOAST ── */
-.toast {
-  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: var(--bg2); border: 1.5px solid var(--gold);
-  color: var(--text); font-family: 'Raleway', sans-serif; font-size: 14px;
-  padding: 13px 26px; letter-spacing: 1px; z-index: 800;
-  clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  white-space: nowrap;
-}
+.toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--bg2); border: 1.5px solid var(--gold); color: var(--text); font-family: 'Raleway', sans-serif; font-size: 14px; padding: 13px 26px; letter-spacing: 1px; z-index: 800; clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; white-space: nowrap; }
 .toast.toast-error  { border-color: #ef4444; color: #ef4444; }
 .toast.toast-warn   { border-color: #f59e0b; color: #f59e0b; }
-.toast.show {
-  opacity: 1; transform: translateX(-50%) translateY(0);
-}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ── HINT BUTTONS ── */
-.hint-buttons {
-  margin-top: 26px; display: flex; justify-content: center;
-  gap: 10px; flex-wrap: wrap;
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.65s forwards;
-}
-.hint-buttons button {
-  padding: 11px 22px; background: transparent; border: 2px solid var(--gold);
-  color: var(--gold); font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 13px;
-  cursor: pointer;
-  clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
-  transition: all 0.3s ease; letter-spacing: 1px; position: relative; overflow: hidden;
-}
-.hint-buttons button::before {
-  content: ''; position: absolute; top: 50%; left: 50%;
-  width: 0; height: 0; background: var(--gold); border-radius: 50%;
-  transform: translate(-50%,-50%); transition: width 0.4s, height 0.4s;
-}
-.hint-buttons button:hover::before { width: 300px; height: 300px; }
-.hint-buttons button:hover { color: var(--bg); }
+.hint-buttons { margin-top: 26px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; opacity: 0; animation: fadeInUp 0.6s ease-out 0.65s forwards; }
+.hint-buttons button { padding: 11px 22px; background: transparent; border: 2px solid var(--gold); color: var(--gold); font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px); transition: all 0.3s ease; letter-spacing: 1px; position: relative; overflow: hidden; }
+.hint-buttons button::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: var(--gold); border-radius: 50%; transform: translate(-50%,-50%); transition: width 0.4s, height 0.4s; }
+.hint-buttons button:hover:not(:disabled)::before { width: 300px; height: 300px; }
+.hint-buttons button:hover:not(:disabled) { color: var(--bg); }
 .hint-buttons button span { position: relative; z-index: 1; }
 .hint-buttons button.used { opacity: 0.45; border-color: var(--border2); }
 
-/* ── HINT OUTPUT ── */
+/* ── EXPLANATION BUTTON (special state) ── */
+#explainBtn {
+  /* locked state */
+  border-color: var(--border2);
+  color: var(--gold-dimmer);
+  cursor: not-allowed;
+  min-width: 200px;
+}
+#explainBtn.unlocked {
+  border-color: var(--gold);
+  color: var(--gold);
+  cursor: pointer;
+  animation: explainPulse 2s ease-in-out 3;
+}
+@keyframes explainPulse {
+  0%,100% { box-shadow: none; }
+  50%     { box-shadow: 0 0 16px rgba(212,175,55,0.45); }
+}
+#explainBtn.unlocked::before { display: block; }
+#explainBtn:disabled::before { display: none; }
+#explainBtn.used { opacity: 0.45; border-color: var(--border2); cursor: default; }
+#explainBtn:disabled { opacity: 0.6; }
+
+/* ── HINT / EXPLANATION OUTPUT ── */
 .hint-output {
   margin: 18px 0; padding: 18px;
   background: linear-gradient(135deg, var(--surface2), var(--surface3));
@@ -382,39 +251,36 @@ header { padding: 60px 10px 20px; }
   clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
   font-size: 15px; color: var(--text); display: none;
   animation: slideDown 0.3s ease-out;
+  text-align: left; line-height: 1.7;
 }
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Explanation output gets a slightly different accent */
+.explain-output {
+  margin: 18px 0; padding: 20px 22px;
+  background: linear-gradient(135deg, var(--surface2), var(--surface3));
+  border: 2px solid var(--gold);
+  clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+  font-size: 14px; color: var(--text); display: none;
+  animation: slideDown 0.3s ease-out;
+  text-align: left; line-height: 1.8;
 }
+.explain-output-label {
+  font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px;
+  color: var(--gold); margin-bottom: 10px; display: block;
+  text-transform: uppercase;
+}
+.explain-output-text { color: var(--text-dim); }
 
 /* ── CHECK BUTTON ── */
-.controls {
-  margin: 36px 0 16px;
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.7s forwards;
-}
-.check-btn {
-  padding: 16px 50px; background: var(--gold); color: var(--bg); border: none;
-  font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 17px;
-  cursor: pointer;
-  clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
-  transition: all 0.3s; letter-spacing: 2px; position: relative; overflow: hidden;
-}
-.check-btn::before {
-  content: ''; position: absolute; top: 50%; left: 50%;
-  width: 0; height: 0; background: var(--gold-light); border-radius: 50%;
-  transform: translate(-50%,-50%); transition: width 0.5s, height 0.5s;
-}
+.controls { margin: 36px 0 16px; opacity: 0; animation: fadeInUp 0.6s ease-out 0.7s forwards; }
+.check-btn { padding: 16px 50px; background: var(--gold); color: var(--bg); border: none; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 17px; cursor: pointer; clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px); transition: all 0.3s; letter-spacing: 2px; position: relative; overflow: hidden; }
+.check-btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: var(--gold-light); border-radius: 50%; transform: translate(-50%,-50%); transition: width 0.5s, height 0.5s; }
 .check-btn:hover::before { width: 400px; height: 400px; }
 .check-btn span { position: relative; z-index: 1; }
 
 /* ── BACK LINK ── */
-.back-link {
-  display: inline-block; margin-top: 20px; font-size: 13px;
-  color: var(--gold-dim); text-decoration: none; letter-spacing: 1px;
-  transition: color 0.2s;
-  opacity: 0; animation: fadeInUp 0.6s ease-out 0.75s forwards;
-}
+.back-link { display: inline-block; margin-top: 20px; font-size: 13px; color: var(--gold-dim); text-decoration: none; letter-spacing: 1px; transition: color 0.2s; opacity: 0; animation: fadeInUp 0.6s ease-out 0.75s forwards; }
 .back-link:hover { color: var(--gold); }
 
 /* ── CLUE HIGHLIGHTS ── */
@@ -426,81 +292,49 @@ html.light .highlight-fodder    { color: #be185d; text-shadow: none; }
 html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
 /* ── SUCCESS MODAL ── */
-.success-modal {
-  position: fixed; inset: 0; background: var(--modal-bg);
-  display: none; align-items: center; justify-content: center;
-  z-index: 1000; padding: 20px; animation: modalFadeIn 0.3s ease-out;
-}
+.success-modal { position: fixed; inset: 0; background: var(--modal-bg); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; animation: modalFadeIn 0.3s ease-out; overflow-y: auto; }
 @keyframes modalFadeIn { from{opacity:0} to{opacity:1} }
-.success-content {
-  background: linear-gradient(135deg, var(--surface3), var(--surface));
-  border: 3px solid var(--gold); padding: 48px 38px; max-width: 480px; width: 100%;
-  clip-path: polygon(28px 0,100% 0,100% calc(100% - 28px),calc(100% - 28px) 100%,0 100%,0 28px);
-  text-align: center; animation: successSlideUp 0.5s ease-out;
-}
-@keyframes successSlideUp {
-  from { opacity:0; transform:translateY(30px) scale(0.9); }
-  to   { opacity:1; transform:translateY(0) scale(1); }
-}
+.success-content { background: linear-gradient(135deg, var(--surface3), var(--surface)); border: 3px solid var(--gold); padding: 48px 38px; max-width: 480px; width: 100%; clip-path: polygon(28px 0,100% 0,100% calc(100% - 28px),calc(100% - 28px) 100%,0 100%,0 28px); text-align: center; animation: successSlideUp 0.5s ease-out; }
+@keyframes successSlideUp { from { opacity:0; transform:translateY(30px) scale(0.9); } to { opacity:1; transform:translateY(0) scale(1); } }
 .success-icon  { font-size: 72px; margin-bottom: 18px; animation: successPulse 1s ease-in-out infinite; }
 @keyframes successPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
-.success-title {
-  font-family: 'Cinzel', serif; font-size: 32px; color: var(--gold);
-  margin-bottom: 14px; letter-spacing: 3px;
-}
+.success-title { font-family: 'Cinzel', serif; font-size: 32px; color: var(--gold); margin-bottom: 14px; letter-spacing: 3px; }
 .success-player { font-size: 16px; color: var(--text-dim); margin-bottom: 6px; }
-.success-answer {
-  font-family: 'Cinzel', serif; font-size: 26px; color: var(--gold-light);
-  margin-bottom: 8px; letter-spacing: 4px;
-}
+.success-answer { font-family: 'Cinzel', serif; font-size: 26px; color: var(--gold-light); margin-bottom: 8px; letter-spacing: 4px; }
 .success-meta  { font-size: 14px; color: var(--gold-dim); letter-spacing: 1px; margin-bottom: 24px; }
-.success-recorded {
-  font-size: 13px; color: var(--gold); padding: 9px 14px;
-  border: 1px solid var(--border2); margin-bottom: 22px;
-  clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
-}
-.success-btns {
-  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
-}
-.next-btn {
-  padding: 14px 30px; background: var(--gold); color: var(--bg); border: none;
-  font-family: 'Cinzel', serif; font-weight: 700; font-size: 15px;
-  letter-spacing: 2px; cursor: pointer;
+.success-recorded { font-size: 13px; color: var(--gold); padding: 9px 14px; border: 1px solid var(--border2); margin-bottom: 22px; clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); }
+
+/* Explanation inside success modal */
+.success-explanation {
+  margin: 0 0 24px;
+  padding: 18px 20px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
   clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
-  transition: background 0.2s; flex: 1; min-width: 160px;
+  text-align: left;
 }
+.success-explanation-label {
+  font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 2px;
+  color: var(--gold); margin-bottom: 8px; display: block; text-transform: uppercase;
+}
+.success-explanation-text {
+  font-size: 13px; color: var(--text-dim); line-height: 1.75;
+}
+
+.success-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.next-btn { padding: 14px 30px; background: var(--gold); color: var(--bg); border: none; font-family: 'Cinzel', serif; font-weight: 700; font-size: 15px; letter-spacing: 2px; cursor: pointer; clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px); transition: background 0.2s; flex: 1; min-width: 160px; }
 .next-btn:hover { background: var(--gold-light); }
-.next-btn.secondary {
-  background: transparent; border: 2px solid var(--gold); color: var(--gold);
-}
+.next-btn.secondary { background: transparent; border: 2px solid var(--gold); color: var(--gold); }
 .next-btn.secondary:hover { background: var(--surface2); }
 
 /* ── ABANDON CONFIRM MODAL ── */
-.confirm-modal {
-  position: fixed; inset: 0; background: var(--modal-bg2);
-  display: none; align-items: center; justify-content: center;
-  z-index: 900; padding: 20px;
-}
+.confirm-modal { position: fixed; inset: 0; background: var(--modal-bg2); display: none; align-items: center; justify-content: center; z-index: 900; padding: 20px; }
 .confirm-modal.show { display: flex; animation: modalFadeIn 0.2s ease-out; }
-.confirm-card {
-  background: var(--bg3); border: 2px solid var(--gold);
-  padding: 36px 30px; max-width: 360px; width: 100%; text-align: center;
-  clip-path: polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
-  animation: successSlideUp 0.3s ease-out;
-}
-.confirm-title {
-  font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold);
-  letter-spacing: 2px; margin-bottom: 12px;
-}
+.confirm-card { background: var(--bg3); border: 2px solid var(--gold); padding: 36px 30px; max-width: 360px; width: 100%; text-align: center; clip-path: polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px); animation: successSlideUp 0.3s ease-out; }
+.confirm-title { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); letter-spacing: 2px; margin-bottom: 12px; }
 .confirm-text { font-size: 14px; color: var(--text-dimmer); margin-bottom: 26px; line-height: 1.6; }
 .confirm-btns { display: flex; gap: 10px; justify-content: center; }
-.confirm-btn {
-  padding: 11px 24px; border: 2px solid var(--gold); color: var(--gold);
-  background: transparent; font-family: 'Raleway', sans-serif; font-weight: 600;
-  font-size: 13px; letter-spacing: 1px; cursor: pointer;
-  clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
-  transition: all 0.2s;
-}
+.confirm-btn { padding: 11px 24px; border: 2px solid var(--gold); color: var(--gold); background: transparent; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 1px; cursor: pointer; clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px); transition: all 0.2s; }
 .confirm-btn.yes { background: var(--gold); color: var(--bg); }
 .confirm-btn.yes:hover { background: var(--gold-light); }
 .confirm-btn.no:hover { background: var(--surface2); }
@@ -517,6 +351,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .cell       { border-width: 2px; }
   .hint-buttons button { padding: 9px 16px; font-size: 12px; }
   .hint-buttons button::before { display: none; }
+  #explainBtn { min-width: 160px; }
   .check-btn  { padding: 13px 36px; font-size: 15px; width: 100%; }
   .success-content { padding: 36px 24px; }
   .nav-arrow  { width: 36px; height: 60px; font-size: 16px; }
@@ -525,49 +360,35 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .particle { display: none; }
 }
-.player-badge-name {
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-.player-badge {
-  transform: translateZ(0); 
-}
 </style>
 </head>
 <body>
 
 <div class="bg-pattern"></div>
-
-<!-- Toast notification -->
 <div class="toast" id="toast"></div>
 
-<!-- Theme toggle -->
 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" onclick="toggleTheme()">☀️</button>
 
-<!-- Progress bar -->
 <div class="progress-strip"><div class="progress-strip-fill" id="progressFill"></div></div>
 
-<!-- Puzzle counter -->
 <div class="puzzle-counter" id="puzzleCounter">
   <span id="counterPos"></span>
   <span class="counter-solved" id="counterSolved"></span>
 </div>
 
-<!-- Floating nav arrows -->
 <button class="nav-arrow left"  id="navLeft"  aria-label="Previous puzzle">&#8249;</button>
 <button class="nav-arrow right" id="navRight" aria-label="Next puzzle">&#8250;</button>
 
 <div class="page" id="mainPage">
-  <!-- Loading state -->
   <div id="loadingState">
     <div class="loading-spinner"></div>
     <div class="loading-text">LOADING PUZZLE</div>
   </div>
 
-  <!-- Puzzle content (hidden until data loads) -->
   <div id="puzzleContent" style="display:none">
     <header>
-      <div class="puzzle-date"> Cryptic Clues</div>
-      <div class="puzzle-author"> Miniature Turing Tests </div>
+      <div class="puzzle-date">Cryptic Clues</div>
+      <div class="puzzle-author">Miniature Turing Tests</div>
       <div class="difficulty-tag" id="puzzleDifficulty"></div>
       <div class="player-badge" id="playerBadge">
         <span class="player-badge-name" id="playerBadgeName"></span>
@@ -594,9 +415,17 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
       <button id="defBtn"><span>DEFINITION</span></button>
       <button id="fodderBtn"><span>FODDER</span></button>
       <button id="indicatorBtn"><span>INDICATOR</span></button>
+      <!-- Explanation button — always rendered, starts locked -->
+      <button id="explainBtn" disabled aria-label="Explanation locked">
+        <span id="explainBtnLabel">EXPLANATION 3:00</span>
+      </button>
     </div>
 
-    <div class="hint-output" id="hintOutput"></div>
+    <div class="hint-output"   id="hintOutput"></div>
+    <div class="explain-output" id="explainOutput">
+      <span class="explain-output-label">How to think about this clue</span>
+      <div class="explain-output-text" id="explainOutputText"></div>
+    </div>
 
     <div class="controls">
       <button class="check-btn" id="checkBtn"><span>CHECK ANSWER</span></button>
@@ -617,6 +446,11 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     <div class="success-answer" id="successAnswer"></div>
     <div class="success-meta"   id="successMeta"></div>
     <div class="success-recorded" id="successRecorded" style="display:none"></div>
+    <!-- Explanation shown after solve -->
+    <div class="success-explanation" id="successExplanation" style="display:none">
+      <span class="success-explanation-label">How this clue works</span>
+      <div class="success-explanation-text" id="successExplanationText"></div>
+    </div>
     <div class="success-btns">
       <button class="next-btn" id="nextPuzzleBtn" onclick="goNext()">NEXT PUZZLE →</button>
       <button class="next-btn secondary" onclick="goBack()">ALL PUZZLES</button>
@@ -640,14 +474,14 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 /* ============================================================
    CONSTANTS
 ============================================================ */
-
-  const EDGE_URL  = "https://yellow-lab-4999.andrewveda.workers.dev/functions/v1/logQuest"; 
-const NAME_KEY  = "questPlayerName";
-const DEPT_KEY  = "questPlayerDept";
-const SOLVED_KEY = "crypticSolvedIds"; // comma-separated solved puzzle IDs
+const EDGE_URL   = "https://yellow-lab-4999.andrewveda.workers.dev/functions/v1/logQuest";
+const NAME_KEY   = "questPlayerName";
+const DEPT_KEY   = "questPlayerDept";
+const SOLVED_KEY = "crypticSolvedIds";
 const THEME_KEY  = "crypticTheme";
+const EXPLAIN_UNLOCK_SECS = 180; // 3 minutes
 
-/* ── THEME TOGGLE ── */
+/* ── THEME ── */
 function applyTheme(theme) {
   if (theme === 'light') {
     document.documentElement.classList.add('light');
@@ -663,7 +497,6 @@ function toggleTheme() {
   localStorage.setItem(THEME_KEY, next);
   applyTheme(next);
 }
-// Apply saved theme immediately
 applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
 
 /* ── TOAST ── */
@@ -672,7 +505,7 @@ function showToast(msg, type = '', duration = 2200) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.className = 'toast' + (type ? ' toast-' + type : '');
-  void el.offsetWidth; // reflow to restart transition
+  void el.offsetWidth;
   el.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('show'), duration);
@@ -685,27 +518,26 @@ function getSolvedIds() {
 }
 function markSolved(id) {
   const ids = getSolvedIds();
-  if (!ids.includes(id)) {
-    ids.push(id);
-    localStorage.setItem(SOLVED_KEY, ids.join(','));
-  }
+  if (!ids.includes(id)) { ids.push(id); localStorage.setItem(SOLVED_KEY, ids.join(',')); }
 }
 function isSolved(id) { return getSolvedIds().includes(id); }
 
-let allPuzzles  = [];   // sorted newest→oldest
+/* ── STATE ── */
+let allPuzzles  = [];
 let puzzle      = null;
-let currentIdx  = 0;    // index in allPuzzles
+let currentIdx  = 0;
 let rawClue     = '';
 let hintsUsed   = 0;
 let startTime   = null;
 let timerHandle = null;
+let explainCountdownHandle = null;
 let solved      = false;
+let explainUnlocked = false;
+let explainShown    = false;
 const hintUsed  = { def: false, fodder: false, indicator: false };
 
-// Swipe tracking
-let touchStartX = 0;
-let touchStartY = 0;
-let pendingNavDir = null; // 'prev' | 'next'
+let touchStartX = 0, touchStartY = 0;
+let pendingNavDir = null;
 
 /* ============================================================
    INIT
@@ -713,13 +545,10 @@ let pendingNavDir = null; // 'prev' | 'next'
 (async function init() {
   const id = parseInt(new URLSearchParams(window.location.search).get('id'));
   if (!id) return showError('No puzzle ID specified.');
-
   try {
     const res  = await fetch('/cryptic/puzzles/puzzles.json');
     allPuzzles = await res.json();
-    // Sort newest→oldest (descending id)
     allPuzzles.sort((a, b) => b.id - a.id);
-
     const idx = allPuzzles.findIndex(p => p.id === id);
     if (idx === -1) return showError(`Puzzle #${id} not found.`);
     currentIdx = idx;
@@ -743,34 +572,25 @@ function updateNavUI() {
   const total = allPuzzles.length;
   document.getElementById('navLeft').disabled  = currentIdx <= 0;
   document.getElementById('navRight').disabled = currentIdx >= total - 1;
-
   document.getElementById('counterPos').textContent = `${currentIdx + 1} / ${total}`;
   const solvedCount = getSolvedIds().filter(id => allPuzzles.some(p => p.id === id)).length;
   document.getElementById('counterSolved').textContent = solvedCount > 0 ? `✓ ${solvedCount} solved` : '';
-
   const pct = total <= 1 ? 100 : ((currentIdx) / (total - 1)) * 100;
   document.getElementById('progressFill').style.width = pct + '%';
-
   const nextBtn = document.getElementById('nextPuzzleBtn');
   if (nextBtn) nextBtn.style.display = currentIdx >= total - 1 ? 'none' : '';
 }
 
 /* ============================================================
-   NAVIGATION — with abandon guard
+   NAVIGATION
 ============================================================ */
 function tryNavigate(dir) {
-  // dir: 'prev' (left, newer puzzle) | 'next' (right, older puzzle)
   const newIdx = dir === 'prev' ? currentIdx - 1 : currentIdx + 1;
   if (newIdx < 0 || newIdx >= allPuzzles.length) return;
-
   if (!solved && startTime) {
-    // User has started but not solved — warn
     pendingNavDir = dir;
     document.getElementById('confirmModal').classList.add('show');
-    document.getElementById('confirmYes').onclick = () => {
-      closeConfirm();
-      navigate(pendingNavDir);
-    };
+    document.getElementById('confirmYes').onclick = () => { closeConfirm(); navigate(pendingNavDir); };
   } else {
     navigate(dir);
   }
@@ -784,12 +604,9 @@ function closeConfirm() {
 function navigate(dir) {
   const newIdx = dir === 'prev' ? currentIdx - 1 : currentIdx + 1;
   if (newIdx < 0 || newIdx >= allPuzzles.length) return;
-
-  // Slide animation
   const page = document.getElementById('mainPage');
   const outClass = dir === 'next' ? 'slide-out-left' : 'slide-out-right';
   const inClass  = dir === 'next' ? 'slide-in-right' : 'slide-in-left';
-
   page.classList.add(outClass);
   setTimeout(() => {
     page.classList.remove(outClass);
@@ -798,7 +615,6 @@ function navigate(dir) {
     resetPuzzleState();
     rebuildPuzzle();
     updateNavUI();
-    // Update URL without reload
     const newUrl = `${window.location.pathname}?id=${puzzle.id}`;
     history.pushState({ id: puzzle.id }, '', newUrl);
     page.classList.add(inClass);
@@ -812,46 +628,42 @@ function goNext() {
 }
 
 /* ============================================================
-   RESET STATE (between puzzles)
+   RESET STATE
 ============================================================ */
 function resetPuzzleState() {
   hintsUsed = 0;
   startTime = null;
   solved    = false;
+  explainUnlocked = false;
+  explainShown    = false;
   hintUsed.def = hintUsed.fodder = hintUsed.indicator = false;
   stopTimer();
-  document.getElementById('hintOutput').style.display = 'none';
-  document.getElementById('successModal').style.display = 'none';
+  stopExplainCountdown();
+  document.getElementById('hintOutput').style.display    = 'none';
+  document.getElementById('explainOutput').style.display = 'none';
+  document.getElementById('successModal').style.display  = 'none';
 }
 
 function rebuildPuzzle() {
-  // Clear answer row
   document.getElementById('answerRow').innerHTML = '';
-  // Re-populate
   populatePuzzleData();
 }
 
 /* ============================================================
-   BUILD PUZZLE UI (first load)
+   BUILD PUZZLE UI
 ============================================================ */
 function buildPuzzle() {
   populatePuzzleData();
-
-  // Hint buttons
   document.getElementById('defBtn').onclick       = () => showHint('def');
   document.getElementById('fodderBtn').onclick    = () => showHint('fodder');
   document.getElementById('indicatorBtn').onclick = () => showHint('indicator');
+  document.getElementById('explainBtn').onclick   = showExplanation;
   document.getElementById('checkBtn').onclick     = checkAnswer;
-
-  // Show puzzle, hide loader
   document.getElementById('loadingState').style.display  = 'none';
   document.getElementById('puzzleContent').style.display = 'block';
-
   createParticles();
   setupSwipe();
   setupKeyboard();
-
-  // Nav arrow clicks
   document.getElementById('navLeft').onclick  = () => tryNavigate('prev');
   document.getElementById('navRight').onclick = () => tryNavigate('next');
 }
@@ -864,7 +676,6 @@ function populatePuzzleData() {
   clueEl.textContent = puzzle.clue;
   rawClue = puzzle.clue;
 
-  // Reset hint button states
   ['defBtn','fodderBtn','indicatorBtn'].forEach(id => {
     document.getElementById(id).classList.remove('used');
   });
@@ -874,6 +685,13 @@ function populatePuzzleData() {
   document.getElementById('timerDisplay').classList.remove('amber','danger');
   document.getElementById('timerFill').classList.remove('amber','danger');
 
+  // Reset explanation button
+  const explainBtn   = document.getElementById('explainBtn');
+  const explainLabel = document.getElementById('explainBtnLabel');
+  explainBtn.disabled = true;
+  explainBtn.classList.remove('unlocked','used');
+  explainLabel.textContent = 'EXPLANATION 3:00';
+
   // Answer cells
   const letters = puzzle.answer.replace(/\s/g,'').length;
   document.documentElement.style.setProperty('--letters', letters);
@@ -881,9 +699,9 @@ function populatePuzzleData() {
   row.innerHTML = '';
   puzzle.answer.replace(/\s/g,'').split('').forEach((_, i) => {
     const inp = document.createElement('input');
-    inp.className  = 'cell';
-    inp.type       = 'text';
-    inp.maxLength  = 1;
+    inp.className = 'cell';
+    inp.type      = 'text';
+    inp.maxLength = 1;
     inp.style.animationDelay = `${0.6 + i * 0.04}s`;
     row.appendChild(inp);
   });
@@ -898,7 +716,6 @@ function populatePuzzleData() {
         if (i < cells.length - 1) {
           cells[i + 1].focus();
         } else {
-          // Last cell filled — auto-submit
           cell.blur();
           setTimeout(checkAnswer, 80);
         }
@@ -913,59 +730,42 @@ function populatePuzzleData() {
   });
   if (cells.length) cells[0].focus();
 
-  // Player badge
   const name = localStorage.getItem(NAME_KEY) || 'Guest';
   const dept = localStorage.getItem(DEPT_KEY) || '';
-  const badge = document.getElementById('playerBadgeName');
-  badge.textContent = `👤 ${name}${dept ? ' · ' + dept : ''}`;
+  document.getElementById('playerBadgeName').textContent = `👤 ${name}${dept ? ' · ' + dept : ''}`;
 }
 
 /* ============================================================
-   SWIPE SUPPORT
+   SWIPE & KEYBOARD
 ============================================================ */
 function setupSwipe() {
   const el = document.getElementById('mainPage');
-
   el.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].clientX;
     touchStartY = e.changedTouches[0].clientY;
   }, { passive: true });
-
   el.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - touchStartX;
     const dy = e.changedTouches[0].clientY - touchStartY;
-    // Only trigger if horizontal movement > 60px and more horizontal than vertical
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-      if (dx < 0) {
-        tryNavigate('next'); // swipe left → older puzzle
-      } else {
-        tryNavigate('prev'); // swipe right → newer puzzle
-      }
+      dx < 0 ? tryNavigate('next') : tryNavigate('prev');
     }
   }, { passive: true });
 }
 
-/* ============================================================
-   KEYBOARD NAVIGATION
-============================================================ */
 function setupKeyboard() {
   document.addEventListener('keydown', e => {
-    // Only trigger if no cell is focused (to avoid interfering with typing)
-    const active = document.activeElement;
-    const isCell = active && active.classList.contains('cell');
+    const isCell = document.activeElement && document.activeElement.classList.contains('cell');
     if (isCell) return;
-
     if (e.key === 'ArrowLeft')  tryNavigate('prev');
     if (e.key === 'ArrowRight') tryNavigate('next');
   });
 }
 
-// Handle browser back/forward
 window.addEventListener('popstate', e => {
   if (e.state && e.state.id) {
     const idx = allPuzzles.findIndex(p => p.id === e.state.id);
     if (idx !== -1 && idx !== currentIdx) {
-      const dir = idx > currentIdx ? 'next' : 'prev';
       currentIdx = idx;
       puzzle = allPuzzles[idx];
       resetPuzzleState();
@@ -982,8 +782,11 @@ function startTimer() {
   if (startTime) return;
   startTime   = Date.now();
   timerHandle = setInterval(tickTimer, 1000);
+  // Start the explanation countdown from this moment
+  startExplainCountdown();
 }
 function stopTimer() { clearInterval(timerHandle); timerHandle = null; }
+
 function tickTimer() {
   const elapsed = getElapsed();
   const m = Math.floor(elapsed / 60), s = elapsed % 60;
@@ -1000,56 +803,117 @@ function tickTimer() {
 function getElapsed() { return startTime ? Math.round((Date.now() - startTime) / 1000) : 0; }
 
 /* ============================================================
+   EXPLANATION COUNTDOWN
+============================================================ */
+function startExplainCountdown() {
+  if (explainUnlocked) return;
+  stopExplainCountdown();
+
+  const countdownStart = Date.now();
+
+  explainCountdownHandle = setInterval(() => {
+    const elapsed = Math.round((Date.now() - countdownStart) / 1000);
+    const remaining = EXPLAIN_UNLOCK_SECS - elapsed;
+
+    if (remaining <= 0) {
+      unlockExplanation();
+      return;
+    }
+
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    const label = document.getElementById('explainBtnLabel');
+    if (label) label.textContent = `EXPLANATION ${m}:${s < 10 ? '0' : ''}${s}`;
+  }, 1000);
+}
+
+function stopExplainCountdown() {
+  clearInterval(explainCountdownHandle);
+  explainCountdownHandle = null;
+}
+
+function unlockExplanation() {
+  stopExplainCountdown();
+  explainUnlocked = true;
+
+  const explainBtn   = document.getElementById('explainBtn');
+  const explainLabel = document.getElementById('explainBtnLabel');
+  explainBtn.disabled = false;
+  explainBtn.classList.add('unlocked');
+  explainLabel.textContent = 'EXPLANATION';
+
+  showToast('Explanation unlocked!', '', 2500);
+}
+
+/* ============================================================
+   SHOW EXPLANATION (inline)
+============================================================ */
+function showExplanation() {
+  if (!explainUnlocked) return;
+
+  const text = puzzle.explanation || 'No explanation available for this puzzle.';
+
+  const outputEl   = document.getElementById('explainOutput');
+  const outputText = document.getElementById('explainOutputText');
+  outputText.textContent = text;
+  outputEl.style.display = 'block';
+
+  explainShown = true;
+
+  // Mark button as used
+  const explainBtn = document.getElementById('explainBtn');
+  explainBtn.classList.add('used');
+  explainBtn.classList.remove('unlocked');
+  explainBtn.disabled = true;
+  document.getElementById('explainBtnLabel').textContent = 'EXPLANATION';
+
+  // Scroll into view gently
+  outputEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* ============================================================
    HINTS
 ============================================================ */
 function showHint(type) {
   if (!startTime && !solved) startTimer();
-
   const map = {
     def:       { label: 'Definition',  text: puzzle.definition,  btn: 'defBtn' },
     fodder:    { label: 'Fodder',      text: puzzle.fodder,      btn: 'fodderBtn' },
     indicator: { label: 'Indicator',   text: puzzle.indicator,   btn: 'indicatorBtn' }
   };
   const { label, text, btn } = map[type];
-
   if (!hintUsed[type]) {
     hintUsed[type] = true;
     hintsUsed++;
     document.getElementById('hintsUsedVal').textContent = hintsUsed;
     document.getElementById(btn).classList.add('used');
   }
-
   document.getElementById('hintOutput').style.display = 'block';
   document.getElementById('hintOutput').textContent   = `${label}: ${text}`;
   highlightClue(text, `highlight-${type === 'def' ? 'def' : type === 'fodder' ? 'fodder' : 'indicator'}`);
 }
 
-const SKIP_WORDS = new Set();
+/* ============================================================
+   CLUE HIGHLIGHT
+============================================================ */
+const SKIP_WORDS = new Set(['a','an','the','in','of','at','to','for','and','or','with','by','on','as','is','it','its','be','my','his','her','our','your','their','from','up','but','so','if','no','not','do']);
+
 function highlightClue(target, cls) {
   const el = document.getElementById('puzzleClue');
-
-  // First try exact consecutive match
   const escFull = target.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const fullMatch = new RegExp(escFull, 'i').test(rawClue);
-
   if (fullMatch) {
     el.innerHTML = rawClue.replace(new RegExp(escFull, 'i'), `<span class="${cls}">$&</span>`);
     return;
   }
-
-  // Scattered: highlight each meaningful word individually
   const words = target.trim().split(/\s+/).filter(w => {
     const clean = w.replace(/[^a-zA-Z]/g, '').toLowerCase();
     return clean.length > 1 && !SKIP_WORDS.has(clean);
   });
-
   let html = rawClue;
   words.forEach(word => {
     const escWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    html = html.replace(
-      new RegExp(`\\b${escWord}\\b`, 'gi'),
-      `<span class="${cls}">$&</span>`
-    );
+    html = html.replace(new RegExp(`\\b${escWord}\\b`, 'gi'), `<span class="${cls}">$&</span>`);
   });
   el.innerHTML = html;
 }
@@ -1062,39 +926,45 @@ function checkAnswer() {
   const cells  = document.querySelectorAll('.cell');
   const guess  = Array.from(cells).map(c => c.value).join('');
   const target = puzzle.answer.replace(/\s/g, '');
-
-  if (guess.length < target.length) {
-    showToast('Fill in all the letters first!', 'warn');
-    return;
-  }
-
+  if (guess.length < target.length) { showToast('Fill in all the letters first!', 'warn'); return; }
   if (guess === target) {
     solved = true;
     stopTimer();
+    stopExplainCountdown();
     markSolved(puzzle.id);
     updateNavUI();
     cells.forEach(c => c.classList.add('correct'));
+    // Reveal explanation inline if not already shown
+    if (!explainShown) {
+      const text = puzzle.explanation || 'No explanation available for this puzzle.';
+      const outputEl   = document.getElementById('explainOutput');
+      const outputText = document.getElementById('explainOutputText');
+      outputText.textContent = text;
+      outputEl.style.display = 'block';
+      explainShown = true;
+    }
+    // Also disable/hide the explanation button now (no longer needed)
+    const explainBtn = document.getElementById('explainBtn');
+    explainBtn.disabled = true;
+    explainBtn.classList.remove('unlocked');
+    document.getElementById('explainBtnLabel').textContent = 'EXPLANATION';
     setTimeout(showSuccess, 600);
   } else {
-    // Shake + flash red, then clear and refocus
     cells.forEach(c => {
       c.classList.remove('wrong');
-      void c.offsetWidth; // reflow to restart animation
+      void c.offsetWidth;
       c.classList.add('wrong');
     });
     showToast('Not quite — try again!', 'error');
     setTimeout(() => {
-      cells.forEach(c => {
-        c.classList.remove('wrong');
-        c.value = '';
-      });
+      cells.forEach(c => { c.classList.remove('wrong'); c.value = ''; });
       cells[0].focus();
     }, 520);
   }
 }
 
 /* ============================================================
-   SUCCESS + SUPABASE SUBMIT
+   SUCCESS + SUBMIT
 ============================================================ */
 function showSuccess() {
   const elapsed = getElapsed();
@@ -1107,7 +977,17 @@ function showSuccess() {
   document.getElementById('successMeta').textContent    =
     `⏱ ${timeStr}  ·  💡 ${hintsUsed} hint${hintsUsed !== 1 ? 's' : ''} used`;
 
-  // Update next button visibility
+  // Populate explanation in modal
+  const explanationText = puzzle.explanation || '';
+  const successExp      = document.getElementById('successExplanation');
+  const successExpText  = document.getElementById('successExplanationText');
+  if (explanationText) {
+    successExpText.textContent = explanationText;
+    successExp.style.display   = 'block';
+  } else {
+    successExp.style.display   = 'none';
+  }
+
   updateNavUI();
 
   fetch(EDGE_URL, {
@@ -1133,12 +1013,7 @@ function showSuccess() {
 
 function goBack() { window.location.href = '../index.html'; }
 
-/* ============================================================
-   CHANGE NAME
-============================================================ */
-function changeName() {
-  window.location.href = "../index.html";
-}
+function changeName() { window.location.href = "../index.html"; }
 
 /* ============================================================
    PARTICLES
