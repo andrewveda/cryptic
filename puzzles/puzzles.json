@@ -1,5 +1,17 @@
 [
 {
+    "id": 118,
+    "clue": "Shy? Left behind, that is, half of gold for protection (6)",
+    "answer": "SHIELD",
+    "definition": "for protection",
+    "fodder": "Shy that is gold",
+    "indicator": "left behind half of",
+    "type": "charade",
+    "difficulty": "medium",
+    "date": "2026-04-10",
+"explanation": "What is behind shy? How do you write that is? Split Gold" 
+  },
+{
     "id": 117,
     "clue": "A diagram or lots of vivid violent imagery (7)",
     "answer": "GRAPHIC",
