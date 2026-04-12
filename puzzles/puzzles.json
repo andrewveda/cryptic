@@ -1,5 +1,53 @@
 [
 {
+    "id": 123,
+    "clue": "Nikita unevenly dances with Abhinav's hello to create great contributions to the world! (5)",
+    "answer": "THINK",
+    "definition": "to create great contributions to the world",
+    "fodder": "Abhinav Nikita",
+    "indicator": "unevenly dances hello",
+    "type": "anagram, charade",
+    "difficulty": "hard",
+    "date": "2026-04-12",
+"explanation": "Unscramble the odd letters in Nikita and the synonym of hello in Abhinav " 
+  },
+{
+    "id": 122,
+    "clue": "Abhinav Nikita are head over heels, high fliers (5)",
+    "answer": "AVIAN",
+    "definition": "high fliers",
+    "fodder": "Abhinav Nikita",
+    "indicator": "head over heels",
+    "type": "anagram",
+    "difficulty": "medium",
+    "date": "2026-04-12",
+"explanation": "Unscramble the first and last letters of Abhinav and first, second and last of Nikita " 
+  },
+{
+    "id": 121,
+    "clue": "First couple of times, Abhinav turns back to take Nikita, oddly to grow immense wealth! (4)",
+    "answer": "BANK",
+    "definition": "to grow immense wealth",
+    "fodder": "Abhinav Nikita",
+    "indicator": "First couple of times turns back oddly",
+    "type": "charade",
+    "difficulty": "medium",
+    "date": "2026-04-12",
+"explanation": "First two letters in Abhinav and the odd letters in Nikita" 
+  },
+{
+    "id": 120,
+    "clue": "Mostly Abhinav dances and takes Nikita's tea everyday (5)",
+    "answer": "HABIT",
+    "definition": "everyday",
+    "fodder": "Abhinav Nikita",
+    "indicator": "Mostly dances takes tea",
+    "type": "charade",
+    "difficulty": "medium",
+    "date": "2026-04-12",
+"explanation": "Tea is usually shortened to t." 
+  },
+{
     "id": 119,
     "clue": "Abhinav and Nikita - Hearts United to write a lasting impression! (3)",
     "answer": "INK",
