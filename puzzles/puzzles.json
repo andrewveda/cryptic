@@ -1,4 +1,16 @@
 [
+    {
+    "id": 124,
+    "clue": "Adventure seekers love to queue mostly before a heartless street. (5)",
+    "answer": "QUEST",
+    "definition": "Adventure seekers love to",
+    "fodder": "queue street",
+    "indicator": "mostly before heartless ",
+    "type": "hidden, charade",
+    "difficulty": "hard",
+    "date": "2026-04-13",
+"explanation": "What do you do daily in our app? " 
+  },
 {
     "id": 123,
     "clue": "Nikita unevenly dances with Abhinav's hello to create great contributions to the world! (5)",
