@@ -1,5 +1,17 @@
 [
-    {
+   {
+    "id": 125,
+    "clue": "Jenny evenly and then oddly takes without a heart but with an Oscar Delight (5)",
+    "answer": "ENJOY",
+    "definition": "Delight",
+    "fodder": "Jenny Oscar",
+    "indicator": "evenly and then oddly takes without a heart but with an",
+    "type": "hidden, anagram",
+    "difficulty": "hard",
+    "date": "2026-04-13",
+"explanation": "Take the Even and Odd letters in Jenny." 
+  },
+ {
     "id": 124,
     "clue": "Adventure seekers love to queue mostly before a heartless street. (5)",
     "answer": "QUEST",
