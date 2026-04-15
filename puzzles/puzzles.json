@@ -1,5 +1,29 @@
 [
-   {
+{
+    "id": 127,
+    "clue": "Camouflaged claustrophobe. Long in gatherings being accepted and valued (9)",
+    "answer": "BELONGING",
+    "definition": "being accepted and valued",
+    "fodder": "claustrophobe. Long in gatherings",
+    "indicator": "Camouflaged",
+    "type": "hidden",
+    "difficulty": "easy",
+    "date": "2026-04-15",
+"explanation": "find the hidden word." 
+  },
+  {
+    "id": 126,
+    "clue": "Camouflaged claustrophobe. Long in gatherings being accepted and valued (9)",
+    "answer": "BELONGING",
+    "definition": "being accepted and valued",
+    "fodder": "claustrophobe. Long in gatherings",
+    "indicator": "Camouflaged",
+    "type": "hidden",
+    "difficulty": "easy",
+    "date": "2026-04-15",
+"explanation": "find the hidden word." 
+  },
+ {
     "id": 125,
     "clue": "Jenny evenly and then oddly takes without a heart but with an Oscar Delight (5)",
     "answer": "ENJOY",
