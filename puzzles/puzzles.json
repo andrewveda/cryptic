@@ -1,5 +1,17 @@
 [
 {
+    "id": 128,
+    "clue": "The highest heartless beast (4)",
+    "answer": "BEST",
+    "definition": "The highest",
+    "fodder": "beast",
+    "indicator": "heartless",
+    "type": "hidden",
+    "difficulty": "easy",
+    "date": "2026-04-16",
+"explanation": "Which letter is at the heart of the beast? Eliminate it!" 
+  },
+{
     "id": 127,
     "clue": "First, Barath Chand Pacha takes that is, oui in English two headed muscle flex (6)",
     "answer": "BICEPS",
