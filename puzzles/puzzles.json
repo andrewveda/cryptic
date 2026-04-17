@@ -1,5 +1,17 @@
 [
 {
+    "id": 129,
+    "clue": "Magic in touch armchair (5)",
+    "answer": "CHARM",
+    "definition": "Magic",
+    "fodder": "touch armchair",
+    "indicator": "in",
+    "type": "hidden",
+    "difficulty": "easy",
+    "date": "2026-04-17",
+"explanation": "Find the hidden word in touch armchair" 
+  },
+{
     "id": 128,
     "clue": "The highest heartless beast (4)",
     "answer": "BEST",
