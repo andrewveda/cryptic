@@ -1,5 +1,17 @@
 [
 {
+    "id": 130,
+    "clue": "Catherine dances in the student is ready (7)",
+    "answer": "TEACHER",
+    "definition": "Magic",
+    "fodder": "touch armchair",
+    "indicator": "in",
+    "type": "hidden",
+    "difficulty": "easy",
+    "date": "2026-04-17",
+"explanation": "Find the hidden word in touch armchair" 
+  },
+{
     "id": 129,
     "clue": "Magic in touch armchair (5)",
     "answer": "CHARM",
