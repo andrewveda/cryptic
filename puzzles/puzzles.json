@@ -1,5 +1,17 @@
 [
 {
+    "id": 131,
+    "clue": "Irrational Number fifty nothing trillion (5)",
+    "answer": "PILOT",
+    "definition": "when the student is ready",
+    "fodder": "Catherine in",
+    "indicator": " transformed leaving out ",
+    "type": "anagram",
+    "difficulty": "easy",
+    "date": "2026-04-18",
+"explanation": "Who appears when the student is ready?" 
+  },
+{
     "id": 130,
     "clue": "Catherine transformed leaving out in when the student is ready (7)",
     "answer": "TEACHER",
