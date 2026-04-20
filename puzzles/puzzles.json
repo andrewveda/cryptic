@@ -1,5 +1,17 @@
 [
 {
+    "id": 132,
+    "clue": "Heartless break filled with love to read (4)",
+    "answer": "BOOK",
+    "definition": "to read",
+    "fodder": "break love",
+    "indicator": "Heartless filled with love",
+    "type": "charade",
+    "difficulty": "medium",
+    "date": "2026-04-20",
+"explanation": "Love in tennis? Empty the letters in 'break' and fill it with that. " 
+  },
+{
     "id": 131,
     "clue": "Flying high by mixing up naught irrational number fifty trillion (5)",
     "answer": "PILOT",
