@@ -1,4 +1,17 @@
 [
+
+{
+    "id": 133,
+    "clue": "Looking back when the cat took the bat, Sheeba is the best (3)",
+    "answer": "ACE",
+    "definition": "the best",
+    "fodder": "cat Sheeba",
+    "indicator": "Looking back took the bat",
+    "type": "charade",
+    "difficulty": "medium",
+    "date": "2026-04-24",
+"explanation": "The last three letters from fodder are looking back. The other indicator wants you to replace a letter" 
+  },
 {
     "id": 132,
     "clue": "Heartless break filled with love to read (4)",
