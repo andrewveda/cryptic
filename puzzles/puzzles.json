@@ -1,5 +1,17 @@
 [
 {
+    "id": 135,
+    "clue": "Mostly Amethyst takes rum over hum for Nehru's with Destiny (5)",
+    "answer": "TRYST",
+    "definition": "Nehru's with Destiny",
+    "fodder": "Amethyst rum",
+    "indicator": "Mostly takes rum over",
+    "type": "charade",
+    "difficulty": "medium",
+    "date": "2026-04-25",
+"explanation": "The last five letters from fodder. Replace a letter from the other fodder." 
+  },
+{
     "id": 134,
     "clue": "Mostly Amethyst takes rum over hum for Nehru's with Destiny (5)",
     "answer": "TRYST",
