@@ -1,5 +1,17 @@
 [
 {
+    "id": 136,
+    "clue": "Neat and stylish Dhinakaran and Pacha pursue elusive ringleader first (6)",
+    "answer": "DAPPER",
+    "definition": "Neat and stylish",
+    "fodder": "Dhinakaran and Pacha pursue elusive ringleader",
+    "indicator": "first",
+    "type": "acrostic",
+    "difficulty": "easy",
+    "date": "2026-05-01",
+"explanation": "Look at the first letters of the fodder" 
+  },
+{
     "id": 135,
     "clue": "Cooking vibe, yo Amritha leaves myth I heard (4)",
     "answer": "AURA",
