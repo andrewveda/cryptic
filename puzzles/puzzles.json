@@ -1,5 +1,17 @@
 [
 {
+    "id": 137,
+    "clue": "Computers concealed dig, I tally (7)",
+    "answer": "DIGITAL",
+    "definition": "Computers",
+    "fodder": "dig, I tally",
+    "indicator": "concealed",
+    "type": "hidden",
+    "difficulty": "easy",
+    "date": "2026-05-03",
+"explanation": "Search for the hidden word" 
+  },
+{
     "id": 136,
     "clue": "Neat and stylish Dhinakaran and Pacha pursue elusive ringleader first (6)",
     "answer": "DAPPER",
