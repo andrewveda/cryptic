@@ -1,5 +1,17 @@
 [
 {
+    "id": 138,
+    "clue": "Collage in bokeh cc at Meenakshi's win (9)",
+    "answer": "CHECKMATE",
+    "definition": "win",
+    "fodder": "Bokeh cc at Meenakshi's win",
+    "indicator": "Collage in",
+    "type": "anagram,hidden",
+    "difficulty": "easy",
+    "date": "2026-05-04",
+"explanation": "Collage shows that you've got to put together a collection of photos. In this case, letters. " 
+  },
+{
     "id": 137,
     "clue": "Computers concealed dig, I tally (7)",
     "answer": "DIGITAL",
