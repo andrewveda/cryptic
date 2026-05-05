@@ -1,5 +1,17 @@
 [
 {
+    "id": 139,
+    "clue": "Clear your throat cut up? Ugh. Company first (5)",
+    "answer": "COUGH",
+    "definition": "Clear your throat",
+    "fodder": "Ugh. Company",
+    "indicator": "cut up first",
+    "type": "anagram",
+    "difficulty": "easy",
+    "date": "2026-05-05",
+"explanation": "Unscramble" 
+  },
+{
     "id": 138,
     "clue": "Collage in bokeh cc at Meenakshi's win (9)",
     "answer": "CHECKMATE",
