@@ -1,5 +1,17 @@
 [
 {
+    "id": 140,
+    "clue": "Dhayalan first has upset Chemistry. Myths left behind in tears (5)",
+    "answer": "CRIED",
+    "definition": "in tears",
+    "fodder": "Dhayalan Chemistry",
+    "indicator": "first upset Myths left behind",
+    "type": "anagram, charade",
+    "difficulty": "medium",
+    "date": "2026-05-07",
+"explanation": "What is the first in Dhayalan? Take myths out of Chemistry and unscramble." 
+  },
+{
     "id": 139,
     "clue": "Clear your throat cut up? Ugh. Company first (5)",
     "answer": "COUGH",
