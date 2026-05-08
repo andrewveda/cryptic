@@ -1,5 +1,17 @@
 [
 {
+    "id": 141,
+    "clue": "One billion part by Dhinakaran, Pacha. Dhayalan woo last (4)",
+    "answer": "NANO",
+    "definition": "One billion part",
+    "fodder": "Dhinakaran, Pacha. Dhayalan woo",
+    "indicator": "last",
+    "type": "acrostic",
+    "difficulty": "medium",
+    "date": "2026-05-08",
+"explanation": "Look at the last letters of the fodder words." 
+  },
+    {
     "id": 140,
     "clue": "Dhayalan first has upset Chemistry. Myths left behind in tears (5)",
     "answer": "CRIED",
