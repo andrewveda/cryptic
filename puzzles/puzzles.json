@@ -1,5 +1,17 @@
 [
 {
+    "id": 142,
+    "clue": "Star Wars Day forged fiery Hari Santhosh to be firm and determined (4)",
+    "answer": "GRIT",
+    "definition": "One billion contributed",
+    "fodder": "to be firm and determined",
+    "indicator": "Star Wars Day",
+    "type": "acrostic",
+    "difficulty": "medium",
+    "date": "2026-05-09",
+"explanation": "May the Fourth letter be with you!" 
+  },
+    {
     "id": 141,
     "clue": "One billion contributed by Dhinakaran, Pacha, Dhayalan. Woo last (4)",
     "answer": "NANO",
