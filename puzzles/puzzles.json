@@ -1,5 +1,29 @@
 [
 {
+    "id": 144,
+    "clue": "Meenakshi is now dominating storms, extra tests first displays growth not fixed (7)",
+    "answer": "MINDSET",
+    "definition": "growth not fixed",
+    "fodder": "Meenakshi is now dominating storms, extra tests",
+    "indicator": "first",
+    "type": "acrostic",
+    "difficulty": "easy",
+    "date": "2026-05-10",
+"explanation": "Look at the first letters!" 
+  },
+{
+    "id": 143,
+    "clue": "Growth comes without struggle? Nil. Pics idolising struggle looking back (10)",
+    "answer": "DISCIPLINE",
+    "definition": "Growth comes without struggle? struggle",
+    "fodder": "struggle? Nil. Pics idolising",
+    "indicator": "looking back",
+    "type": "hidden",
+    "difficulty": "easy",
+    "date": "2026-05-10",
+"explanation": "Look at the hidden word" 
+  },
+{
     "id": 142,
     "clue": "Star Wars Day forged fiery Hari Santhosh with great determination (4)",
     "answer": "GRIT",
