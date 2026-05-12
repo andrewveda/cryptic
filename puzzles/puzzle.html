@@ -812,8 +812,8 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 }
 
-  /* ─────────────────────────────────────────────
-   DESKTOP LAYOUT
+ /* ─────────────────────────────────────────────
+   DESKTOP LAYOUT — COMPACT STATUS ROW
 ───────────────────────────────────────────── */
 
 @media (min-width: 1024px) {
@@ -821,18 +821,19 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   html,
   body {
     width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    height: 100vh;
+    overflow: hidden;
   }
 
   body {
+    margin: 0;
+
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   /* ─────────────────────
-     MAIN PAGE GRID
+     MAIN GRID
   ───────────────────── */
 
   .page {
@@ -840,25 +841,20 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     width: 100vw;
     height: 100vh;
 
+    margin: 0;
+    padding: 0;
+
     display: grid;
 
     grid-template-columns:
       minmax(0, 1fr)
-      360px;
+      340px;
 
-    gap: 42px;
-
-    padding:
-      28px
-      42px
-      28px
-      52px;
-
-    align-items: stretch;
+    overflow: hidden;
   }
 
   /* ─────────────────────
-     LEFT COLUMN
+     PUZZLE COLUMN
   ───────────────────── */
 
   #puzzleContent {
@@ -866,10 +862,35 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     width: 100%;
     min-width: 0;
 
+    height: 100vh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding:
+      24px
+      56px
+      42px;
+
     display: flex;
     flex-direction: column;
 
-    justify-content: flex-start;
+    align-items: center;
+  }
+
+  /* content width */
+
+  header,
+  .meta-row,
+  .clue,
+  .answer-row,
+  .hint-buttons,
+  .controls,
+  .hint-output,
+  .explain-output {
+
+    width: 100%;
+    max-width: 1020px;
   }
 
   /* ─────────────────────
@@ -878,9 +899,10 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   header {
 
-    padding: 0;
-
-    margin-bottom: 18px;
+    padding:
+      4px
+      0
+      10px;
 
     text-align: left;
   }
@@ -892,84 +914,122 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .puzzle-date {
 
     font-size:
-      clamp(58px, 5vw, 82px);
+      clamp(42px, 2.6vw, 60px);
 
-    line-height: 0.9;
+    line-height: 0.95;
 
     margin-bottom: 6px;
   }
 
   .puzzle-author {
 
-    font-size: 18px;
+    font-size: 15px;
 
     letter-spacing: 2px;
 
-    opacity: 0.78;
-
-    margin-bottom: 18px;
+    opacity: 0.72;
   }
 
   /* ─────────────────────
-     META STRIP
+     META STATUS ROW
   ───────────────────── */
 
+  .meta-row {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin:
+      10px 0
+      22px;
+  }
+
+  /* left side */
+
+  .meta-left {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+  }
+
+  /* right side */
+
+  .meta-right {
+
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    margin-left: auto;
+  }
+
+  /* pills */
+
   .difficulty-tag,
-  .player-badge,
-  .timer-bar-row {
+  .player-badge {
 
     clip-path: none;
 
     border-radius: 999px;
-  }
 
-  .difficulty-tag,
-  .player-badge,
-  .timer-bar-wrap {
-
-    display: inline-flex;
-
-    vertical-align: middle;
+    margin: 0;
   }
 
   .difficulty-tag {
 
-    margin-right: 10px;
+    padding:
+      7px
+      14px;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
   }
 
   .player-badge {
 
-    margin-top: 0;
-    margin-right: 12px;
+    padding:
+      7px
+      14px;
   }
 
-  .timer-bar-wrap {
+  /* timer */
 
+  .timer-bar-wrap {
     margin: 0;
   }
 
   .timer-bar-row {
 
-    width: fit-content;
+    border: none;
+    background: transparent;
+
+    padding: 0;
+
+    clip-path: none;
 
     display: flex;
-
     align-items: center;
 
-    gap: 16px;
+    gap: 14px;
 
-    padding:
-      10px
-      18px;
-
-    border-width: 1px;
+    min-width: auto;
   }
 
   .timer-display {
 
-    font-size: 20px;
+    font-size: 22px;
 
-    min-width: 52px;
+    min-width: 62px;
 
     letter-spacing: 1px;
   }
@@ -977,58 +1037,52 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .timer-track {
 
     width: 180px;
-  }
+    height: 4px;
 
-  .hints-block {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
+    border-radius: 999px;
   }
 
   .hints-used-label {
-
-    margin: 0;
-
-    font-size: 10px;
+    display: none;
   }
 
   .hints-used-val {
 
-    font-size: 16px;
+    font-size: 15px;
+
+    opacity: 0.8;
   }
 
   /* ─────────────────────
-     CLUE
+     CLUE CARD
   ───────────────────── */
 
   .clue {
 
+    width: 100%;
+    min-width: 0;
+
     margin:
-      18px 0
-      18px;
+      0 auto
+      24px;
 
     padding:
-      36px
-      46px;
-
-    width: 100%;
+      30px
+      38px;
 
     font-size:
-      clamp(34px, 2.2vw, 46px);
+      clamp(38px, 2.4vw, 52px);
 
-    line-height: 1.28;
+    line-height: 1.32;
 
     text-align: center;
 
-    border-radius: 28px;
+    border-radius: 24px;
 
     clip-path: none;
 
     box-shadow:
-      0 10px 28px rgba(0,0,0,0.10);
+      0 10px 34px rgba(0,0,0,0.13);
   }
 
   .clue::before {
@@ -1036,7 +1090,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   /* ─────────────────────
-     ANSWER ROW
+     ANSWERS
   ───────────────────── */
 
   .answer-row {
@@ -1044,29 +1098,27 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
-    gap: 12px;
+    gap: 14px;
 
     margin:
-      0
-      0
-      18px;
+      0 auto
+      24px;
 
     padding: 0;
   }
 
   .cell {
 
-    width: 72px;
-    height: 84px;
+    width: 78px;
+    height: 94px;
 
     border-radius: 16px;
 
     clip-path: none;
 
-    font-size: 36px;
+    font-size: 40px;
   }
 
   /* ─────────────────────
@@ -1077,71 +1129,64 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     justify-content: center;
 
-    gap: 10px;
+    gap: 12px;
 
-    margin-top: 8px;
+    margin-bottom: 10px;
   }
 
   .hint-buttons button {
 
-    padding:
-      12px
-      18px;
+    clip-path: none;
 
     border-radius: 999px;
 
-    clip-path: none;
-
-    font-size: 12px;
+    padding:
+      12px
+      18px;
   }
 
   .hint-buttons button::before {
     display: none;
   }
 
-  #explainBtn {
-
-    min-width: 180px;
-  }
-
   /* ─────────────────────
-     OUTPUT PANELS
+     OUTPUTS
   ───────────────────── */
 
   .hint-output,
   .explain-output {
 
-    margin-top: 14px;
+    margin-top: 16px;
 
-    padding:
-      20px
-      24px;
-
-    border-radius: 18px;
+    border-radius: 16px;
 
     clip-path: none;
+
+    padding:
+      22px
+      26px;
   }
 
   /* ─────────────────────
-     CHECK BUTTON
+     PRIMARY ACTION
   ───────────────────── */
 
   .controls {
 
-    margin-top: 18px;
+    margin-top: 26px;
 
     text-align: center;
   }
 
   .check-btn {
 
-    padding:
-      16px
-      42px;
-
-    border-radius: 18px;
+    border-radius: 16px;
 
     clip-path: none;
+
+    padding:
+      18px
+      44px;
 
     font-size: 17px;
   }
@@ -1151,12 +1196,13 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   /* ─────────────────────
-     RIGHT COLUMN
+     DISCUSSION SIDEBAR
   ───────────────────── */
 
   .cryptic-giscus-wrap {
 
-    height: calc(100vh - 56px);
+    width: 340px;
+    height: 100vh;
 
     overflow: hidden;
 
@@ -1164,8 +1210,8 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     flex-direction: column;
 
     padding:
-      18px
-      18px;
+      22px
+      20px;
 
     border-left:
       1px solid rgba(212,175,55,0.12);
@@ -1174,7 +1220,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
       linear-gradient(
         180deg,
         rgba(212,175,55,0.03),
-        rgba(212,175,55,0.01)
+        rgba(212,175,55,0.015)
       );
   }
 
@@ -1221,24 +1267,14 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   .theme-toggle {
 
-    top: 12px;
-    left: 12px;
+    top: 14px;
+    left: 14px;
   }
 
   .puzzle-counter {
 
-    top: 12px;
-    right: 12px;
-  }
-
-  .nav-arrow {
-
-    opacity: 0.18;
-  }
-
-  .nav-arrow:hover:not(:disabled) {
-
-    box-shadow: none;
+    top: 14px;
+    right: 14px;
   }
 
   /* ─────────────────────
@@ -1248,6 +1284,14 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .swipe-hint,
   .back-link {
     display: none;
+  }
+
+  .nav-arrow {
+    opacity: 0.22;
+  }
+
+  .nav-arrow:hover:not(:disabled) {
+    box-shadow: none;
   }
 }
 </style>
