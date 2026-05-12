@@ -278,25 +278,117 @@ html.light .hl-indicator { color:#92400e; }
   #shell { flex-direction:column; height:auto; overflow:visible; }
   #pp { flex:none; width:100%; height:auto; overflow:visible; border-right:none; border-bottom:1px solid var(--sep); }
   #gp { flex:none; width:100%; height:auto; overflow:visible; }
-  #pg { grid-template-rows:auto auto auto auto auto; height:auto; padding:0 14px; }
-  .topbar { padding:48px 0 12px; flex-wrap:wrap; gap:8px; }
-  .tb-c   { order:3; width:100%; justify-content:flex-start; }
-  .ttrack { width:100%; flex:1; }
-  .clue-row { padding:12px 0 10px; }
-  .clue-box { font-size:17px; padding:16px 18px; clip-path:none; border-radius:10px; }
+  #pg {
+    grid-template-rows:auto auto auto auto auto;
+    height:auto;
+    padding:0 14px;
+  }
+
+  /* ── TOPBAR: compact two-row layout ── */
+  .topbar {
+    padding:14px 0 10px;   /* was 48px 0 12px — that 48px was the culprit */
+    flex-wrap:wrap;
+    gap:4px;
+    align-items:center;
+  }
+  .tb-l { gap:1px; }
+  .tb-title { font-size:15px; letter-spacing:.5px; }
+  .tb-sub { display:none; }          /* "Miniature Turing Tests" — cut on mobile */
+
+  /* Timer row collapses into topbar inline */
+  .tb-c {
+    order:3;
+    width:100%;
+    justify-content:flex-start;
+    gap:8px;
+  }
+  .timer-wrap {
+    padding:5px 10px;
+    gap:7px;
+    clip-path:none;
+    border-radius:5px;
+  }
+  .tval { font-size:14px; min-width:36px; }
+  .ttrack { width:60px; }
+
+  /* Player row: compact pill */
+  .tb-r { gap:2px; align-items:flex-end; }
+  .tb-player { font-size:10px; }
+  .tb-meta { gap:5px; }
+  .diff-tag { font-size:8px; padding:2px 5px; }
+  .hints-pill { font-size:9px; }
+  .hints-pill strong { font-size:11px; }
+  .pchange { font-size:9px; }
+
+  /* ── CLUE BOX: keep the aristocratic clip-path ── */
+  .clue-row { padding:10px 0 8px; }
+  .clue-box {
+    font-size:15px;
+    line-height:1.62;
+    padding:14px 16px;
+    clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+    border-radius:0;
+  }
   .clue-box::before { display:none; }
-  .ac-row   { padding:0 0 10px; gap:9px; }
-  .cell     { clip-path:none; border-radius:6px; font-size:clamp(14px,4vw,20px); border-width:1.5px; }
-  .check-btn { padding:0 16px; clip-path:none; border-radius:8px; font-size:12px; min-height:42px; }
-  .hbtns { padding:0 0 10px; gap:5px; flex-wrap:wrap; }
-  .hbtn  { font-size:9px; padding:7px 5px; clip-path:none; border-radius:6px; flex:1 1 calc(50% - 3px); }
-  #explainBtn { flex:1 1 100%; }
-  .hint-slot  { height:auto; min-height:56px; margin-bottom:12px; }
-  .hs-inner   { clip-path:none; border-radius:8px; }
-  .hs-text    { -webkit-line-clamp:4; font-size:13px; }
-  .nav-arrow  { width:24px; height:48px; font-size:14px; opacity:.45; }
-  #ls { position:static; min-height:200px; }
+
+  /* ── ANSWER CELLS ── */
+  .ac-row { padding:0 0 8px; gap:7px; }
+  .cell {
+    clip-path:none;
+    border-radius:4px;
+    font-size:clamp(13px,3.8vw,19px);
+    border-width:1.5px;
+  }
+  .check-btn {
+    padding:0 13px;
+    clip-path:none;
+    border-radius:6px;
+    font-size:11px;
+    min-height:40px;
+    min-width:62px;
+  }
+
+  /* ── HINT BUTTONS: tight 2×2 grid ── */
+  .hbtns {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:auto auto;
+    gap:5px;
+    padding:0 0 8px;
+  }
+  .hbtn {
+    font-size:9px;
+    padding:8px 4px;
+    clip-path:none;
+    border-radius:5px;
+    letter-spacing:1px;
+    flex:none;
+  }
+  #explainBtn {
+    grid-column:1 / -1;   /* full width across both columns */
+    flex:none;
+  }
+
+  /* ── HINT SLOT: left-border accent, no box ── */
+  .hint-slot {
+    height:auto;
+    min-height:0;
+    margin-bottom:10px;
+  }
+  .hs-inner {
+    clip-path:none;
+    border-radius:0;
+    border:none;
+    border-left:2px solid var(--gold);
+    background:transparent;
+    padding:8px 12px;
+  }
+  .hs-label { font-size:8px; letter-spacing:2px; margin-bottom:3px; }
+  .hs-text { -webkit-line-clamp:4; font-size:12px; }
+  .nav-arrow { width:22px; height:44px; font-size:13px; opacity:.35; }
   #pp.sol,#pp.sor,#pp.sir,#pp.sil { animation:none; }
+
+  #ls { position:static; min-height:160px; }
 }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; animation-iteration-count:1 !important; } }
 </style>
