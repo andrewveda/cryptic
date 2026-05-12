@@ -815,16 +815,11 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 }
 
-  /* ─────────────────────────────────────────────
-   DESKTOP IMMERSIVE WORKSPACE LAYOUT
-   (1024px and above)
+ /* ─────────────────────────────────────────────
+   DESKTOP LAYOUT — FIXED
 ───────────────────────────────────────────── */
 
 @media (min-width: 1024px) {
-
-  /* ─────────────────────
-     GLOBAL
-  ───────────────────── */
 
   html,
   body {
@@ -833,142 +828,127 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   body {
-    display: flex;
-    justify-content: center;
-
-    background:
-      radial-gradient(
-        circle at center,
-        rgba(212,175,55,0.03),
-        transparent 60%
-      ),
-      var(--bg);
-
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    overflow: hidden;
   }
 
-  .bg-pattern {
-    opacity: 0.025;
-    animation-duration: 40s;
-  }
-
-  .particle {
-    opacity: 0.12;
-  }
-
-  /* ─────────────────────
-     MAIN PAGE LAYOUT
-  ───────────────────── */
+  /* PAGE */
 
   .page {
-    width: min(1600px, 100vw);
+    width: min(1500px, calc(100vw - 40px));
+    max-width: 1500px;
+
     height: 100vh;
 
-    margin: 0;
-    padding: 0;
+    padding: 18px 20px 20px;
 
-    display: grid;
-    grid-template-columns: 70% 30%;
-
-    gap: 0;
+    margin: 0 auto;
 
     overflow: hidden;
-
-    position: relative;
   }
 
-  /* ─────────────────────
-     LEFT SOLVER PANEL
-  ───────────────────── */
+  /* MAIN GRID */
 
   #puzzleContent {
-    display: grid !important;
 
-    grid-template-rows:
-      auto
-      auto
-      auto
-      auto
-      auto
-      1fr;
+    display: grid;
 
-    height: 100vh;
+    grid-template-columns:
+      minmax(0, 1fr)
+      340px;
+
+    gap: 28px;
+
+    height: calc(100vh - 36px);
+
+    align-items: start;
+  }
+
+  /* ─────────────────────
+     LEFT SIDE
+  ───────────────────── */
+
+  header,
+  .timer-bar-wrap,
+  .clue,
+  .answer-row,
+  .hint-buttons,
+  .hint-output,
+  .explain-output,
+  .controls,
+  .swipe-hint,
+  .back-link {
+    grid-column: 1;
+  }
+
+  /* ─────────────────────
+     RIGHT DISCUSSION PANEL
+  ───────────────────── */
+
+  .cryptic-giscus-wrap {
+
+    grid-column: 2;
+    grid-row: 1 / span 20;
+
+    height: 100%;
+
+    margin: 0;
+    padding: 18px;
+
+    border:
+      1px solid rgba(212,175,55,0.14);
+
+    border-radius: 18px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(212,175,55,0.03),
+        rgba(212,175,55,0.015)
+      );
 
     overflow: hidden;
 
-    padding:
-      42px
-      54px
-      28px
-      54px;
+    display: flex;
+    flex-direction: column;
 
-    border-right:
-      1px solid rgba(212,175,55,0.12);
-
-    position: relative;
+    backdrop-filter: blur(10px);
   }
 
-  /* ─────────────────────
-     TOP FLOATING ELEMENTS
-  ───────────────────── */
+  .cryptic-giscus-wrap::before {
 
-  .theme-toggle {
-    top: 14px;
-    left: 16px;
+    content: "DISCUSSION";
 
-    font-size: 14px;
+    display: block;
 
-    padding: 5px 11px;
+    font-family: 'Cinzel', serif;
 
-    border-width: 1px;
+    font-size: 13px;
 
-    backdrop-filter: blur(8px);
+    letter-spacing: 3px;
+
+    color: var(--gold);
+
+    opacity: 0.8;
+
+    margin-bottom: 14px;
+
+    flex-shrink: 0;
   }
 
-  .puzzle-counter {
-    top: 14px;
-    right: calc(30vw + 18px);
+  /* GISCUS */
 
-    font-size: 11px;
+  .giscus,
+  .giscus-frame {
 
-    padding: 5px 12px;
+    width: 100% !important;
 
-    border-width: 1px;
+    flex: 1;
 
-    letter-spacing: 1px;
+    min-height: 0;
 
-    backdrop-filter: blur(8px);
-  }
+    border-radius: 12px;
 
-  .counter-solved {
-    font-size: 10px;
-  }
-
-  .progress-strip {
-    height: 2px;
-  }
-
-  /* ─────────────────────
-     NAVIGATION
-  ───────────────────── */
-
-  .nav-arrow {
-    width: 34px;
-    height: 74px;
-
-    opacity: 0.22;
-
-    transition:
-      opacity 0.25s ease,
-      transform 0.25s ease;
-  }
-
-  .nav-arrow:hover:not(:disabled) {
-    opacity: 0.75;
-    transform: translateY(-50%) scale(1.04);
-
-    box-shadow: none;
+    overflow: hidden;
   }
 
   /* ─────────────────────
@@ -976,158 +956,83 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   ───────────────────── */
 
   header {
-    padding: 0;
-    margin-bottom: 10px;
+    padding: 26px 0 6px;
 
     text-align: left;
   }
 
-  .puzzle-number {
-    display: none;
-  }
-
   .puzzle-date {
-    font-size: clamp(30px, 2vw, 42px);
+    font-size: clamp(34px, 2.2vw, 46px);
 
-    letter-spacing: 1px;
+    margin-bottom: 4px;
 
-    margin-bottom: 2px;
-
-    line-height: 1.1;
+    line-height: 1.05;
   }
 
   .puzzle-author {
-    font-size: 13px;
+    font-size: 14px;
 
-    letter-spacing: 2px;
+    margin-bottom: 12px;
 
     opacity: 0.7;
-
-    margin-bottom: 14px;
   }
 
   /* ─────────────────────
-     META STRIP
+     META
   ───────────────────── */
 
-  .difficulty-tag {
-    display: inline-flex;
-
-    align-items: center;
-
-    padding: 5px 12px;
-
-    font-size: 10px;
-
-    border-width: 1px;
-
+  .difficulty-tag,
+  .player-badge {
     clip-path: none;
-
     border-radius: 999px;
+  }
 
+  .difficulty-tag {
     margin-right: 10px;
   }
 
   .player-badge {
-    display: inline-flex;
-
     margin-top: 0;
-
-    padding: 5px 11px;
-
-    border-width: 1px;
-
-    clip-path: none;
-
-    border-radius: 999px;
-
-    gap: 7px;
-  }
-
-  .player-badge-name {
-    font-size: 11px;
-  }
-
-  .player-badge-change {
-    font-size: 10px;
   }
 
   /* ─────────────────────
-     TIMER STRIP
+     TIMER
   ───────────────────── */
 
   .timer-bar-wrap {
-    margin: 14px 0 8px;
+    margin: 10px 0 0;
   }
 
   .timer-bar-row {
-    display: inline-flex;
 
-    width: auto;
+    width: fit-content;
 
-    min-width: 340px;
-
-    padding: 10px 16px;
-
-    gap: 14px;
+    min-width: 360px;
 
     border-width: 1px;
 
     clip-path: none;
 
-    border-radius: 12px;
+    border-radius: 14px;
 
-    background:
-      linear-gradient(
-        135deg,
-        rgba(212,175,55,0.05),
-        rgba(212,175,55,0.02)
-      );
-
-    backdrop-filter: blur(10px);
-  }
-
-  .timer-display {
-    font-size: 18px;
-
-    letter-spacing: 1px;
-
-    min-width: 52px;
-  }
-
-  .timer-track {
-    width: 140px;
-    height: 4px;
-  }
-
-  .hints-used-label {
-    display: none;
-  }
-
-  .hints-used-val {
-    font-size: 15px;
+    padding: 12px 18px;
   }
 
   /* ─────────────────────
-     CLUE HERO
+     CLUE
   ───────────────────── */
 
   .clue {
-    margin:
-      18px
-      0
-      18px;
 
-    padding:
-      26px
-      30px;
+    margin: 18px 0 16px;
 
-    font-size:
-      clamp(28px, 2vw, 40px);
+    padding: 24px 28px;
 
-    line-height: 1.42;
+    font-size: clamp(28px, 2vw, 38px);
 
-    font-weight: 300;
+    line-height: 1.4;
+
+    text-align: left;
 
     border-width: 1px;
 
@@ -1135,17 +1040,8 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     border-radius: 18px;
 
-    background:
-      linear-gradient(
-        145deg,
-        rgba(212,175,55,0.045),
-        rgba(212,175,55,0.02)
-      );
-
     box-shadow:
-      0 8px 40px rgba(0,0,0,0.25);
-
-    text-align: left;
+      0 8px 30px rgba(0,0,0,0.18);
   }
 
   .clue::before {
@@ -1153,24 +1049,23 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   /* ─────────────────────
-     ANSWER ROW
+     ANSWERS
   ───────────────────── */
 
   .answer-row {
-    justify-content: flex-start;
+
+    justify-content: start;
 
     gap: 10px;
 
-    margin:
-      10px
-      0
-      18px;
+    margin: 8px 0 18px;
 
     padding: 0;
   }
 
   .cell {
-    width: 64px;
+
+    width: 62px;
 
     border-width: 1px;
 
@@ -1179,47 +1074,22 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     border-radius: 12px;
 
     font-size: 30px;
-
-    background:
-      linear-gradient(
-        145deg,
-        rgba(212,175,55,0.03),
-        rgba(212,175,55,0.06)
-      );
-
-    transition:
-      border-color 0.2s ease,
-      transform 0.15s ease,
-      background 0.2s ease;
-  }
-
-  .cell:focus {
-    transform: scale(1.04);
-
-    box-shadow:
-      0 0 16px rgba(212,175,55,0.22);
   }
 
   /* ─────────────────────
-     TOOLBAR
+     BUTTONS
   ───────────────────── */
 
   .hint-buttons {
+
     justify-content: flex-start;
 
     gap: 10px;
 
-    margin-top: 4px;
+    margin-top: 2px;
   }
 
   .hint-buttons button {
-    padding:
-      10px
-      16px;
-
-    font-size: 11px;
-
-    letter-spacing: 1px;
 
     border-width: 1px;
 
@@ -1227,61 +1097,29 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     border-radius: 999px;
 
-    min-height: 38px;
+    padding: 10px 16px;
 
-    background:
-      rgba(212,175,55,0.03);
-
-    transition:
-      background 0.2s ease,
-      border-color 0.2s ease,
-      transform 0.15s ease;
+    font-size: 11px;
   }
 
   .hint-buttons button::before {
     display: none;
   }
 
-  .hint-buttons button:hover:not(:disabled) {
-    transform: translateY(-1px);
-
-    background:
-      rgba(212,175,55,0.08);
-  }
-
-  #explainBtn {
-    min-width: 180px;
-  }
-
   /* ─────────────────────
-     OUTPUT PANELS
+     OUTPUTS
   ───────────────────── */
 
   .hint-output,
   .explain-output {
-    margin:
-      14px
-      0
-      0;
 
-    padding:
-      18px
-      22px;
+    max-width: 900px;
 
     border-width: 1px;
 
     clip-path: none;
 
     border-radius: 14px;
-
-    font-size: 15px;
-
-    line-height: 1.72;
-
-    background:
-      rgba(212,175,55,0.03);
-
-    max-width: 900px;
   }
 
   /* ─────────────────────
@@ -1289,39 +1127,24 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   ───────────────────── */
 
   .controls {
-    margin:
-      18px
-      0
-      0;
+    margin-top: 18px;
   }
 
   .check-btn {
-    padding:
-      14px
-      34px;
-
-    font-size: 15px;
-
-    letter-spacing: 1px;
 
     clip-path: none;
 
     border-radius: 12px;
 
-    box-shadow:
-      0 6px 24px rgba(0,0,0,0.22);
+    padding: 15px 34px;
   }
 
   .check-btn::before {
     display: none;
   }
 
-  .check-btn:hover {
-    transform: translateY(-1px);
-  }
-
   /* ─────────────────────
-     HIDE MOBILE EXTRAS
+     CLEANUP
   ───────────────────── */
 
   .swipe-hint,
@@ -1329,158 +1152,13 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     display: none;
   }
 
-  /* ─────────────────────
-     DESKTOP DISCUSSION PANEL
-  ───────────────────── */
-
-  .cryptic-giscus-wrap {
-
-    position: absolute;
-
-    top: 0;
-    right: 0;
-
-    width: 30%;
-    height: 100vh;
-
-    margin: 0;
-    padding:
-      54px
-      24px
-      24px;
-
-    overflow: hidden;
-
-    border-top: none;
-
-    background:
-      linear-gradient(
-        180deg,
-        rgba(212,175,55,0.025),
-        rgba(212,175,55,0.01)
-      );
-
-    backdrop-filter: blur(12px);
+  .nav-arrow {
+    opacity: 0.25;
   }
 
-  /* ─────────────────────
-     DISCUSSION TITLE
-  ───────────────────── */
-
-  .cryptic-giscus-wrap::before {
-    content: "DISCUSSION";
-
-    display: block;
-
-    margin-bottom: 18px;
-
-    font-family: 'Cinzel', serif;
-
-    font-size: 14px;
-
-    letter-spacing: 3px;
-
-    color: var(--gold);
-
-    opacity: 0.8;
+  .nav-arrow:hover:not(:disabled) {
+    box-shadow: none;
   }
-
-  /* ─────────────────────
-     GISCUS
-  ───────────────────── */
-
-  .giscus,
-  .giscus-frame {
-    width: 100% !important;
-    height: calc(100vh - 110px) !important;
-
-    border-radius: 14px;
-
-    overflow: hidden;
-
-    background:
-      rgba(212,175,55,0.02);
-  }
-
-  .giscus-frame {
-    border:
-      1px solid rgba(212,175,55,0.08);
-
-    box-shadow:
-      inset 0 0 0 1px rgba(255,255,255,0.01);
-  }
-
-  /* ─────────────────────
-     SUCCESS MODAL
-  ───────────────────── */
-
-  .success-content {
-    max-width: 620px;
-
-    padding:
-      42px
-      40px;
-
-    border-width: 1px;
-
-    clip-path: none;
-
-    border-radius: 18px;
-
-    backdrop-filter: blur(14px);
-  }
-
-  .success-title {
-    font-size: 34px;
-  }
-
-  .success-answer {
-    font-size: 30px;
-  }
-
-  .success-explanation {
-    border-width: 1px;
-
-    clip-path: none;
-
-    border-radius: 14px;
-
-    background:
-      rgba(212,175,55,0.03);
-  }
-
-  .next-btn {
-    clip-path: none;
-
-    border-radius: 12px;
-
-    border-width: 1px;
-  }
-
-  /* ─────────────────────
-     CONFIRM MODAL
-  ───────────────────── */
-
-  .confirm-card {
-    clip-path: none;
-
-    border-radius: 16px;
-
-    border-width: 1px;
-
-    padding:
-      36px
-      32px;
-  }
-
-  .confirm-btn {
-    clip-path: none;
-
-    border-radius: 10px;
-
-    border-width: 1px;
-  }
-
 }
 </style>
 </head>
