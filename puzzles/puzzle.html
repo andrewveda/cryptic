@@ -274,7 +274,13 @@ header { padding: 60px 10px 20px; }
 
 /* ── CHECK BUTTON ── */
 .controls { margin: 36px 0 16px; opacity: 0; animation: fadeInUp 0.6s ease-out 0.7s forwards; }
-.check-btn { padding: 16px 50px; background: var(--gold); color: var(--bg); border: none; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 17px; cursor: pointer; clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px); transition: all 0.3s; letter-spacing: 2px; position: relative; overflow: hidden; }
+.cryptic-giscus-wrap {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  animation: fadeInUp 0.6s ease-out 0.8s forwards;
+}
+  .check-btn { padding: 16px 50px; background: var(--gold); color: var(--bg); border: none; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 17px; cursor: pointer; clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px); transition: all 0.3s; letter-spacing: 2px; position: relative; overflow: hidden; }
 .check-btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: var(--gold-light); border-radius: 50%; transform: translate(-50%,-50%); transition: width 0.5s, height 0.5s; }
 .check-btn:hover::before { width: 400px; height: 400px; }
 .check-btn span { position: relative; z-index: 1; }
@@ -430,7 +436,26 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     <div class="controls">
       <button class="check-btn" id="checkBtn"><span>CHECK ANSWER</span></button>
     </div>
+<div class="cryptic-giscus-wrap">
 
+<script src="https://giscus.app/client.js"
+        data-repo="andrewveda/cryptic"
+        data-repo-id="R_kgDOQ5jJ1Q"
+        data-category="General"
+        data-category-id="DIC_kwDOQ5jJ1c4C81sX"
+        data-mapping="specific"
+        data-term="Cryptic: ${rawClue}"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+</div>
     <div class="swipe-hint" id="swipeHint">← swipe or use arrow keys to navigate →</div>
 
     <a class="back-link" href="../index.html">← Back to all puzzles</a>
