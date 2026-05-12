@@ -1,5 +1,17 @@
 [
 {
+    "id": 145,
+    "clue": "At heart, cyber party, angered Meenakshi blundered breakfast (5)",
+    "answer": "BREAD",
+    "definition": "breakfast",
+    "fodder": "cyber party, angered Meenakshi blundered",
+    "indicator": "At heart",
+    "type": "hidden, acrostic",
+    "difficulty": "easy",
+    "date": "2026-05-12",
+"explanation": "Look at the central letters!" 
+  },
+    {
     "id": 144,
     "clue": "Meenakshi is now dominating storms, extra tests first displays growth not fixed (7)",
     "answer": "MINDSET",
