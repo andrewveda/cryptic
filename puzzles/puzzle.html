@@ -444,7 +444,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
         data-category="General"
         data-category-id="DIC_kwDOQ5jJ1c4C81sX"
         data-mapping="specific"
-        data-term="Cryptic: ${rawClue}"
+        data-term=""
         data-strict="1"
         data-reactions-enabled="1"
         data-emit-metadata="0"
@@ -454,7 +454,10 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
         crossorigin="anonymous"
         async>
 </script>
-
+<script>
+document.querySelector('.cryptic-giscus-wrap script[src="https://giscus.app/client.js"]')
+  .setAttribute('data-term', `Cryptic: ${rawClue}`);
+</script>
 </div>
     <div class="swipe-hint" id="swipeHint">← swipe or use arrow keys to navigate →</div>
 
