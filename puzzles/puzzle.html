@@ -813,69 +813,70 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 }
 
 /* ─────────────────────────────────────────────
-   DESKTOP LAYOUT FIX
+   FULLSCREEN DESKTOP LAYOUT
 ───────────────────────────────────────────── */
 
 @media (min-width: 1024px) {
 
   html,
   body {
+    width: 100%;
     height: 100vh;
     overflow: hidden;
   }
 
   body {
-    overflow: hidden;
+    margin: 0;
 
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   /* ─────────────────────
-     MAIN GRID
+     MAIN APP GRID
   ───────────────────── */
 
   .page {
 
-    width: min(1450px, calc(100vw - 40px));
-
+    width: 100vw;
     height: 100vh;
 
-    margin: 0 auto;
-
-    padding:
-      18px
-      20px;
+    margin: 0;
+    padding: 0;
 
     display: grid;
 
     grid-template-columns:
       minmax(0, 1fr)
-      300px;
-
-    gap: 28px;
-
-    align-items: start;
+      320px;
 
     overflow: hidden;
   }
 
   /* ─────────────────────
-     PUZZLE COLUMN
+     PUZZLE SIDE
   ───────────────────── */
 
   #puzzleContent {
 
     min-width: 0;
 
+    height: 100vh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    overflow: hidden;
+    padding:
+      26px
+      48px
+      40px;
   }
 
-  /* constrain internal content */
+  /* internal width control */
 
   header,
   .timer-bar-wrap,
@@ -886,7 +887,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .explain-output {
 
     width: 100%;
-    max-width: 860px;
+    max-width: 980px;
   }
 
   /* ─────────────────────
@@ -896,9 +897,9 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   header {
 
     padding:
-      24px
+      6px
       0
-      8px;
+      10px;
 
     text-align: left;
   }
@@ -910,20 +911,20 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .puzzle-date {
 
     font-size:
-      clamp(36px, 2.3vw, 50px);
+      clamp(40px, 2.6vw, 56px);
 
-    line-height: 1.04;
+    line-height: 1.02;
 
     margin-bottom: 4px;
   }
 
   .puzzle-author {
 
-    font-size: 14px;
+    font-size: 15px;
 
     opacity: 0.75;
 
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
 
   /* ─────────────────────
@@ -954,15 +955,19 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     width: fit-content;
 
-    min-width: 360px;
+    min-width: 380px;
 
     padding:
-      11px
-      18px;
+      12px
+      20px;
 
     border-radius: 14px;
 
     clip-path: none;
+  }
+
+  .timer-display {
+    font-size: 20px;
   }
 
   /* ─────────────────────
@@ -972,26 +977,28 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .clue {
 
     margin:
-      20px auto
-      18px;
+      24px auto
+      20px;
+
+    max-width: 980px;
 
     padding:
-      22px
-      28px;
+      26px
+      34px;
 
     font-size:
-      clamp(30px, 2vw, 42px);
+      clamp(34px, 2.3vw, 46px);
 
     line-height: 1.35;
 
     text-align: center;
 
-    border-radius: 18px;
+    border-radius: 22px;
 
     clip-path: none;
 
     box-shadow:
-      0 8px 30px rgba(0,0,0,0.15);
+      0 10px 34px rgba(0,0,0,0.14);
   }
 
   .clue::before {
@@ -1010,25 +1017,25 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     width: auto;
 
-    gap: 10px;
+    gap: 12px;
 
     margin:
       8px auto
-      18px;
+      22px;
 
     padding: 0;
   }
 
   .cell {
 
-    width: 66px;
-    height: 80px;
+    width: 74px;
+    height: 88px;
 
-    border-radius: 12px;
+    border-radius: 14px;
 
     clip-path: none;
 
-    font-size: 32px;
+    font-size: 36px;
   }
 
   /* ─────────────────────
@@ -1039,7 +1046,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     justify-content: center;
 
-    gap: 10px;
+    gap: 12px;
   }
 
   .hint-buttons button {
@@ -1047,6 +1054,10 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     clip-path: none;
 
     border-radius: 999px;
+
+    padding:
+      12px
+      18px;
   }
 
   .hint-buttons button::before {
@@ -1054,25 +1065,49 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   /* ─────────────────────
-     CHECK
+     CHECK BUTTON
   ───────────────────── */
 
   .controls {
 
-    margin-top: 18px;
+    margin-top: 22px;
 
     text-align: center;
   }
 
   .check-btn {
 
-    border-radius: 14px;
+    border-radius: 16px;
 
     clip-path: none;
+
+    padding:
+      18px
+      40px;
+
+    font-size: 17px;
   }
 
   .check-btn::before {
     display: none;
+  }
+
+  /* ─────────────────────
+     OUTPUT PANELS
+  ───────────────────── */
+
+  .hint-output,
+  .explain-output {
+
+    margin-top: 16px;
+
+    border-radius: 16px;
+
+    clip-path: none;
+
+    padding:
+      22px
+      26px;
   }
 
   /* ─────────────────────
@@ -1081,18 +1116,18 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   .cryptic-giscus-wrap {
 
-    height: calc(100vh - 36px);
+    height: 100vh;
 
     overflow: hidden;
 
     display: flex;
     flex-direction: column;
 
-    padding: 18px;
+    padding:
+      22px
+      20px;
 
-    border-radius: 18px;
-
-    border:
+    border-left:
       1px solid rgba(212,175,55,0.12);
 
     background:
@@ -1111,17 +1146,17 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     display: block;
 
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 
     font-family: 'Cinzel', serif;
 
-    font-size: 13px;
+    font-size: 14px;
 
     letter-spacing: 3px;
 
     color: var(--gold);
 
-    opacity: 0.8;
+    opacity: 0.82;
   }
 
   .giscus {
@@ -1139,7 +1174,23 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     height: 100% !important;
 
-    border-radius: 12px;
+    border-radius: 14px;
+  }
+
+  /* ─────────────────────
+     FLOATING UI
+  ───────────────────── */
+
+  .theme-toggle {
+
+    top: 14px;
+    left: 14px;
+  }
+
+  .puzzle-counter {
+
+    top: 14px;
+    right: 14px;
   }
 
   /* ─────────────────────
