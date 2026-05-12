@@ -816,7 +816,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 }
 
 /* ─────────────────────────────────────────────
-   DESKTOP REFINED LAYOUT
+   DESKTOP LAYOUT — FINAL REFINED VERSION
    (1024px and above)
 ───────────────────────────────────────────── */
 
@@ -845,7 +845,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   .particle {
-    opacity: 0.12;
+    opacity: 0.1;
   }
 
   /* ─────────────────────
@@ -854,7 +854,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   .page {
 
-    width: min(1380px, calc(100vw - 40px));
+    width: min(1280px, calc(100vw - 40px));
 
     height: 100vh;
 
@@ -869,7 +869,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   /* ─────────────────────
-     MAIN STRUCTURE
+     MAIN GRID
   ───────────────────── */
 
   #puzzleContent {
@@ -877,10 +877,12 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     display: grid;
 
     grid-template-columns:
-      minmax(0, 1fr)
-      340px;
+      minmax(700px, 860px)
+      320px;
 
-    gap: 34px;
+    justify-content: center;
+
+    gap: 28px;
 
     height: calc(100vh - 36px);
 
@@ -888,7 +890,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   /* ─────────────────────
-     SOLVE COLUMN
+     LEFT SOLVE COLUMN
   ───────────────────── */
 
   header,
@@ -899,23 +901,10 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .hint-output,
   .explain-output,
   .controls {
+
     grid-column: 1;
-  }
-
-  /* centered solve column */
-
-  header,
-  .timer-bar-wrap,
-  .clue,
-  .answer-row,
-  .hint-buttons,
-  .hint-output,
-  .explain-output,
-  .controls {
 
     width: 100%;
-
-    max-width: 980px;
 
     justify-self: center;
   }
@@ -941,9 +930,9 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .puzzle-date {
 
     font-size:
-      clamp(34px, 2.4vw, 48px);
+      clamp(34px, 2.3vw, 46px);
 
-    line-height: 1.02;
+    line-height: 1.04;
 
     margin-bottom: 4px;
 
@@ -958,11 +947,11 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     margin-bottom: 14px;
 
-    opacity: 0.75;
+    opacity: 0.72;
   }
 
   /* ─────────────────────
-     META STRIP
+     META
   ───────────────────── */
 
   .difficulty-tag,
@@ -1067,7 +1056,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   .clue {
 
-    max-width: 920px;
+    max-width: 860px;
 
     margin:
       20px
@@ -1125,7 +1114,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     gap: 10px;
 
     margin:
-      6px
+      8px
       auto
       18px;
 
@@ -1167,7 +1156,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   /* ─────────────────────
-     HINT BUTTONS
+     BUTTONS
   ───────────────────── */
 
   .hint-buttons {
@@ -1224,7 +1213,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .hint-output,
   .explain-output {
 
-    max-width: 900px;
+    max-width: 860px;
 
     margin:
       12px
@@ -1296,7 +1285,9 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     grid-row: 1 / span 20;
 
-    height: 100%;
+    min-width: 0;
+
+    height: calc(100vh - 70px);
 
     margin: 0;
 
@@ -1348,7 +1339,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     opacity: 0.8;
   }
 
-  /* giscus frame */
+  /* giscus */
 
   .giscus,
   .giscus-frame {
