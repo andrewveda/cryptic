@@ -812,100 +812,114 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 }
 @media (min-width: 1024px) {
-  /* ── REDUCE PAGE PADDING ── */
+  /* ── RESTORE TWO-COLUMN GRID ── */
   .page {
-    padding: 24px 32px 40px; /* Reduced top/side padding */
-    gap: 32px;
-    grid-template-columns: minmax(0, 1fr) 300px; /* Slimmer sidebar */
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px 32px 40px; /* Compact top padding */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px; /* Specific sidebar width */
+    gap: 40px;
+    align-items: start;
+    text-align: left; /* Align left for professional feel */
   }
 
-  /* ── COMPACT HEADER & META ── */
+  #puzzleContent {
+    width: 100%;
+    max-width: 900px; /* Prevents text from getting too wide */
+    margin: 0; 
+    min-height: auto; /* Remove the force-stretch */
+  }
+
+  /* ── COMPACT HEADER ── */
   header {
+    padding: 0;
     margin-bottom: 12px;
   }
-
   .puzzle-date {
-    font-size: clamp(40px, 3.5vw, 54px); /* Smaller header */
-    margin-bottom: 2px;
+    font-size: clamp(42px, 4vw, 58px);
+    line-height: 1;
+    margin-bottom: 4px;
   }
-
   .puzzle-author {
     font-size: 16px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    opacity: 0.7;
   }
 
-  /* ── ALIGN META ELEMENTS ── */
+  /* ── META & TIMER ON ONE LINE ── */
   .difficulty-tag, .player-badge, .timer-bar-wrap {
+    display: inline-flex;
+    vertical-align: middle;
     margin-top: 0;
-    margin-bottom: 0;
   }
-
   .timer-bar-row {
-    padding: 8px 16px;
+    padding: 6px 14px;
     border-radius: 999px;
   }
+  .timer-track { width: 140px; }
 
-  .timer-track {
-    width: 120px; /* Narrower timer bar */
-  }
-
-  /* ── TIGHT CLUE BOX ── */
+  /* ── TIGHT CLUE & CELLS ── */
   .clue {
-    margin: 12px 0; /* Minimal vertical gap */
-    padding: 28px 40px; /* Reduced internal padding */
-    font-size: clamp(28px, 2vw, 36px); /* More readable, less overwhelming */
+    margin: 14px 0; /* Minimal vertical gap */
+    padding: 30px 40px;
+    font-size: clamp(28px, 2.2vw, 38px);
     border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    clip-path: none;
+    text-align: center;
   }
 
-  /* ── COMPACT ANSWER GRID ── */
   .answer-row {
-    margin: 10px 0 16px;
+    margin: 10px 0 20px;
+    justify-content: center; /* Keep inputs centered in the column */
+    display: flex;
     gap: 10px;
   }
 
   .cell {
-    width: 64px;  /* Scaled down from 82px */
-    height: 76px; /* Scaled down from 96px */
+    width: 62px;
+    height: 74px;
     font-size: 32px;
     border-radius: 12px;
+    clip-path: none;
   }
 
-  /* ── HINT BUTTONS & OUTPUT ── */
+  /* ── HINT BUTTONS ── */
   .hint-buttons {
-    margin-top: 8px;
-    gap: 10px;
+    margin-top: 0;
+    justify-content: center;
   }
-
   .hint-buttons button {
     padding: 10px 18px;
     font-size: 11px;
+    border-radius: 999px;
+    clip-path: none;
   }
 
   .hint-output, .explain-output {
     margin-top: 12px;
-    padding: 16px 20px;
-    font-size: 14px;
-    border-radius: 14px;
+    padding: 18px;
+    border-radius: 15px;
+    clip-path: none;
   }
 
-  /* ── SIDEBAR (Giscus) ── */
+  /* ── SIDEBAR (GISCUS) ── */
   .cryptic-giscus-wrap {
+    position: sticky;
     top: 24px;
     height: calc(100vh - 48px);
-    padding: 16px;
+    margin-top: 0;
+    padding: 20px;
+    border-left: 1px solid rgba(212,175,55,0.15);
+    background: linear-gradient(180deg, rgba(212,175,55,0.03), transparent);
   }
+  
+  .controls { margin-top: 15px; text-align: center; }
+  .check-btn { border-radius: 12px; clip-path: none; padding: 14px 40px; }
 
-  /* ── CONTROLS ── */
-  .controls {
-    margin-top: 16px;
-  }
-
-  .check-btn {
-    padding: 14px 40px;
-    font-size: 16px;
-    border-radius: 14px;
-  }
+  /* Hide mobile-only hints */
+  .swipe-hint, .back-link { display: none; }
 }
 </style>
 </head>
