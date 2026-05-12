@@ -454,10 +454,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
         crossorigin="anonymous"
         async>
 </script>
-<script>
-document.querySelector('.cryptic-giscus-wrap script[src="https://giscus.app/client.js"]')
-  .setAttribute('data-term', `Cryptic: ${rawClue}`);
-</script>
+
 </div>
     <div class="swipe-hint" id="swipeHint">← swipe or use arrow keys to navigate →</div>
 
@@ -675,13 +672,36 @@ function resetPuzzleState() {
 function rebuildPuzzle() {
   document.getElementById('answerRow').innerHTML = '';
   populatePuzzleData();
-}
 
-/* ============================================================
-   BUILD PUZZLE UI
-============================================================ */
+  const old = document.querySelector('.cryptic-giscus-wrap script[src="https://giscus.app/client.js"]');
+
+  if (old) {
+ old.setAttribute('data-term', rawClue);
+
+    const fresh = document.createElement('script');
+
+    Array.from(old.attributes).forEach(attr => {
+      fresh.setAttribute(attr.name, attr.value);
+    });
+
+    old.replaceWith(fresh);
+  }
+}
 function buildPuzzle() {
   populatePuzzleData();
+  const old = document.querySelector('.cryptic-giscus-wrap script[src="https://giscus.app/client.js"]');
+
+if (old) {
+ old.setAttribute('data-term', rawClue);
+
+  const fresh = document.createElement('script');
+
+  Array.from(old.attributes).forEach(attr => {
+    fresh.setAttribute(attr.name, attr.value);
+  });
+
+  old.replaceWith(fresh);
+}
   document.getElementById('defBtn').onclick       = () => showHint('def');
   document.getElementById('fodderBtn').onclick    = () => showHint('fodder');
   document.getElementById('indicatorBtn').onclick = () => showHint('indicator');
