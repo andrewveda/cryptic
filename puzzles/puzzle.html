@@ -222,7 +222,6 @@ header { padding: 60px 10px 20px; }
 
 /* ── EXPLANATION BUTTON (special state) ── */
 #explainBtn {
-  /* locked state */
   border-color: var(--border2);
   color: var(--gold-dimmer);
   cursor: not-allowed;
@@ -255,7 +254,6 @@ header { padding: 60px 10px 20px; }
 }
 @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Explanation output gets a slightly different accent */
 .explain-output {
   margin: 18px 0; padding: 20px 22px;
   background: linear-gradient(135deg, var(--surface2), var(--surface3));
@@ -274,10 +272,7 @@ header { padding: 60px 10px 20px; }
 
 /* ── CHECK BUTTON ── */
 .controls { margin: 36px 0 16px; opacity: 0; animation: fadeInUp 0.6s ease-out 0.7s forwards; }
-.cryptic-giscus-wrap {
-  margin-top: 20px;
-}
-  .check-btn { padding: 16px 50px; background: var(--gold); color: var(--bg); border: none; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 17px; cursor: pointer; clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px); transition: all 0.3s; letter-spacing: 2px; position: relative; overflow: hidden; }
+.check-btn { padding: 16px 50px; background: var(--gold); color: var(--bg); border: none; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 17px; cursor: pointer; clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px); transition: all 0.3s; letter-spacing: 2px; position: relative; overflow: hidden; }
 .check-btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: var(--gold-light); border-radius: 50%; transform: translate(-50%,-50%); transition: width 0.5s, height 0.5s; }
 .check-btn:hover::before { width: 400px; height: 400px; }
 .check-btn span { position: relative; z-index: 1; }
@@ -307,7 +302,6 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 .success-meta  { font-size: 14px; color: var(--gold-dim); letter-spacing: 1px; margin-bottom: 24px; }
 .success-recorded { font-size: 13px; color: var(--gold); padding: 9px 14px; border: 1px solid var(--border2); margin-bottom: 22px; clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); }
 
-/* Explanation inside success modal */
 .success-explanation {
   margin: 0 0 24px;
   padding: 18px 20px;
@@ -364,488 +358,199 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .particle { display: none; }
 }
 
-
-
-
-
-
-
-  /* ─────────────────────────────────────────────
+/* ─────────────────────────────────────────────
    MOBILE REFINEMENT — PREMIUM COMPACT LAYOUT
 ───────────────────────────────────────────── */
-
 @media (max-width: 768px) {
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .bg-pattern { animation: none; opacity: 0.02; }
+  .particle { display: none; }
+  .page { width: calc(100vw - 14px); padding: 6px 8px 24px; }
+  .theme-toggle { top: 6px; left: 6px; padding: 3px 8px; font-size: 13px; border-width: 1px; }
+  .puzzle-counter { top: 6px; right: 6px; padding: 3px 8px; font-size: 10px; letter-spacing: 1px; border-width: 1px; }
+  .counter-solved { font-size: 9px; }
+  .progress-strip { height: 2px; }
+  header { padding: 34px 4px 6px; }
+  .puzzle-number { display: none; }
+  .puzzle-date { font-size: 20px; margin-bottom: 2px; letter-spacing: 1px; }
+  .puzzle-author { font-size: 12px; margin-bottom: 8px; letter-spacing: 1px; opacity: 0.85; }
+  .player-badge { margin-top: 4px; padding: 4px 8px; gap: 5px; border-width: 1px; }
+  .player-badge-name { font-size: 11px; }
+  .player-badge-change { font-size: 10px; }
+  .difficulty-tag { padding: 3px 9px; font-size: 9px; letter-spacing: 1px; border-width: 1px; margin-bottom: 8px; }
+  .timer-bar-wrap { margin: 8px 0 0; }
+  .timer-bar-row { padding: 7px 10px; gap: 8px; border-width: 1px; }
+  .timer-display { font-size: 15px; min-width: 42px; letter-spacing: 1px; }
+  .timer-track { height: 3px; }
+  .hints-block { min-width: auto; }
+  .hints-used-label { display: none; }
+  .hints-used-val { font-size: 13px; }
+  .clue { margin: 12px 0 10px; padding: 14px 16px; font-size: 18px; line-height: 1.48; border-width: 1px; background: linear-gradient(135deg, var(--surface), var(--surface2)); clip-path: none; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.18); }
+  .clue::before { display: none; }
+  .answer-row { gap: 4px; margin: 10px auto 12px; padding: 0; }
+  .cell { border-width: 1.5px; clip-path: none; border-radius: 7px; font-size: clamp(15px, 4vw, 21px); background: linear-gradient(135deg, var(--surface), var(--surface2)); transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease; }
+  .cell:focus { transform: scale(1.03); box-shadow: 0 0 10px rgba(212,175,55,0.25); }
+  .hint-buttons { margin-top: 10px; gap: 6px; }
+  .hint-buttons button { padding: 8px 11px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; border-width: 1px; clip-path: none; border-radius: 999px; min-height: 34px; }
+  .hint-buttons button::before { display: none; }
+  .hint-buttons button:hover:not(:disabled) { background: var(--gold-faint); color: var(--gold); }
+  #explainBtn { min-width: 125px; }
+  .hint-output, .explain-output { margin: 10px 0; padding: 12px 14px; font-size: 13px; line-height: 1.6; border-width: 1px; clip-path: none; border-radius: 10px; }
+  .explain-output-label { margin-bottom: 6px; font-size: 10px; }
+  .controls { margin: 16px 0 8px; }
+  .check-btn { width: 100%; padding: 12px 18px; font-size: 14px; letter-spacing: 1px; clip-path: none; border-radius: 10px; }
+  .check-btn::before { display: none; }
+  .cryptic-giscus-wrap { margin-top: 16px; padding-top: 14px; }
+  .swipe-hint { margin-top: 6px; font-size: 9px; letter-spacing: 1px; opacity: 0.55; }
+  .back-link { margin-top: 10px; font-size: 11px; }
+  .nav-arrow { width: 24px; height: 48px; font-size: 14px; opacity: 0.4; border-width: 1px; }
+  .nav-arrow:hover:not(:disabled) { box-shadow: none; }
+  .toast { bottom: 18px; padding: 10px 18px; font-size: 12px; clip-path: none; border-radius: 10px; }
+  .success-modal { padding: 10px; }
+  .success-content { padding: 26px 16px; clip-path: none; border-radius: 14px; border-width: 1.5px; }
+  .success-icon { font-size: 48px; margin-bottom: 10px; }
+  .success-title { font-size: 22px; margin-bottom: 8px; letter-spacing: 2px; }
+  .success-player { font-size: 13px; }
+  .success-answer { font-size: 20px; margin-bottom: 6px; letter-spacing: 2px; }
+  .success-meta { font-size: 12px; margin-bottom: 14px; }
+  .success-recorded { font-size: 11px; padding: 7px 10px; margin-bottom: 14px; }
+  .success-explanation { padding: 12px 14px; border-width: 1px; clip-path: none; border-radius: 10px; }
+  .success-explanation-text { font-size: 12px; line-height: 1.6; }
+  .success-btns { gap: 8px; }
+  .next-btn { min-width: 120px; padding: 11px 16px; font-size: 12px; clip-path: none; border-radius: 10px; }
+  .confirm-card { padding: 24px 18px; clip-path: none; border-radius: 12px; border-width: 1px; }
+  .confirm-title { font-size: 15px; margin-bottom: 8px; }
+  .confirm-text { font-size: 12px; margin-bottom: 18px; }
+  .confirm-btn { padding: 9px 14px; font-size: 11px; clip-path: none; border-radius: 8px; }
+}
 
-  /* ── GLOBAL ── */
+/* ─────────────────────────────────────────────
+   DESKTOP — TRUE 70/30 TWO-COLUMN LAYOUT
+───────────────────────────────────────────── */
+@media (min-width: 1024px) {
 
+  /* Body fills viewport, no scroll on the shell */
   body {
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    height: 100vh;
   }
 
-  .bg-pattern {
-    animation: none;
-    opacity: 0.02;
-  }
-
-  .particle {
-    display: none;
-  }
-
-  /* ── PAGE WIDTH ── */
-
+  /* The .page IS the two-column shell — full viewport, no centering */
   .page {
-    width: calc(100vw - 14px);
-    padding: 6px 8px 24px;
-  }
-
-  /* ── TOP FLOATING ELEMENTS ── */
-
-  .theme-toggle {
-    top: 6px;
-    left: 6px;
-    padding: 3px 8px;
-    font-size: 13px;
-    border-width: 1px;
-  }
-
-  .puzzle-counter {
-    top: 6px;
-    right: 6px;
-    padding: 3px 8px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    border-width: 1px;
-  }
-
-  .counter-solved {
-    font-size: 9px;
-  }
-
-  .progress-strip {
-    height: 2px;
-  }
-
-  /* ── HEADER ── */
-
-  header {
-    padding: 34px 4px 6px;
-  }
-
-  .puzzle-number {
-    display: none;
-  }
-
-  .puzzle-date {
-    font-size: 20px;
-    margin-bottom: 2px;
-    letter-spacing: 1px;
-  }
-
-  .puzzle-author {
-    font-size: 12px;
-    margin-bottom: 8px;
-    letter-spacing: 1px;
-    opacity: 0.85;
-  }
-
-  /* ── PLAYER BADGE ── */
-
-  .player-badge {
-    margin-top: 4px;
-    padding: 4px 8px;
-    gap: 5px;
-    border-width: 1px;
-  }
-
-  .player-badge-name {
-    font-size: 11px;
-  }
-
-  .player-badge-change {
-    font-size: 10px;
-  }
-
-  /* ── DIFFICULTY ── */
-
-  .difficulty-tag {
-    padding: 3px 9px;
-    font-size: 9px;
-    letter-spacing: 1px;
-    border-width: 1px;
-    margin-bottom: 8px;
-  }
-
-  /* ── TIMER STRIP ── */
-
-  .timer-bar-wrap {
-    margin: 8px 0 0;
-  }
-
-  .timer-bar-row {
-    padding: 7px 10px;
-    gap: 8px;
-    border-width: 1px;
-  }
-
-  .timer-display {
-    font-size: 15px;
-    min-width: 42px;
-    letter-spacing: 1px;
-  }
-
-  .timer-track {
-    height: 3px;
-  }
-
-  .hints-block {
-    min-width: auto;
-  }
-
-  .hints-used-label {
-    display: none;
-  }
-
-  .hints-used-val {
-    font-size: 13px;
-  }
-
-  /* ── CLUE HERO ── */
-
-  .clue {
-    margin: 12px 0 10px;
-    padding: 14px 16px;
-
-    font-size: 18px;
-    line-height: 1.48;
-
-    border-width: 1px;
-
-    background:
-      linear-gradient(
-        135deg,
-        var(--surface),
-        var(--surface2)
-      );
-
-    clip-path: none;
-    border-radius: 10px;
-
-    box-shadow:
-      0 2px 10px rgba(0,0,0,0.18);
-  }
-
-  .clue::before {
-    display: none;
-  }
-
-  /* ── ANSWER ROW ── */
-
-  .answer-row {
-    gap: 4px;
-    margin: 10px auto 12px;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    margin: 0;
     padding: 0;
+    text-align: left;
   }
 
-  .cell {
-    border-width: 1.5px;
-    clip-path: none;
-    border-radius: 7px;
+  /* Left column: puzzle content, scrollable */
+  #puzzleContent {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 24px 48px 48px 64px;
+    text-align: center;
+    /* Subtle right border separator */
+    border-right: 1px solid var(--border);
+    /* Scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: var(--border2) transparent;
+  }
+  #puzzleContent::-webkit-scrollbar { width: 4px; }
+  #puzzleContent::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  #puzzleContent::-webkit-scrollbar-track { background: transparent; }
 
-    font-size: clamp(15px, 4vw, 21px);
+  /* Right column: giscus, full height, scrollable */
+  .cryptic-giscus-wrap {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    /* Scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: var(--border2) transparent;
+    /* Ensure giscus iframe fills the column */
+    background: var(--bg);
+  }
+  .cryptic-giscus-wrap::-webkit-scrollbar { width: 4px; }
+  .cryptic-giscus-wrap::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .cryptic-giscus-wrap::-webkit-scrollbar-track { background: transparent; }
 
-    background:
-      linear-gradient(
-        135deg,
-        var(--surface),
-        var(--surface2)
-      );
-
-    transition:
-      border-color 0.2s ease,
-      background 0.2s ease,
-      transform 0.15s ease;
+  /* Make giscus iframe fill the column tightly */
+  .cryptic-giscus-wrap iframe,
+  .cryptic-giscus-wrap > div {
+    width: 100% !important;
+    min-height: 100%;
+    flex: 1;
   }
 
-  .cell:focus {
-    transform: scale(1.03);
-    box-shadow: 0 0 10px rgba(212,175,55,0.25);
+  /* Constrain puzzle content width for readability */
+  #puzzleContent > * {
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* But let the header be naturally centered */
+  #puzzleContent header {
+    padding-top: 56px;
+    padding-bottom: 12px;
   }
 
-  /* ── HINT BUTTONS ── */
-
-  .hint-buttons {
-    margin-top: 10px;
-    gap: 6px;
+  /* Nav arrows sit outside puzzle content — keep them visible */
+  .nav-arrow.left  { left: 0; }
+  .nav-arrow.right {
+    /* Push right arrow to sit between columns */
+    right: 30%;
+    transform: translateY(-50%) translateX(50%);
+    /* Bring it in front */
+    z-index: 55;
   }
 
-  .hint-buttons button {
-    padding: 8px 11px;
+  /* swipe hint hidden on desktop */
+  .swipe-hint { display: none; }
 
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-
-    border-width: 1px;
-
-    clip-path: none;
-    border-radius: 999px;
-
-    min-height: 34px;
-  }
-
-  .hint-buttons button::before {
-    display: none;
-  }
-
-  .hint-buttons button:hover:not(:disabled) {
-    background: var(--gold-faint);
-    color: var(--gold);
-  }
-
-  #explainBtn {
-    min-width: 125px;
-  }
-
-  /* ── HINT OUTPUT ── */
-
-  .hint-output,
-  .explain-output {
-    margin: 10px 0;
-    padding: 12px 14px;
-
-    font-size: 13px;
-    line-height: 1.6;
-
-    border-width: 1px;
-
-    clip-path: none;
-    border-radius: 10px;
-  }
-
-  .explain-output-label {
-    margin-bottom: 6px;
-    font-size: 10px;
-  }
-
-  /* ── CONTROLS ── */
-
-  .controls {
-    margin: 16px 0 8px;
-  }
-
+  /* Full-width check button on desktop */
   .check-btn {
     width: 100%;
-
-    padding: 12px 18px;
-
-    font-size: 14px;
-    letter-spacing: 1px;
-
-    clip-path: none;
-    border-radius: 10px;
+    padding: 16px 32px;
   }
 
-  .check-btn::before {
-    display: none;
-  }
-
-  /* ── GISCUS ── */
-
-  .cryptic-giscus-wrap {
-    margin-top: 16px;
-    padding-top: 14px;
-  }
-
-  /* ── SWIPE HINT ── */
-
-  .swipe-hint {
-    margin-top: 6px;
-
-    font-size: 9px;
-    letter-spacing: 1px;
-
-    opacity: 0.55;
-  }
-
-  /* ── BACK LINK ── */
-
-  .back-link {
-    margin-top: 10px;
-    font-size: 11px;
-  }
-
-  /* ── NAV ARROWS ── */
-
-  .nav-arrow {
-    width: 24px;
-    height: 48px;
-
-    font-size: 14px;
-
-    opacity: 0.4;
-
-    border-width: 1px;
-  }
-
-  .nav-arrow:hover:not(:disabled) {
-    box-shadow: none;
-  }
-
-  /* ── TOAST ── */
-
-  .toast {
-    bottom: 18px;
-
-    padding: 10px 18px;
-
-    font-size: 12px;
-
-    clip-path: none;
-    border-radius: 10px;
-  }
-
-  /* ── SUCCESS MODAL ── */
-
-  .success-modal {
-    padding: 10px;
-  }
-
-  .success-content {
-    padding: 26px 16px;
-
-    clip-path: none;
-    border-radius: 14px;
-
-    border-width: 1.5px;
-  }
-
-  .success-icon {
-    font-size: 48px;
-    margin-bottom: 10px;
-  }
-
-  .success-title {
-    font-size: 22px;
-    margin-bottom: 8px;
-    letter-spacing: 2px;
-  }
-
-  .success-player {
-    font-size: 13px;
-  }
-
-  .success-answer {
-    font-size: 20px;
-    margin-bottom: 6px;
-    letter-spacing: 2px;
-  }
-
-  .success-meta {
-    font-size: 12px;
-    margin-bottom: 14px;
-  }
-
-  .success-recorded {
-    font-size: 11px;
-    padding: 7px 10px;
-    margin-bottom: 14px;
-  }
-
-  .success-explanation {
-    padding: 12px 14px;
-
-    border-width: 1px;
-
-    clip-path: none;
-    border-radius: 10px;
-  }
-
-  .success-explanation-text {
-    font-size: 12px;
-    line-height: 1.6;
-  }
-
-  .success-btns {
-    gap: 8px;
-  }
-
-  .next-btn {
-    min-width: 120px;
-
-    padding: 11px 16px;
-
-    font-size: 12px;
-
-    clip-path: none;
-    border-radius: 10px;
-  }
-
-  /* ── CONFIRM MODAL ── */
-
-  .confirm-card {
-    padding: 24px 18px;
-
-    clip-path: none;
-    border-radius: 12px;
-
-    border-width: 1px;
-  }
-
-  .confirm-title {
-    font-size: 15px;
-    margin-bottom: 8px;
-  }
-
-  .confirm-text {
-    font-size: 12px;
-    margin-bottom: 18px;
-  }
-
-  .confirm-btn {
-    padding: 9px 14px;
-
-    font-size: 11px;
-
-    clip-path: none;
-    border-radius: 8px;
+  /* Giscus column label — optional subtle header */
+  .giscus-panel-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold-dimmer);
+    text-transform: uppercase;
+    padding: 18px 20px 8px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    text-align: center;
   }
 }
 
-@media (min-width: 1024px) {
-
-  .page {
-    width: 100vw;
-    height: 100vh;
-
-    display: grid;
-
-    grid-template-columns:
-      70vw
-      30vw;
-
-    margin: 0;
-    padding: 0;
-
-    overflow: hidden;
-  }
-
+/* Slightly smaller desktop for tight 1024-1280 range */
+@media (min-width: 1024px) and (max-width: 1280px) {
   #puzzleContent {
-    width: 100%;
-    max-width: none;
-
-    padding: 24px 48px 40px;
-
-    overflow-y: auto;
+    padding: 20px 28px 40px 44px;
   }
-
-  .cryptic-giscus-wrap {
-    width: 100%;
-    min-width: 0;
-
-    overflow-y: auto;
+  #puzzleContent > * {
+    max-width: 440px;
   }
-
 }
 </style>
 </head>
@@ -902,7 +607,6 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
       <button id="defBtn"><span>DEFINITION</span></button>
       <button id="fodderBtn"><span>FODDER</span></button>
       <button id="indicatorBtn"><span>INDICATOR</span></button>
-      <!-- Explanation button — always rendered, starts locked -->
       <button id="explainBtn" disabled aria-label="Explanation locked">
         <span id="explainBtnLabel">EXPLANATION 3:00</span>
       </button>
@@ -913,45 +617,46 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
       <span class="explain-output-label">How to think about this clue</span>
       <div class="explain-output-text" id="explainOutputText"></div>
     </div>
-<div class="controls">
-  <button class="check-btn" id="checkBtn">
-    <span>CHECK ANSWER</span>
-  </button>
+
+    <div class="controls">
+      <button class="check-btn" id="checkBtn">
+        <span>CHECK ANSWER</span>
+      </button>
+    </div>
+
+    <div class="swipe-hint" id="swipeHint">
+      ← swipe or use arrow keys to navigate →
+    </div>
+
+    <a class="back-link" href="../index.html">
+      ← Back to all puzzles
+    </a>
+
+  </div> <!-- END puzzleContent -->
+
+  <aside class="cryptic-giscus-wrap">
+    <!-- Subtle label for the discussion panel -->
+    <div class="giscus-panel-label">Discussion</div>
+
+    <script src="https://giscus.app/client.js"
+            data-repo="andrewveda/cryptic"
+            data-repo-id="R_kgDOQ5jJ1Q"
+            data-category="General"
+            data-category-id="DIC_kwDOQ5jJ1c4C81sX"
+            data-mapping="specific"
+            data-term=""
+            data-strict="1"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="noborder_light"
+            data-lang="en"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </aside>
+
 </div>
-
-<div class="swipe-hint" id="swipeHint">
-  ← swipe or use arrow keys to navigate →
-</div>
-
-<a class="back-link" href="../index.html">
-  ← Back to all puzzles
-</a>
-
-</div> <!-- END puzzleContent -->
-
-<aside class="cryptic-giscus-wrap">
-
-<script src="https://giscus.app/client.js"
-        data-repo="andrewveda/cryptic"
-        data-repo-id="R_kgDOQ5jJ1Q"
-        data-category="General"
-        data-category-id="DIC_kwDOQ5jJ1c4C81sX"
-        data-mapping="specific"
-        data-term=""
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="noborder_light"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>
-
-</aside>
-
-</div>
-    
 
 <!-- Success modal -->
 <div class="success-modal" id="successModal">
@@ -962,7 +667,6 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     <div class="success-answer" id="successAnswer"></div>
     <div class="success-meta"   id="successMeta"></div>
     <div class="success-recorded" id="successRecorded" style="display:none"></div>
-    <!-- Explanation shown after solve -->
     <div class="success-explanation" id="successExplanation" style="display:none">
       <span class="success-explanation-label">How this clue works</span>
       <div class="success-explanation-text" id="successExplanationText"></div>
@@ -1002,9 +706,12 @@ function applyTheme(theme) {
   if (theme === 'light') {
     document.documentElement.classList.add('light');
     document.getElementById('themeToggle').textContent = '🌙';
+    // Update giscus theme
+    sendGiscusMessage({ setConfig: { theme: 'light' } });
   } else {
     document.documentElement.classList.remove('light');
     document.getElementById('themeToggle').textContent = '☀️';
+    sendGiscusMessage({ setConfig: { theme: 'noborder_dark' } });
   }
 }
 function toggleTheme() {
@@ -1012,6 +719,12 @@ function toggleTheme() {
   const next = isLight ? 'dark' : 'light';
   localStorage.setItem(THEME_KEY, next);
   applyTheme(next);
+}
+// Send message to giscus iframe to sync theme
+function sendGiscusMessage(message) {
+  const iframe = document.querySelector('.cryptic-giscus-wrap iframe.giscus-frame');
+  if (!iframe) return;
+  iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
 }
 applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
 
@@ -1165,34 +878,23 @@ function rebuildPuzzle() {
   populatePuzzleData();
 
   const old = document.querySelector('.cryptic-giscus-wrap script[src="https://giscus.app/client.js"]');
-
   if (old) {
- old.setAttribute('data-term', rawClue);
-
+    old.setAttribute('data-term', rawClue);
     const fresh = document.createElement('script');
-
-    Array.from(old.attributes).forEach(attr => {
-      fresh.setAttribute(attr.name, attr.value);
-    });
-
+    Array.from(old.attributes).forEach(attr => fresh.setAttribute(attr.name, attr.value));
     old.replaceWith(fresh);
   }
 }
+
 function buildPuzzle() {
   populatePuzzleData();
   const old = document.querySelector('.cryptic-giscus-wrap script[src="https://giscus.app/client.js"]');
-
-if (old) {
- old.setAttribute('data-term', rawClue);
-
-  const fresh = document.createElement('script');
-
-  Array.from(old.attributes).forEach(attr => {
-    fresh.setAttribute(attr.name, attr.value);
-  });
-
-  old.replaceWith(fresh);
-}
+  if (old) {
+    old.setAttribute('data-term', rawClue);
+    const fresh = document.createElement('script');
+    Array.from(old.attributes).forEach(attr => fresh.setAttribute(attr.name, attr.value));
+    old.replaceWith(fresh);
+  }
   document.getElementById('defBtn').onclick       = () => showHint('def');
   document.getElementById('fodderBtn').onclick    = () => showHint('fodder');
   document.getElementById('indicatorBtn').onclick = () => showHint('indicator');
@@ -1224,14 +926,12 @@ function populatePuzzleData() {
   document.getElementById('timerDisplay').classList.remove('amber','danger');
   document.getElementById('timerFill').classList.remove('amber','danger');
 
-  // Reset explanation button
   const explainBtn   = document.getElementById('explainBtn');
   const explainLabel = document.getElementById('explainBtnLabel');
   explainBtn.disabled = true;
   explainBtn.classList.remove('unlocked','used');
   explainLabel.textContent = 'EXPLANATION 3:00';
 
-  // Answer cells
   const letters = puzzle.answer.replace(/\s/g,'').length;
   document.documentElement.style.setProperty('--letters', letters);
   const row = document.getElementById('answerRow');
@@ -1321,7 +1021,6 @@ function startTimer() {
   if (startTime) return;
   startTime   = Date.now();
   timerHandle = setInterval(tickTimer, 1000);
-  // Start the explanation countdown from this moment
   startExplainCountdown();
 }
 function stopTimer() { clearInterval(timerHandle); timerHandle = null; }
@@ -1347,40 +1046,29 @@ function getElapsed() { return startTime ? Math.round((Date.now() - startTime) /
 function startExplainCountdown() {
   if (explainUnlocked) return;
   stopExplainCountdown();
-
   const countdownStart = Date.now();
-
   explainCountdownHandle = setInterval(() => {
     const elapsed = Math.round((Date.now() - countdownStart) / 1000);
     const remaining = EXPLAIN_UNLOCK_SECS - elapsed;
-
-    if (remaining <= 0) {
-      unlockExplanation();
-      return;
-    }
-
+    if (remaining <= 0) { unlockExplanation(); return; }
     const m = Math.floor(remaining / 60);
     const s = remaining % 60;
     const label = document.getElementById('explainBtnLabel');
     if (label) label.textContent = `EXPLANATION ${m}:${s < 10 ? '0' : ''}${s}`;
   }, 1000);
 }
-
 function stopExplainCountdown() {
   clearInterval(explainCountdownHandle);
   explainCountdownHandle = null;
 }
-
 function unlockExplanation() {
   stopExplainCountdown();
   explainUnlocked = true;
-
   const explainBtn   = document.getElementById('explainBtn');
   const explainLabel = document.getElementById('explainBtnLabel');
   explainBtn.disabled = false;
   explainBtn.classList.add('unlocked');
   explainLabel.textContent = 'EXPLANATION';
-
   showToast('Explanation unlocked!', '', 2500);
 }
 
@@ -1389,24 +1077,17 @@ function unlockExplanation() {
 ============================================================ */
 function showExplanation() {
   if (!explainUnlocked) return;
-
   const text = puzzle.explanation || 'No explanation available for this puzzle.';
-
   const outputEl   = document.getElementById('explainOutput');
   const outputText = document.getElementById('explainOutputText');
   outputText.textContent = text;
   outputEl.style.display = 'block';
-
   explainShown = true;
-
-  // Mark button as used
   const explainBtn = document.getElementById('explainBtn');
   explainBtn.classList.add('used');
   explainBtn.classList.remove('unlocked');
   explainBtn.disabled = true;
   document.getElementById('explainBtnLabel').textContent = 'EXPLANATION';
-
-  // Scroll into view gently
   outputEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -1469,7 +1150,6 @@ function checkAnswer() {
     markSolved(puzzle.id);
     updateNavUI();
     cells.forEach(c => c.classList.add('correct'));
-    // Reveal explanation inline if not already shown
     if (!explainShown) {
       const text = puzzle.explanation || 'No explanation available for this puzzle.';
       const outputEl   = document.getElementById('explainOutput');
@@ -1478,7 +1158,6 @@ function checkAnswer() {
       outputEl.style.display = 'block';
       explainShown = true;
     }
-    // Also disable/hide the explanation button now (no longer needed)
     const explainBtn = document.getElementById('explainBtn');
     explainBtn.disabled = true;
     explainBtn.classList.remove('unlocked');
@@ -1512,7 +1191,6 @@ function showSuccess() {
   document.getElementById('successMeta').textContent    =
     `⏱ ${timeStr}  ·  💡 ${hintsUsed} hint${hintsUsed !== 1 ? 's' : ''} used`;
 
-  // Populate explanation in modal
   const explanationText = puzzle.explanation || '';
   const successExp      = document.getElementById('successExplanation');
   const successExpText  = document.getElementById('successExplanationText');
@@ -1547,7 +1225,6 @@ function showSuccess() {
 }
 
 function goBack() { window.location.href = '../index.html'; }
-
 function changeName() { window.location.href = "../index.html"; }
 
 /* ============================================================
