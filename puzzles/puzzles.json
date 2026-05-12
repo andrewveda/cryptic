@@ -1,5 +1,18 @@
 [
 {
+    "id": 146,
+    "clue": "Intelligent Bhumika tries fried frogs, caught insects step by step grow (6)",
+    "answer": "BRIGHT",
+    "definition": "Intelligent",
+    "fodder": "Bhumika tries fried frogs, caught insects",
+    "indicator": "stri by step grow",
+    "type": "hidden, acrostic",
+    "difficulty": "hard",
+    "date": "2026-05-12",
+"explanation": "Look at fodder letters, step by step!" 
+  },
+
+{
     "id": 145,
     "clue": "At heart, gambits parried. Angered Meenakshi blundered breakfast (5)",
     "answer": "BREAD",
