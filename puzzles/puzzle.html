@@ -366,6 +366,454 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .particle { display: none; }
 }
+
+
+
+
+
+
+
+  /* ─────────────────────────────────────────────
+   MOBILE REFINEMENT — PREMIUM COMPACT LAYOUT
+───────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+
+  /* ── GLOBAL ── */
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .bg-pattern {
+    animation: none;
+    opacity: 0.02;
+  }
+
+  .particle {
+    display: none;
+  }
+
+  /* ── PAGE WIDTH ── */
+
+  .page {
+    width: calc(100vw - 14px);
+    padding: 6px 8px 24px;
+  }
+
+  /* ── TOP FLOATING ELEMENTS ── */
+
+  .theme-toggle {
+    top: 6px;
+    left: 6px;
+    padding: 3px 8px;
+    font-size: 13px;
+    border-width: 1px;
+  }
+
+  .puzzle-counter {
+    top: 6px;
+    right: 6px;
+    padding: 3px 8px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    border-width: 1px;
+  }
+
+  .counter-solved {
+    font-size: 9px;
+  }
+
+  .progress-strip {
+    height: 2px;
+  }
+
+  /* ── HEADER ── */
+
+  header {
+    padding: 34px 4px 6px;
+  }
+
+  .puzzle-number {
+    display: none;
+  }
+
+  .puzzle-date {
+    font-size: 20px;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+  }
+
+  .puzzle-author {
+    font-size: 12px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    opacity: 0.85;
+  }
+
+  /* ── PLAYER BADGE ── */
+
+  .player-badge {
+    margin-top: 4px;
+    padding: 4px 8px;
+    gap: 5px;
+    border-width: 1px;
+  }
+
+  .player-badge-name {
+    font-size: 11px;
+  }
+
+  .player-badge-change {
+    font-size: 10px;
+  }
+
+  /* ── DIFFICULTY ── */
+
+  .difficulty-tag {
+    padding: 3px 9px;
+    font-size: 9px;
+    letter-spacing: 1px;
+    border-width: 1px;
+    margin-bottom: 8px;
+  }
+
+  /* ── TIMER STRIP ── */
+
+  .timer-bar-wrap {
+    margin: 8px 0 0;
+  }
+
+  .timer-bar-row {
+    padding: 7px 10px;
+    gap: 8px;
+    border-width: 1px;
+  }
+
+  .timer-display {
+    font-size: 15px;
+    min-width: 42px;
+    letter-spacing: 1px;
+  }
+
+  .timer-track {
+    height: 3px;
+  }
+
+  .hints-block {
+    min-width: auto;
+  }
+
+  .hints-used-label {
+    display: none;
+  }
+
+  .hints-used-val {
+    font-size: 13px;
+  }
+
+  /* ── CLUE HERO ── */
+
+  .clue {
+    margin: 12px 0 10px;
+    padding: 14px 16px;
+
+    font-size: 18px;
+    line-height: 1.48;
+
+    border-width: 1px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--surface),
+        var(--surface2)
+      );
+
+    clip-path: none;
+    border-radius: 10px;
+
+    box-shadow:
+      0 2px 10px rgba(0,0,0,0.18);
+  }
+
+  .clue::before {
+    display: none;
+  }
+
+  /* ── ANSWER ROW ── */
+
+  .answer-row {
+    gap: 4px;
+    margin: 10px auto 12px;
+    padding: 0;
+  }
+
+  .cell {
+    border-width: 1.5px;
+    clip-path: none;
+    border-radius: 7px;
+
+    font-size: clamp(15px, 4vw, 21px);
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--surface),
+        var(--surface2)
+      );
+
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      transform 0.15s ease;
+  }
+
+  .cell:focus {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px rgba(212,175,55,0.25);
+  }
+
+  /* ── HINT BUTTONS ── */
+
+  .hint-buttons {
+    margin-top: 10px;
+    gap: 6px;
+  }
+
+  .hint-buttons button {
+    padding: 8px 11px;
+
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    border-width: 1px;
+
+    clip-path: none;
+    border-radius: 999px;
+
+    min-height: 34px;
+  }
+
+  .hint-buttons button::before {
+    display: none;
+  }
+
+  .hint-buttons button:hover:not(:disabled) {
+    background: var(--gold-faint);
+    color: var(--gold);
+  }
+
+  #explainBtn {
+    min-width: 125px;
+  }
+
+  /* ── HINT OUTPUT ── */
+
+  .hint-output,
+  .explain-output {
+    margin: 10px 0;
+    padding: 12px 14px;
+
+    font-size: 13px;
+    line-height: 1.6;
+
+    border-width: 1px;
+
+    clip-path: none;
+    border-radius: 10px;
+  }
+
+  .explain-output-label {
+    margin-bottom: 6px;
+    font-size: 10px;
+  }
+
+  /* ── CONTROLS ── */
+
+  .controls {
+    margin: 16px 0 8px;
+  }
+
+  .check-btn {
+    width: 100%;
+
+    padding: 12px 18px;
+
+    font-size: 14px;
+    letter-spacing: 1px;
+
+    clip-path: none;
+    border-radius: 10px;
+  }
+
+  .check-btn::before {
+    display: none;
+  }
+
+  /* ── GISCUS ── */
+
+  .cryptic-giscus-wrap {
+    margin-top: 16px;
+    padding-top: 14px;
+  }
+
+  /* ── SWIPE HINT ── */
+
+  .swipe-hint {
+    margin-top: 6px;
+
+    font-size: 9px;
+    letter-spacing: 1px;
+
+    opacity: 0.55;
+  }
+
+  /* ── BACK LINK ── */
+
+  .back-link {
+    margin-top: 10px;
+    font-size: 11px;
+  }
+
+  /* ── NAV ARROWS ── */
+
+  .nav-arrow {
+    width: 24px;
+    height: 48px;
+
+    font-size: 14px;
+
+    opacity: 0.4;
+
+    border-width: 1px;
+  }
+
+  .nav-arrow:hover:not(:disabled) {
+    box-shadow: none;
+  }
+
+  /* ── TOAST ── */
+
+  .toast {
+    bottom: 18px;
+
+    padding: 10px 18px;
+
+    font-size: 12px;
+
+    clip-path: none;
+    border-radius: 10px;
+  }
+
+  /* ── SUCCESS MODAL ── */
+
+  .success-modal {
+    padding: 10px;
+  }
+
+  .success-content {
+    padding: 26px 16px;
+
+    clip-path: none;
+    border-radius: 14px;
+
+    border-width: 1.5px;
+  }
+
+  .success-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
+
+  .success-title {
+    font-size: 22px;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+
+  .success-player {
+    font-size: 13px;
+  }
+
+  .success-answer {
+    font-size: 20px;
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+  }
+
+  .success-meta {
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+
+  .success-recorded {
+    font-size: 11px;
+    padding: 7px 10px;
+    margin-bottom: 14px;
+  }
+
+  .success-explanation {
+    padding: 12px 14px;
+
+    border-width: 1px;
+
+    clip-path: none;
+    border-radius: 10px;
+  }
+
+  .success-explanation-text {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .success-btns {
+    gap: 8px;
+  }
+
+  .next-btn {
+    min-width: 120px;
+
+    padding: 11px 16px;
+
+    font-size: 12px;
+
+    clip-path: none;
+    border-radius: 10px;
+  }
+
+  /* ── CONFIRM MODAL ── */
+
+  .confirm-card {
+    padding: 24px 18px;
+
+    clip-path: none;
+    border-radius: 12px;
+
+    border-width: 1px;
+  }
+
+  .confirm-title {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .confirm-text {
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+
+  .confirm-btn {
+    padding: 9px 14px;
+
+    font-size: 11px;
+
+    clip-path: none;
+    border-radius: 8px;
+  }
+}
 </style>
 </head>
 <body>
