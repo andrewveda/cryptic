@@ -816,10 +816,10 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .page {
     display: grid;
     grid-template-columns: 1fr 320px;
-    gap: 30px;
+    gap: 20px;
     max-width: 100%;
     margin: 0;
-    padding: 20px 40px;
+    padding: 10px 40px;
     text-align: left;
     align-items: start;
   }
@@ -827,109 +827,110 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   #puzzleContent {
     max-width: 1000px;
     margin: 0;
-    display: flex;
-    flex-direction: column;
   }
 
-  /* ── COMPACT HEADER STACK ── */
+  /* ── COMPACT TITLES ── */
   header {
     padding: 0;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    display: block; /* Ensure it stays a block for the date/author stack */
   }
 
   .puzzle-date {
-    font-size: 48px;
-    margin-bottom: -5px; /* Pulls author closer */
+    font-size: 44px;
+    margin-bottom: 0;
+    line-height: 1.1;
   }
 
   .puzzle-author {
     font-size: 14px;
     margin-bottom: 12px;
     opacity: 0.6;
+    display: block;
   }
 
-  /* ── THE DASHBOARD ROW (One line for all meta) ── */
-  /* This ensures Difficulty, Name, and Timer all share the same line */
+  /* ── THE HORIZONTAL ROW FIX ── */
+  /* This targets the wrap containing tag, badge, and timer */
   .difficulty-tag, 
   .player-badge, 
   .timer-bar-wrap {
-    display: inline-flex;
+    display: inline-flex !important;
     vertical-align: middle;
-    margin: 0 12px 0 0;
+    margin: 0 8px 0 0 !important; /* Forces them side-by-side */
   }
 
-  /* Fix the Timer Wrap to be a tight pill */
+  /* Tighten the Timer Bar specifically */
   .timer-bar-wrap {
-    opacity: 1 !important; /* Ensure it's visible */
-    animation: none;
-    transform: none;
+    width: auto;
+    opacity: 1 !important;
   }
 
   .timer-bar-row {
-    padding: 4px 12px;
+    padding: 4px 10px;
+    height: 32px; /* Matches the height of the difficulty tag */
     border-radius: 999px;
-    gap: 12px;
     background: var(--surface2);
+    gap: 10px;
+    border: 1px solid var(--border);
   }
 
-  .timer-display { font-size: 18px; min-width: 45px; }
-  .timer-track { width: 100px; height: 3px; }
-  .hints-used-val { font-size: 16px; }
-  .hints-used-label { font-size: 9px; }
+  .timer-display { font-size: 16px; min-width: 40px; }
+  .timer-track { width: 80px; height: 3px; }
+  .hints-block { border-left: 1px solid var(--border); padding-left: 10px; }
+  .hints-used-val { font-size: 14px; }
+  .hints-used-label { display: none; } /* Hide label to save space */
 
   /* ── CLUE BOX ── */
   .clue {
     margin: 10px 0;
-    padding: 24px 32px;
-    font-size: 32px;
+    padding: 20px 30px;
+    font-size: 28px;
     border-radius: 12px;
     clip-path: none;
-    text-align: left;
     width: fit-content;
+    max-width: 100%;
   }
 
   /* ── INPUTS & BUTTONS ── */
   .answer-row {
-    margin: 5px 0 15px;
+    margin: 10px 0;
     justify-content: flex-start;
-    display: flex;
     gap: 8px;
   }
 
   .cell {
-    width: 56px;
-    height: 68px;
-    font-size: 28px;
+    width: 50px;
+    height: 60px;
+    font-size: 24px;
     border-radius: 8px;
     clip-path: none;
   }
 
   .hint-buttons {
-    margin-top: 0;
+    margin-top: 5px;
     justify-content: flex-start;
-    gap: 8px;
   }
 
   .hint-buttons button {
-    padding: 8px 16px;
-    font-size: 11px;
+    padding: 6px 14px;
+    font-size: 10px;
     border-radius: 999px;
     clip-path: none;
   }
 
-  .controls { margin-top: 15px; text-align: left; }
-  .check-btn { border-radius: 10px; clip-path: none; padding: 12px 35px; }
-
-  /* ── SIDEBAR ── */
+  /* ── GISCUS SIDEBAR ── */
   .cryptic-giscus-wrap {
     position: sticky;
-    top: 20px;
-    height: calc(100vh - 40px);
+    top: 10px;
+    height: calc(100vh - 20px);
     border-left: 1px solid var(--border);
-    padding: 20px;
+    padding: 15px;
     background: var(--surface);
   }
 
+  .controls { margin-top: 10px; }
+  .check-btn { border-radius: 8px; clip-path: none; padding: 10px 30px; font-size: 14px; }
+  
   .swipe-hint, .back-link { display: none; }
 }
 </style>
