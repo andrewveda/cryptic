@@ -811,127 +811,444 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     border-radius: 8px;
   }
 }
+
+  /* ─────────────────────────────────────────────
+   DESKTOP LAYOUT
+───────────────────────────────────────────── */
+
 @media (min-width: 1024px) {
-  /* ── DASHBOARD GRID ── */
-  .page {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 20px;
-    max-width: 100%;
-    margin: 0;
-    padding: 10px 40px;
-    text-align: left;
-    align-items: start;
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ─────────────────────
+     MAIN PAGE GRID
+  ───────────────────── */
+
+  .page {
+
+    width: 100vw;
+    height: 100vh;
+
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      360px;
+
+    gap: 42px;
+
+    padding:
+      28px
+      42px
+      28px
+      52px;
+
+    align-items: stretch;
+  }
+
+  /* ─────────────────────
+     LEFT COLUMN
+  ───────────────────── */
 
   #puzzleContent {
-    max-width: 1000px;
-    margin: 0;
+
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: flex-start;
   }
 
-  /* ── COMPACT TITLES ── */
+  /* ─────────────────────
+     HEADER
+  ───────────────────── */
+
   header {
+
     padding: 0;
-    margin-bottom: 10px;
-    display: block; /* Ensure it stays a block for the date/author stack */
+
+    margin-bottom: 18px;
+
+    text-align: left;
+  }
+
+  .puzzle-number {
+    display: none;
   }
 
   .puzzle-date {
-    font-size: 44px;
-    margin-bottom: 0;
-    line-height: 1.1;
+
+    font-size:
+      clamp(58px, 5vw, 82px);
+
+    line-height: 0.9;
+
+    margin-bottom: 6px;
   }
 
   .puzzle-author {
-    font-size: 14px;
-    margin-bottom: 12px;
-    opacity: 0.6;
-    display: block;
+
+    font-size: 18px;
+
+    letter-spacing: 2px;
+
+    opacity: 0.78;
+
+    margin-bottom: 18px;
   }
 
-  /* ── THE HORIZONTAL ROW FIX ── */
-  /* This targets the wrap containing tag, badge, and timer */
-  .difficulty-tag, 
-  .player-badge, 
+  /* ─────────────────────
+     META STRIP
+  ───────────────────── */
+
+  .difficulty-tag,
+  .player-badge,
+  .timer-bar-row {
+
+    clip-path: none;
+
+    border-radius: 999px;
+  }
+
+  .difficulty-tag,
+  .player-badge,
   .timer-bar-wrap {
-    display: inline-flex !important;
+
+    display: inline-flex;
+
     vertical-align: middle;
-    margin: 0 8px 0 0 !important; /* Forces them side-by-side */
   }
 
-  /* Tighten the Timer Bar specifically */
+  .difficulty-tag {
+
+    margin-right: 10px;
+  }
+
+  .player-badge {
+
+    margin-top: 0;
+    margin-right: 12px;
+  }
+
   .timer-bar-wrap {
-    width: auto;
-    opacity: 1 !important;
+
+    margin: 0;
   }
 
   .timer-bar-row {
-    padding: 4px 10px;
-    height: 32px; /* Matches the height of the difficulty tag */
-    border-radius: 999px;
-    background: var(--surface2);
-    gap: 10px;
-    border: 1px solid var(--border);
-  }
 
-  .timer-display { font-size: 16px; min-width: 40px; }
-  .timer-track { width: 80px; height: 3px; }
-  .hints-block { border-left: 1px solid var(--border); padding-left: 10px; }
-  .hints-used-val { font-size: 14px; }
-  .hints-used-label { display: none; } /* Hide label to save space */
-
-  /* ── CLUE BOX ── */
-  .clue {
-    margin: 10px 0;
-    padding: 20px 30px;
-    font-size: 28px;
-    border-radius: 12px;
-    clip-path: none;
     width: fit-content;
-    max-width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    padding:
+      10px
+      18px;
+
+    border-width: 1px;
   }
 
-  /* ── INPUTS & BUTTONS ── */
+  .timer-display {
+
+    font-size: 20px;
+
+    min-width: 52px;
+
+    letter-spacing: 1px;
+  }
+
+  .timer-track {
+
+    width: 180px;
+  }
+
+  .hints-block {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+  }
+
+  .hints-used-label {
+
+    margin: 0;
+
+    font-size: 10px;
+  }
+
+  .hints-used-val {
+
+    font-size: 16px;
+  }
+
+  /* ─────────────────────
+     CLUE
+  ───────────────────── */
+
+  .clue {
+
+    margin:
+      18px 0
+      18px;
+
+    padding:
+      36px
+      46px;
+
+    width: 100%;
+
+    font-size:
+      clamp(34px, 2.2vw, 46px);
+
+    line-height: 1.28;
+
+    text-align: center;
+
+    border-radius: 28px;
+
+    clip-path: none;
+
+    box-shadow:
+      0 10px 28px rgba(0,0,0,0.10);
+  }
+
+  .clue::before {
+    display: none;
+  }
+
+  /* ─────────────────────
+     ANSWER ROW
+  ───────────────────── */
+
   .answer-row {
-    margin: 10px 0;
-    justify-content: flex-start;
-    gap: 8px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin:
+      0
+      0
+      18px;
+
+    padding: 0;
   }
 
   .cell {
-    width: 50px;
-    height: 60px;
-    font-size: 24px;
-    border-radius: 8px;
+
+    width: 72px;
+    height: 84px;
+
+    border-radius: 16px;
+
     clip-path: none;
+
+    font-size: 36px;
   }
 
+  /* ─────────────────────
+     HINT BUTTONS
+  ───────────────────── */
+
   .hint-buttons {
-    margin-top: 5px;
-    justify-content: flex-start;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 8px;
   }
 
   .hint-buttons button {
-    padding: 6px 14px;
-    font-size: 10px;
+
+    padding:
+      12px
+      18px;
+
     border-radius: 999px;
+
+    clip-path: none;
+
+    font-size: 12px;
+  }
+
+  .hint-buttons button::before {
+    display: none;
+  }
+
+  #explainBtn {
+
+    min-width: 180px;
+  }
+
+  /* ─────────────────────
+     OUTPUT PANELS
+  ───────────────────── */
+
+  .hint-output,
+  .explain-output {
+
+    margin-top: 14px;
+
+    padding:
+      20px
+      24px;
+
+    border-radius: 18px;
+
     clip-path: none;
   }
 
-  /* ── GISCUS SIDEBAR ── */
-  .cryptic-giscus-wrap {
-    position: sticky;
-    top: 10px;
-    height: calc(100vh - 20px);
-    border-left: 1px solid var(--border);
-    padding: 15px;
-    background: var(--surface);
+  /* ─────────────────────
+     CHECK BUTTON
+  ───────────────────── */
+
+  .controls {
+
+    margin-top: 18px;
+
+    text-align: center;
   }
 
-  .controls { margin-top: 10px; }
-  .check-btn { border-radius: 8px; clip-path: none; padding: 10px 30px; font-size: 14px; }
-  
-  .swipe-hint, .back-link { display: none; }
+  .check-btn {
+
+    padding:
+      16px
+      42px;
+
+    border-radius: 18px;
+
+    clip-path: none;
+
+    font-size: 17px;
+  }
+
+  .check-btn::before {
+    display: none;
+  }
+
+  /* ─────────────────────
+     RIGHT COLUMN
+  ───────────────────── */
+
+  .cryptic-giscus-wrap {
+
+    height: calc(100vh - 56px);
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    padding:
+      18px
+      18px;
+
+    border-left:
+      1px solid rgba(212,175,55,0.12);
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(212,175,55,0.03),
+        rgba(212,175,55,0.01)
+      );
+  }
+
+  .cryptic-giscus-wrap::before {
+
+    content: "DISCUSSION";
+
+    display: block;
+
+    margin-bottom: 16px;
+
+    font-family: 'Cinzel', serif;
+
+    font-size: 14px;
+
+    letter-spacing: 3px;
+
+    color: var(--gold);
+
+    opacity: 0.82;
+  }
+
+  .giscus {
+
+    flex: 1;
+
+    width: 100% !important;
+
+    height: 100%;
+  }
+
+  .giscus-frame {
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    border-radius: 14px;
+  }
+
+  /* ─────────────────────
+     FLOATING UI
+  ───────────────────── */
+
+  .theme-toggle {
+
+    top: 12px;
+    left: 12px;
+  }
+
+  .puzzle-counter {
+
+    top: 12px;
+    right: 12px;
+  }
+
+  .nav-arrow {
+
+    opacity: 0.18;
+  }
+
+  .nav-arrow:hover:not(:disabled) {
+
+    box-shadow: none;
+  }
+
+  /* ─────────────────────
+     CLEANUP
+  ───────────────────── */
+
+  .swipe-hint,
+  .back-link {
+    display: none;
+  }
 }
 </style>
 </head>
