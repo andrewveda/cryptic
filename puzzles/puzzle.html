@@ -869,23 +869,24 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
      MAIN GRID
   ───────────────────── */
 
+.page {
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(700px, 860px)
+    320px;
+
+  justify-content: center;
+
+  gap: 28px;
+
+  align-items: start;
+}
   #puzzleContent {
 
-    display: grid;
-
-    grid-template-columns:
-      minmax(700px, 860px)
-      320px;
-
-    justify-content: center;
-
-    gap: 28px;
-
-    height: calc(100vh - 36px);
-
-    align-items: start;
-  }
-
+  min-width: 0;
+}
   /* ─────────────────────
      LEFT SOLVE COLUMN
   ───────────────────── */
