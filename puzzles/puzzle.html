@@ -245,18 +245,25 @@ html.light .hl-indicator { color:#92400e; }
   
   #pp { 
     flex:none; width:100%; height:auto; min-height:100vh; 
-    overflow:visible; border-right:none; padding-bottom:30px; 
+    overflow:visible; border-right:none; padding-bottom:6px; 
   }
   
-  #gp { 
-    flex:none; width:100%; height:auto; overflow:visible; 
-    background:var(--bg2); border-top:1px solid var(--sep); 
+ #gp {
+    flex:none;
+    width:100%;
+    height:auto;
+    overflow:visible;
+    background:var(--bg2);
+    border-top:none;      /* removes visual separator gap */
+    margin-top:0;
+    padding-top:0;
   }
   
   /* Redesigned Grid: Flexbox for better vertical flow and spacing */
   #pg {
     display:flex; flex-direction:column; height:auto;
-    padding:0 18px 20px; gap:16px; margin-top:45px; 
+   padding:0 18px 6px;   
+    gap:12px;  margin-top:45px; 
     justify-content:flex-start;
   }
 
@@ -332,7 +339,13 @@ html.light .hl-indicator { color:#92400e; }
   #explainBtn { flex:1 1 100%; border-radius:8px; padding:14px; margin-top:2px; }
 
   /* ── HINT SLOT: Glassmorphism Card ── */
-  .hint-slot { height:auto; min-height:0; margin-bottom:0; width:100%; max-width:380px; margin:0 auto; }
+ .hint-slot {
+    height:auto;
+    min-height:0;
+    margin:0 auto 2px;    /* tiny bottom gap */
+    width:100%;
+    max-width:380px;
+  }
   .hs-inner {
     clip-path:none; border-radius:12px; padding:20px; text-align:center;
     background:rgba(10,10,10,0.45); border:1px solid var(--border2);
@@ -349,6 +362,9 @@ html.light .hl-indicator { color:#92400e; }
     background:var(--bg2); border:1px solid var(--border2);
     opacity:0.6; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
     box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  }
+  .g-head {
+    padding-top:4px;
   }
   .nav-arrow.left { left:-4px; border-top-left-radius:0; border-bottom-left-radius:0; padding-left:4px; }
   .nav-arrow.right { right:-4px; border-top-right-radius:0; border-bottom-right-radius:0; padding-right:4px; }
