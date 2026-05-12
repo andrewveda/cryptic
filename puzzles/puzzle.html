@@ -813,15 +813,10 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 }
 
 /* ─────────────────────────────────────────────
-   DESKTOP LAYOUT — FINAL REFINED VERSION
-   (1024px and above)
+   DESKTOP LAYOUT FIX
 ───────────────────────────────────────────── */
 
 @media (min-width: 1024px) {
-
-  /* ─────────────────────
-     GLOBAL
-  ───────────────────── */
 
   html,
   body {
@@ -836,22 +831,13 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     text-rendering: optimizeLegibility;
   }
 
-  .bg-pattern {
-    opacity: 0.035;
-    animation-duration: 40s;
-  }
-
-  .particle {
-    opacity: 0.1;
-  }
-
   /* ─────────────────────
-     PAGE
+     MAIN GRID
   ───────────────────── */
 
   .page {
 
-    width: min(1280px, calc(100vw - 40px));
+    width: min(1450px, calc(100vw - 40px));
 
     height: 100vh;
 
@@ -859,52 +845,48 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     padding:
       18px
-      20px
-      24px;
+      20px;
+
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      300px;
+
+    gap: 28px;
+
+    align-items: start;
 
     overflow: hidden;
   }
 
   /* ─────────────────────
-     MAIN GRID
+     PUZZLE COLUMN
   ───────────────────── */
 
-.page {
-
-  display: grid;
-
-  grid-template-columns:
-    minmax(700px, 860px)
-    320px;
-
-  justify-content: center;
-
-  gap: 28px;
-
-  align-items: start;
-}
   #puzzleContent {
 
-  min-width: 0;
-}
-  /* ─────────────────────
-     LEFT SOLVE COLUMN
-  ───────────────────── */
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: hidden;
+  }
+
+  /* constrain internal content */
 
   header,
   .timer-bar-wrap,
   .clue,
-  .answer-row,
   .hint-buttons,
+  .controls,
   .hint-output,
-  .explain-output,
-  .controls {
-
-    grid-column: 1;
+  .explain-output {
 
     width: 100%;
-
-    justify-self: center;
+    max-width: 860px;
   }
 
   /* ─────────────────────
@@ -916,7 +898,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     padding:
       24px
       0
-      6px;
+      8px;
 
     text-align: left;
   }
@@ -928,24 +910,20 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .puzzle-date {
 
     font-size:
-      clamp(34px, 2.3vw, 46px);
+      clamp(36px, 2.3vw, 50px);
 
     line-height: 1.04;
 
     margin-bottom: 4px;
-
-    letter-spacing: 1px;
   }
 
   .puzzle-author {
 
     font-size: 14px;
 
-    letter-spacing: 2px;
+    opacity: 0.75;
 
     margin-bottom: 14px;
-
-    opacity: 0.72;
   }
 
   /* ─────────────────────
@@ -958,34 +936,10 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     clip-path: none;
 
     border-radius: 999px;
-
-    border-width: 1px;
-  }
-
-  .difficulty-tag {
-
-    font-size: 10px;
-
-    padding: 5px 12px;
-
-    margin-right: 10px;
   }
 
   .player-badge {
-
     margin-top: 0;
-
-    padding: 5px 12px;
-
-    gap: 7px;
-  }
-
-  .player-badge-name {
-    font-size: 11px;
-  }
-
-  .player-badge-change {
-    font-size: 10px;
   }
 
   /* ─────────────────────
@@ -1006,46 +960,9 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
       11px
       18px;
 
-    gap: 14px;
-
-    border-width: 1px;
-
-    clip-path: none;
-
     border-radius: 14px;
 
-    background:
-      linear-gradient(
-        145deg,
-        rgba(212,175,55,0.04),
-        rgba(212,175,55,0.015)
-      );
-
-    backdrop-filter: blur(10px);
-  }
-
-  .timer-display {
-
-    font-size: 19px;
-
-    letter-spacing: 1px;
-
-    min-width: 56px;
-  }
-
-  .timer-track {
-
-    width: 140px;
-
-    height: 4px;
-  }
-
-  .hints-used-label {
-    display: none;
-  }
-
-  .hints-used-val {
-    font-size: 15px;
+    clip-path: none;
   }
 
   /* ─────────────────────
@@ -1054,41 +971,27 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   .clue {
 
-    max-width: 860px;
-
     margin:
-      20px
-      auto
-      16px;
+      20px auto
+      18px;
 
     padding:
-      20px
-      26px;
+      22px
+      28px;
 
     font-size:
-      clamp(30px, 2vw, 40px);
+      clamp(30px, 2vw, 42px);
 
-    line-height: 1.38;
+    line-height: 1.35;
 
     text-align: center;
 
-    font-weight: 300;
-
-    border-width: 1px;
+    border-radius: 18px;
 
     clip-path: none;
 
-    border-radius: 18px;
-
-    background:
-      linear-gradient(
-        145deg,
-        rgba(212,175,55,0.045),
-        rgba(212,175,55,0.02)
-      );
-
     box-shadow:
-      0 8px 30px rgba(0,0,0,0.16);
+      0 8px 30px rgba(0,0,0,0.15);
   }
 
   .clue::before {
@@ -1096,7 +999,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   /* ─────────────────────
-     ANSWER ROW
+     ANSWERS
   ───────────────────── */
 
   .answer-row {
@@ -1105,15 +1008,12 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
     justify-content: center;
 
-    align-items: center;
-
     width: auto;
 
     gap: 10px;
 
     margin:
-      8px
-      auto
+      8px auto
       18px;
 
     padding: 0;
@@ -1121,36 +1021,14 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   .cell {
 
-    width: 64px;
-    height: 78px;
-
-    border-width: 1px;
-
-    clip-path: none;
+    width: 66px;
+    height: 80px;
 
     border-radius: 12px;
 
-    font-size: 30px;
+    clip-path: none;
 
-    background:
-      linear-gradient(
-        145deg,
-        rgba(212,175,55,0.03),
-        rgba(212,175,55,0.06)
-      );
-
-    transition:
-      transform 0.15s ease,
-      border-color 0.2s ease,
-      background 0.2s ease;
-  }
-
-  .cell:focus {
-
-    transform: scale(1.04);
-
-    box-shadow:
-      0 0 16px rgba(212,175,55,0.22);
+    font-size: 32px;
   }
 
   /* ─────────────────────
@@ -1162,82 +1040,21 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     justify-content: center;
 
     gap: 10px;
-
-    margin-top: 4px;
   }
 
   .hint-buttons button {
 
-    padding:
-      10px
-      16px;
-
-    font-size: 11px;
-
-    letter-spacing: 1px;
-
-    border-width: 1px;
-
     clip-path: none;
 
     border-radius: 999px;
-
-    min-height: 38px;
-
-    background:
-      rgba(212,175,55,0.03);
   }
 
   .hint-buttons button::before {
     display: none;
   }
 
-  .hint-buttons button:hover:not(:disabled) {
-
-    background:
-      rgba(212,175,55,0.08);
-
-    transform: translateY(-1px);
-  }
-
-  #explainBtn {
-    min-width: 180px;
-  }
-
   /* ─────────────────────
-     OUTPUTS
-  ───────────────────── */
-
-  .hint-output,
-  .explain-output {
-
-    max-width: 860px;
-
-    margin:
-      12px
-      auto
-      0;
-
-    padding:
-      18px
-      22px;
-
-    border-width: 1px;
-
-    clip-path: none;
-
-    border-radius: 14px;
-
-    font-size: 15px;
-
-    line-height: 1.72;
-
-    background:
-      rgba(212,175,55,0.03);
-  }
-
-  /* ─────────────────────
-     CHECK BUTTON
+     CHECK
   ───────────────────── */
 
   .controls {
@@ -1249,28 +1066,13 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   .check-btn {
 
-    padding:
-      15px
-      36px;
-
-    font-size: 15px;
-
-    letter-spacing: 1px;
-
     border-radius: 14px;
 
     clip-path: none;
-
-    box-shadow:
-      0 6px 22px rgba(0,0,0,0.18);
   }
 
   .check-btn::before {
     display: none;
-  }
-
-  .check-btn:hover {
-    transform: translateY(-1px);
   }
 
   /* ─────────────────────
@@ -1279,27 +1081,19 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   .cryptic-giscus-wrap {
 
-    grid-column: 2;
-
-    grid-row: 1 / span 20;
-
-    min-width: 0;
-
-    height: calc(100vh - 70px);
-
-    margin: 0;
-
-    padding:
-      18px
-      18px
-      16px;
+    height: calc(100vh - 36px);
 
     overflow: hidden;
 
-    border:
-      1px solid rgba(212,175,55,0.12);
+    display: flex;
+    flex-direction: column;
+
+    padding: 18px;
 
     border-radius: 18px;
+
+    border:
+      1px solid rgba(212,175,55,0.12);
 
     background:
       linear-gradient(
@@ -1308,21 +1102,14 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
         rgba(212,175,55,0.015)
       );
 
-    display: flex;
-    flex-direction: column;
-
-    backdrop-filter: blur(10px);
+    min-width: 0;
   }
-
-  /* discussion title */
 
   .cryptic-giscus-wrap::before {
 
     content: "DISCUSSION";
 
     display: block;
-
-    flex-shrink: 0;
 
     margin-bottom: 14px;
 
@@ -1337,72 +1124,22 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     opacity: 0.8;
   }
 
-  /* giscus */
+  .giscus {
 
-  .giscus,
+    flex: 1;
+
+    width: 100% !important;
+
+    height: 100%;
+  }
+
   .giscus-frame {
 
     width: 100% !important;
 
-    flex: 1;
-
-    min-height: 0;
+    height: 100% !important;
 
     border-radius: 12px;
-
-    overflow: hidden;
-  }
-
-  .giscus-frame {
-
-    border:
-      1px solid rgba(212,175,55,0.08);
-
-    background:
-      rgba(212,175,55,0.015);
-  }
-
-  /* ─────────────────────
-     FLOATING ELEMENTS
-  ───────────────────── */
-
-  .theme-toggle {
-
-    top: 12px;
-    left: 14px;
-
-    border-width: 1px;
-
-    backdrop-filter: blur(8px);
-  }
-
-  .puzzle-counter {
-
-    top: 12px;
-    right: 14px;
-
-    border-width: 1px;
-
-    backdrop-filter: blur(8px);
-  }
-
-  /* ─────────────────────
-     NAVIGATION
-  ───────────────────── */
-
-  .nav-arrow {
-
-    width: 34px;
-    height: 74px;
-
-    opacity: 0.22;
-  }
-
-  .nav-arrow:hover:not(:disabled) {
-
-    opacity: 0.7;
-
-    box-shadow: none;
   }
 
   /* ─────────────────────
@@ -1414,56 +1151,12 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     display: none;
   }
 
-  /* ─────────────────────
-     MODALS
-  ───────────────────── */
-
-  .success-content {
-
-    max-width: 620px;
-
-    border-radius: 18px;
-
-    clip-path: none;
-
-    border-width: 1px;
-
-    backdrop-filter: blur(14px);
+  .nav-arrow {
+    opacity: 0.22;
   }
 
-  .success-title {
-    font-size: 34px;
-  }
-
-  .success-answer {
-    font-size: 30px;
-  }
-
-  .success-explanation {
-
-    border-radius: 14px;
-
-    clip-path: none;
-
-    border-width: 1px;
-  }
-
-  .confirm-card {
-
-    border-radius: 16px;
-
-    clip-path: none;
-
-    border-width: 1px;
-  }
-
-  .confirm-btn {
-
-    border-radius: 10px;
-
-    clip-path: none;
-
-    border-width: 1px;
+  .nav-arrow:hover:not(:disabled) {
+    box-shadow: none;
   }
 }
 </style>
