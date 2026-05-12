@@ -815,11 +815,16 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 }
 
- /* ─────────────────────────────────────────────
-   DESKTOP LAYOUT — FIXED
+/* ─────────────────────────────────────────────
+   DESKTOP REFINED LAYOUT
+   (1024px and above)
 ───────────────────────────────────────────── */
 
 @media (min-width: 1024px) {
+
+  /* ─────────────────────
+     GLOBAL
+  ───────────────────── */
 
   html,
   body {
@@ -829,24 +834,43 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
 
   body {
     overflow: hidden;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
-  /* PAGE */
+  .bg-pattern {
+    opacity: 0.035;
+    animation-duration: 40s;
+  }
+
+  .particle {
+    opacity: 0.12;
+  }
+
+  /* ─────────────────────
+     PAGE
+  ───────────────────── */
 
   .page {
-    width: min(1500px, calc(100vw - 40px));
-    max-width: 1500px;
+
+    width: min(1380px, calc(100vw - 40px));
 
     height: 100vh;
 
-    padding: 18px 20px 20px;
-
     margin: 0 auto;
+
+    padding:
+      18px
+      20px
+      24px;
 
     overflow: hidden;
   }
 
-  /* MAIN GRID */
+  /* ─────────────────────
+     MAIN STRUCTURE
+  ───────────────────── */
 
   #puzzleContent {
 
@@ -856,7 +880,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
       minmax(0, 1fr)
       340px;
 
-    gap: 28px;
+    gap: 34px;
 
     height: calc(100vh - 36px);
 
@@ -864,7 +888,7 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   }
 
   /* ─────────────────────
-     LEFT SIDE
+     SOLVE COLUMN
   ───────────────────── */
 
   header,
@@ -874,28 +898,417 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
   .hint-buttons,
   .hint-output,
   .explain-output,
-  .controls,
-  .swipe-hint,
-  .back-link {
+  .controls {
     grid-column: 1;
   }
 
+  /* centered solve column */
+
+  header,
+  .timer-bar-wrap,
+  .clue,
+  .answer-row,
+  .hint-buttons,
+  .hint-output,
+  .explain-output,
+  .controls {
+
+    width: 100%;
+
+    max-width: 980px;
+
+    justify-self: center;
+  }
+
   /* ─────────────────────
-     RIGHT DISCUSSION PANEL
+     HEADER
+  ───────────────────── */
+
+  header {
+
+    padding:
+      24px
+      0
+      6px;
+
+    text-align: left;
+  }
+
+  .puzzle-number {
+    display: none;
+  }
+
+  .puzzle-date {
+
+    font-size:
+      clamp(34px, 2.4vw, 48px);
+
+    line-height: 1.02;
+
+    margin-bottom: 4px;
+
+    letter-spacing: 1px;
+  }
+
+  .puzzle-author {
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 14px;
+
+    opacity: 0.75;
+  }
+
+  /* ─────────────────────
+     META STRIP
+  ───────────────────── */
+
+  .difficulty-tag,
+  .player-badge {
+
+    clip-path: none;
+
+    border-radius: 999px;
+
+    border-width: 1px;
+  }
+
+  .difficulty-tag {
+
+    font-size: 10px;
+
+    padding: 5px 12px;
+
+    margin-right: 10px;
+  }
+
+  .player-badge {
+
+    margin-top: 0;
+
+    padding: 5px 12px;
+
+    gap: 7px;
+  }
+
+  .player-badge-name {
+    font-size: 11px;
+  }
+
+  .player-badge-change {
+    font-size: 10px;
+  }
+
+  /* ─────────────────────
+     TIMER
+  ───────────────────── */
+
+  .timer-bar-wrap {
+    margin: 8px 0 0;
+  }
+
+  .timer-bar-row {
+
+    width: fit-content;
+
+    min-width: 360px;
+
+    padding:
+      11px
+      18px;
+
+    gap: 14px;
+
+    border-width: 1px;
+
+    clip-path: none;
+
+    border-radius: 14px;
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(212,175,55,0.04),
+        rgba(212,175,55,0.015)
+      );
+
+    backdrop-filter: blur(10px);
+  }
+
+  .timer-display {
+
+    font-size: 19px;
+
+    letter-spacing: 1px;
+
+    min-width: 56px;
+  }
+
+  .timer-track {
+
+    width: 140px;
+
+    height: 4px;
+  }
+
+  .hints-used-label {
+    display: none;
+  }
+
+  .hints-used-val {
+    font-size: 15px;
+  }
+
+  /* ─────────────────────
+     CLUE
+  ───────────────────── */
+
+  .clue {
+
+    max-width: 920px;
+
+    margin:
+      20px
+      auto
+      16px;
+
+    padding:
+      20px
+      26px;
+
+    font-size:
+      clamp(30px, 2vw, 40px);
+
+    line-height: 1.38;
+
+    text-align: center;
+
+    font-weight: 300;
+
+    border-width: 1px;
+
+    clip-path: none;
+
+    border-radius: 18px;
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(212,175,55,0.045),
+        rgba(212,175,55,0.02)
+      );
+
+    box-shadow:
+      0 8px 30px rgba(0,0,0,0.16);
+  }
+
+  .clue::before {
+    display: none;
+  }
+
+  /* ─────────────────────
+     ANSWER ROW
+  ───────────────────── */
+
+  .answer-row {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    width: auto;
+
+    gap: 10px;
+
+    margin:
+      6px
+      auto
+      18px;
+
+    padding: 0;
+  }
+
+  .cell {
+
+    width: 64px;
+    height: 78px;
+
+    border-width: 1px;
+
+    clip-path: none;
+
+    border-radius: 12px;
+
+    font-size: 30px;
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(212,175,55,0.03),
+        rgba(212,175,55,0.06)
+      );
+
+    transition:
+      transform 0.15s ease,
+      border-color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .cell:focus {
+
+    transform: scale(1.04);
+
+    box-shadow:
+      0 0 16px rgba(212,175,55,0.22);
+  }
+
+  /* ─────────────────────
+     HINT BUTTONS
+  ───────────────────── */
+
+  .hint-buttons {
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 4px;
+  }
+
+  .hint-buttons button {
+
+    padding:
+      10px
+      16px;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    border-width: 1px;
+
+    clip-path: none;
+
+    border-radius: 999px;
+
+    min-height: 38px;
+
+    background:
+      rgba(212,175,55,0.03);
+  }
+
+  .hint-buttons button::before {
+    display: none;
+  }
+
+  .hint-buttons button:hover:not(:disabled) {
+
+    background:
+      rgba(212,175,55,0.08);
+
+    transform: translateY(-1px);
+  }
+
+  #explainBtn {
+    min-width: 180px;
+  }
+
+  /* ─────────────────────
+     OUTPUTS
+  ───────────────────── */
+
+  .hint-output,
+  .explain-output {
+
+    max-width: 900px;
+
+    margin:
+      12px
+      auto
+      0;
+
+    padding:
+      18px
+      22px;
+
+    border-width: 1px;
+
+    clip-path: none;
+
+    border-radius: 14px;
+
+    font-size: 15px;
+
+    line-height: 1.72;
+
+    background:
+      rgba(212,175,55,0.03);
+  }
+
+  /* ─────────────────────
+     CHECK BUTTON
+  ───────────────────── */
+
+  .controls {
+
+    margin-top: 18px;
+
+    text-align: center;
+  }
+
+  .check-btn {
+
+    padding:
+      15px
+      36px;
+
+    font-size: 15px;
+
+    letter-spacing: 1px;
+
+    border-radius: 14px;
+
+    clip-path: none;
+
+    box-shadow:
+      0 6px 22px rgba(0,0,0,0.18);
+  }
+
+  .check-btn::before {
+    display: none;
+  }
+
+  .check-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  /* ─────────────────────
+     DISCUSSION SIDEBAR
   ───────────────────── */
 
   .cryptic-giscus-wrap {
 
     grid-column: 2;
+
     grid-row: 1 / span 20;
 
     height: 100%;
 
     margin: 0;
-    padding: 18px;
+
+    padding:
+      18px
+      18px
+      16px;
+
+    overflow: hidden;
 
     border:
-      1px solid rgba(212,175,55,0.14);
+      1px solid rgba(212,175,55,0.12);
 
     border-radius: 18px;
 
@@ -906,19 +1319,23 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
         rgba(212,175,55,0.015)
       );
 
-    overflow: hidden;
-
     display: flex;
     flex-direction: column;
 
     backdrop-filter: blur(10px);
   }
 
+  /* discussion title */
+
   .cryptic-giscus-wrap::before {
 
     content: "DISCUSSION";
 
     display: block;
+
+    flex-shrink: 0;
+
+    margin-bottom: 14px;
 
     font-family: 'Cinzel', serif;
 
@@ -929,13 +1346,9 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     color: var(--gold);
 
     opacity: 0.8;
-
-    margin-bottom: 14px;
-
-    flex-shrink: 0;
   }
 
-  /* GISCUS */
+  /* giscus frame */
 
   .giscus,
   .giscus-frame {
@@ -951,196 +1364,56 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     overflow: hidden;
   }
 
+  .giscus-frame {
+
+    border:
+      1px solid rgba(212,175,55,0.08);
+
+    background:
+      rgba(212,175,55,0.015);
+  }
+
   /* ─────────────────────
-     HEADER
+     FLOATING ELEMENTS
   ───────────────────── */
 
-  header {
-    padding: 26px 0 6px;
+  .theme-toggle {
 
-    text-align: left;
+    top: 12px;
+    left: 14px;
+
+    border-width: 1px;
+
+    backdrop-filter: blur(8px);
   }
 
-  .puzzle-date {
-    font-size: clamp(34px, 2.2vw, 46px);
+  .puzzle-counter {
 
-    margin-bottom: 4px;
+    top: 12px;
+    right: 14px;
 
-    line-height: 1.05;
+    border-width: 1px;
+
+    backdrop-filter: blur(8px);
   }
 
-  .puzzle-author {
-    font-size: 14px;
+  /* ─────────────────────
+     NAVIGATION
+  ───────────────────── */
 
-    margin-bottom: 12px;
+  .nav-arrow {
+
+    width: 34px;
+    height: 74px;
+
+    opacity: 0.22;
+  }
+
+  .nav-arrow:hover:not(:disabled) {
 
     opacity: 0.7;
-  }
 
-  /* ─────────────────────
-     META
-  ───────────────────── */
-
-  .difficulty-tag,
-  .player-badge {
-    clip-path: none;
-    border-radius: 999px;
-  }
-
-  .difficulty-tag {
-    margin-right: 10px;
-  }
-
-  .player-badge {
-    margin-top: 0;
-  }
-
-  /* ─────────────────────
-     TIMER
-  ───────────────────── */
-
-  .timer-bar-wrap {
-    margin: 10px 0 0;
-  }
-
-  .timer-bar-row {
-
-    width: fit-content;
-
-    min-width: 360px;
-
-    border-width: 1px;
-
-    clip-path: none;
-
-    border-radius: 14px;
-
-    padding: 12px 18px;
-  }
-
-  /* ─────────────────────
-     CLUE
-  ───────────────────── */
-
-  .clue {
-
-    margin: 18px 0 16px;
-
-    padding: 24px 28px;
-
-    font-size: clamp(28px, 2vw, 38px);
-
-    line-height: 1.4;
-
-    text-align: left;
-
-    border-width: 1px;
-
-    clip-path: none;
-
-    border-radius: 18px;
-
-    box-shadow:
-      0 8px 30px rgba(0,0,0,0.18);
-  }
-
-  .clue::before {
-    display: none;
-  }
-
-  /* ─────────────────────
-     ANSWERS
-  ───────────────────── */
-
-  .answer-row {
-
-    justify-content: start;
-
-    gap: 10px;
-
-    margin: 8px 0 18px;
-
-    padding: 0;
-  }
-
-  .cell {
-
-    width: 62px;
-
-    border-width: 1px;
-
-    clip-path: none;
-
-    border-radius: 12px;
-
-    font-size: 30px;
-  }
-
-  /* ─────────────────────
-     BUTTONS
-  ───────────────────── */
-
-  .hint-buttons {
-
-    justify-content: flex-start;
-
-    gap: 10px;
-
-    margin-top: 2px;
-  }
-
-  .hint-buttons button {
-
-    border-width: 1px;
-
-    clip-path: none;
-
-    border-radius: 999px;
-
-    padding: 10px 16px;
-
-    font-size: 11px;
-  }
-
-  .hint-buttons button::before {
-    display: none;
-  }
-
-  /* ─────────────────────
-     OUTPUTS
-  ───────────────────── */
-
-  .hint-output,
-  .explain-output {
-
-    max-width: 900px;
-
-    border-width: 1px;
-
-    clip-path: none;
-
-    border-radius: 14px;
-  }
-
-  /* ─────────────────────
-     CHECK BUTTON
-  ───────────────────── */
-
-  .controls {
-    margin-top: 18px;
-  }
-
-  .check-btn {
-
-    clip-path: none;
-
-    border-radius: 12px;
-
-    padding: 15px 34px;
-  }
-
-  .check-btn::before {
-    display: none;
+    box-shadow: none;
   }
 
   /* ─────────────────────
@@ -1152,12 +1425,56 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
     display: none;
   }
 
-  .nav-arrow {
-    opacity: 0.25;
+  /* ─────────────────────
+     MODALS
+  ───────────────────── */
+
+  .success-content {
+
+    max-width: 620px;
+
+    border-radius: 18px;
+
+    clip-path: none;
+
+    border-width: 1px;
+
+    backdrop-filter: blur(14px);
   }
 
-  .nav-arrow:hover:not(:disabled) {
-    box-shadow: none;
+  .success-title {
+    font-size: 34px;
+  }
+
+  .success-answer {
+    font-size: 30px;
+  }
+
+  .success-explanation {
+
+    border-radius: 14px;
+
+    clip-path: none;
+
+    border-width: 1px;
+  }
+
+  .confirm-card {
+
+    border-radius: 16px;
+
+    clip-path: none;
+
+    border-width: 1px;
+  }
+
+  .confirm-btn {
+
+    border-radius: 10px;
+
+    clip-path: none;
+
+    border-width: 1px;
   }
 }
 </style>
