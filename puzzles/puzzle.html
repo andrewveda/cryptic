@@ -375,6 +375,76 @@ html.light .hl-indicator { color:#92400e; }
   
   #ls { position:static; min-height:60vh; }
 }
+  @media (max-width:900px) {
+
+  /* cleaner mobile header spacing */
+  #pg {
+    margin-top:28px;
+  }
+
+  .topbar {
+    position:relative;
+    padding-top:18px;
+    align-items:center;
+  }
+
+  /* make title occupy true top-centre */
+  .tb-l {
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    margin:0 auto;
+  }
+
+  .tb-title {
+    display:block;
+    width:100%;
+    text-align:center;
+    font-size:24px;
+    letter-spacing:2px;
+    line-height:1;
+  }
+
+  .home-title {
+    width:100%;
+    align-items:center;
+  }
+
+  .tb-sub {
+    width:100%;
+    text-align:center;
+    margin-top:10px;
+  }
+
+  /* tighten the huge empty area before giscus */
+  #pp {
+    padding-bottom:4px;
+    min-height:auto;
+  }
+
+  #pg {
+    padding-bottom:2px;
+    gap:10px;
+  }
+
+  .hint-slot {
+    margin-bottom:0;
+  }
+
+  #gp {
+    margin-top:0;
+    padding-top:0;
+    border-top:none;
+  }
+
+  .g-head {
+    padding-top:2px;
+    margin-top:0;
+  }
+}
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; animation-iteration-count:1 !important; } }
 </style>
 </head>
