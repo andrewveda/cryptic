@@ -112,7 +112,39 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .topbar { display:flex; align-items:center; justify-content:space-between; padding:18px 0 14px; border-bottom:1px solid var(--sep); flex-shrink:0; gap:14px; }
 .tb-l { display:flex; flex-direction:column; gap:2px; min-width:0; }
 .tb-title { font-family:'Cinzel',serif; font-size:clamp(13px,1.5vw,19px); font-weight:700; background:linear-gradient(120deg,var(--gold),var(--gold-light),var(--gold)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; white-space:nowrap; letter-spacing:1px; }
-.tb-sub { font-size:9px; color:var(--gold-dimmer); letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+.home-title {
+  position:relative;
+  display:inline-flex;
+  flex-direction:column;
+  text-decoration:none;
+  transition:transform .18s ease;
+}
+
+.home-title:hover {
+  transform:translateY(-1px);
+}
+
+.home-hover {
+  position:absolute;
+  top:100%;
+  left:0;
+  margin-top:2px;
+  font-family:'Raleway',sans-serif;
+  font-size:9px;
+  letter-spacing:1.5px;
+  color:var(--gold-dim);
+  opacity:0;
+  transform:translateY(-4px);
+  transition:opacity .18s ease, transform .18s ease;
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+.home-title:hover .home-hover {
+  opacity:1;
+  transform:translateY(0);
+}
+  .tb-sub { font-size:9px; color:var(--gold-dimmer); letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
 .tb-c { display:flex; align-items:center; gap:10px; flex:1; justify-content:center; }
 .timer-wrap { display:flex; align-items:center; gap:10px; padding:7px 14px; background:var(--surface); border:1px solid var(--border); clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px); }
 .tval { font-family:'Cinzel',serif; font-size:clamp(14px,1.5vw,18px); font-weight:700; color:var(--gold); letter-spacing:2px; min-width:42px; transition:color .3s; }
@@ -299,7 +331,12 @@ html.light .hl-indicator { color:#92400e; }
       <!-- TOPBAR -->
       <div class="topbar">
         <div class="tb-l">
-          <div class="tb-title">Cryptic Clues</div>
+         <a href="https://andrewveda.github.io/cryptic/"
+   class="tb-title home-title"
+   aria-label="Back to home">
+  <span>Cryptic Clues</span>
+  <span class="home-hover">← Back to home</span>
+</a>
           <div class="tb-sub">Miniature Turing Tests</div>
         </div>
         <div class="tb-c">
