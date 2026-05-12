@@ -451,7 +451,7 @@ const EXPLAIN_DELAY = 180;
 
 /* THEME */
 function applyTheme(t) {
-  if (t === 'light') { document.documentElement.classList.add('light'); document.getElementById('themeToggle').textContent='🌙'; postGiscus({setConfig:{theme:'transparent_light'}}); }
+  if (t === 'light') { document.documentElement.classList.add('light'); document.getElementById('themeToggle').textContent='🌙'; postGiscus({setConfig:{theme:'noborder_light'}}); }
   else               { document.documentElement.classList.remove('light'); document.getElementById('themeToggle').textContent='☀️'; postGiscus({setConfig:{theme:'transparent_dark'}}); }
 }
 function toggleTheme() { const n=document.documentElement.classList.contains('light')?'dark':'light'; localStorage.setItem(TK,n); applyTheme(n); }
