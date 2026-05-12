@@ -1531,12 +1531,23 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
       <span class="explain-output-label">How to think about this clue</span>
       <div class="explain-output-text" id="explainOutputText"></div>
     </div>
+<div class="controls">
+  <button class="check-btn" id="checkBtn">
+    <span>CHECK ANSWER</span>
+  </button>
+</div>
 
-    <div class="controls">
-      <button class="check-btn" id="checkBtn"><span>CHECK ANSWER</span></button>
-    </div>
- <aside class="cryptic-giscus-wrap">
- 
+<div class="swipe-hint" id="swipeHint">
+  ← swipe or use arrow keys to navigate →
+</div>
+
+<a class="back-link" href="../index.html">
+  ← Back to all puzzles
+</a>
+
+</div> <!-- END puzzleContent -->
+
+<aside class="cryptic-giscus-wrap">
 
 <script src="https://giscus.app/client.js"
         data-repo="andrewveda/cryptic"
@@ -1555,13 +1566,10 @@ html.light .highlight-indicator { color: #b45309; text-shadow: none; }
         async>
 </script>
 
- </aside>
-    </div>
-    <div class="swipe-hint" id="swipeHint">← swipe or use arrow keys to navigate →</div>
+</aside>
 
-    <a class="back-link" href="../index.html">← Back to all puzzles</a>
-  
 </div>
+    
 
 <!-- Success modal -->
 <div class="success-modal" id="successModal">
