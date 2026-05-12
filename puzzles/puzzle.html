@@ -275,11 +275,9 @@ html.light .hl-indicator { color:#92400e; }
 /* ── MOBILE ── */
 @media (max-width:900px) {
 
-  html,
-  body {
+  html,body {
+    overflow:auto;
     height:auto;
-    overflow-x:hidden;
-    overflow-y:auto;
   }
 
   #shell {
@@ -289,46 +287,48 @@ html.light .hl-indicator { color:#92400e; }
   }
 
   #pp {
+    flex:none;
     width:100%;
     height:auto;
-    min-height:100vh;
+    overflow:visible;
     border-right:none;
     border-bottom:1px solid var(--sep);
-    overflow:visible;
   }
 
   #gp {
+    flex:none;
     width:100%;
     height:auto;
     overflow:visible;
   }
 
   #pg {
-    height:auto;
     grid-template-rows:auto auto auto auto auto;
-    padding:16px 12px 14px;
-    row-gap:0;
+    height:auto;
+    padding:0 14px;
   }
 
   /* ─────────────────────────
-     LEFT TOGGLE REMOVED
+     REMOVE LEFT TOGGLE
   ───────────────────────── */
   .chrome-l {
     display:none;
   }
 
   /* ─────────────────────────
-     RIGHT UTILITY STACK
+     RIGHT STACK
+     number
+     solved
+     toggle
   ───────────────────────── */
   .chrome-r {
-    position:absolute;
     top:10px;
     right:10px;
+
     display:flex;
     flex-direction:column;
     align-items:flex-end;
     gap:4px;
-    z-index:250;
   }
 
   .cpos {
@@ -340,97 +340,109 @@ html.light .hl-indicator { color:#92400e; }
   .csolv {
     font-size:8px;
     padding:2px 5px;
-    line-height:1.1;
+    line-height:1;
   }
 
   #themeToggle {
-    display:flex;
-    align-items:center;
-    justify-content:center;
     width:28px;
     height:28px;
     padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     font-size:12px;
-    line-height:1;
   }
 
   /* ─────────────────────────
      TOPBAR
   ───────────────────────── */
   .topbar {
-    display:flex;
-    flex-direction:column;
-    align-items:stretch;
-    gap:10px;
-    padding:0 70px 10px 0;
+
+    /* keep all original behaviour */
+    padding:14px 72px 10px 0;
+    flex-wrap:wrap;
+    gap:4px;
+    align-items:center;
+
+    position:relative;
   }
 
-  /* TITLE NOW TOP-LEFT HERO */
+  /* ─────────────────────────
+     TITLE MOVED TO TOGGLE AREA
+  ───────────────────────── */
   .tb-l {
+    gap:1px;
     width:100%;
-    min-width:0;
   }
 
   .tb-title {
-    display:inline-block;
     font-size:18px;
     letter-spacing:.5px;
     line-height:1.1;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
   }
 
-  .home-hover,
   .tb-sub {
     display:none;
   }
 
+  .home-hover {
+    display:none;
+  }
+
   /* ─────────────────────────
-     STATUS BAR
+     TIME ROW
   ───────────────────────── */
   .tb-c {
+    order:3;
     width:100%;
     justify-content:flex-start;
+    gap:8px;
   }
 
   .timer-wrap {
     width:100%;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:8px 10px;
-    border-radius:6px;
+
+    padding:5px 10px;
+    gap:7px;
+
     clip-path:none;
+    border-radius:5px;
   }
 
   .tval {
     font-size:14px;
-    letter-spacing:1px;
-    min-width:42px;
+    min-width:36px;
   }
 
   .ttrack {
     flex:1;
     width:auto;
-    min-width:0;
   }
 
-  /* NAME + HINTS + DIFFICULTY SAME LINE */
+  /* ─────────────────────────
+     NAME + HINTS SAME LINE
+  ───────────────────────── */
   .tb-r {
-    width:100%;
+
+    position:absolute;
+    left:92px;
+    right:72px;
+    top:48px;
+
     display:flex;
-    flex-direction:row;
     align-items:center;
     justify-content:space-between;
+
     gap:8px;
   }
 
   .tb-player {
     font-size:10px;
+
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+
     flex:1;
     min-width:0;
   }
@@ -438,41 +450,37 @@ html.light .hl-indicator { color:#92400e; }
   .tb-meta {
     display:flex;
     align-items:center;
-    gap:6px;
+    gap:5px;
     flex-shrink:0;
   }
 
   .diff-tag {
-    font-size:7px;
+    font-size:8px;
     padding:2px 5px;
-    letter-spacing:1px;
   }
 
   .hints-pill {
-    font-size:8px;
+    font-size:9px;
   }
 
   .hints-pill strong {
-    font-size:10px;
+    font-size:11px;
   }
 
   .pchange {
     display:none;
   }
 
-  /* ─────────────────────────
-     CLUE
-  ───────────────────────── */
+  /* ── CLUE BOX ── */
   .clue-row {
-    padding:6px 0 10px;
+    padding:10px 0 8px;
   }
 
   .clue-box {
-    padding:14px 15px;
-    font-size:16px;
-    line-height:1.65;
-    overflow-wrap:break-word;
-    word-break:break-word;
+    font-size:15px;
+    line-height:1.62;
+    padding:14px 16px;
+
     clip-path:polygon(
       10px 0,
       100% 0,
@@ -481,73 +489,60 @@ html.light .hl-indicator { color:#92400e; }
       0 100%,
       0 10px
     );
+
+    border-radius:0;
   }
 
   .clue-box::before {
     display:none;
   }
 
-  /* ─────────────────────────
-     ANSWER ROW
-  ───────────────────────── */
+  /* ── ANSWER CELLS ── */
   .ac-row {
-    gap:6px;
     padding:0 0 8px;
-    align-items:stretch;
-  }
-
-  .cells-wrap {
-    gap:4px;
-    min-width:0;
+    gap:7px;
   }
 
   .cell {
-    font-size:clamp(13px,4vw,18px);
-    border-width:1.5px;
     clip-path:none;
-    border-radius:5px;
+    border-radius:4px;
+    font-size:clamp(13px,3.8vw,19px);
+    border-width:1.5px;
   }
 
   .check-btn {
-    min-width:64px;
-    padding:0 10px;
-    font-size:10px;
-    letter-spacing:1px;
-    border-radius:6px;
+    padding:0 13px;
     clip-path:none;
-    flex-shrink:0;
+    border-radius:6px;
+    font-size:11px;
+    min-height:40px;
+    min-width:62px;
   }
 
-  /* ─────────────────────────
-     HINT BUTTON GRID
-  ───────────────────────── */
+  /* ── HINT BUTTONS ── */
   .hbtns {
     display:grid;
     grid-template-columns:1fr 1fr;
+    grid-template-rows:auto auto;
     gap:5px;
     padding:0 0 8px;
   }
 
   .hbtn {
-    min-width:0;
-    padding:9px 4px;
-    font-size:8px;
-    letter-spacing:.8px;
-    line-height:1.3;
-    text-align:center;
-    white-space:normal;
-    overflow-wrap:anywhere;
+    font-size:9px;
+    padding:8px 4px;
     clip-path:none;
-    border-radius:6px;
+    border-radius:5px;
+    letter-spacing:1px;
+    flex:none;
   }
 
   #explainBtn {
     grid-column:1 / -1;
+    flex:none;
   }
 
-  /* ─────────────────────────
-     HINT SLOT
-  ───────────────────────── */
+  /* ── HINT SLOT ── */
   .hint-slot {
     height:auto;
     min-height:0;
@@ -555,80 +550,45 @@ html.light .hl-indicator { color:#92400e; }
   }
 
   .hs-inner {
-    padding:8px 10px;
+    clip-path:none;
+    border-radius:0;
     border:none;
     border-left:2px solid var(--gold);
     background:transparent;
-    clip-path:none;
+    padding:8px 12px;
   }
 
   .hs-label {
     font-size:8px;
-    letter-spacing:1.5px;
-    margin-bottom:4px;
+    letter-spacing:2px;
+    margin-bottom:3px;
   }
 
   .hs-text {
+    -webkit-line-clamp:4;
     font-size:12px;
-    line-height:1.55;
-    -webkit-line-clamp:5;
   }
 
-  /* ─────────────────────────
-     NAVIGATION
-  ───────────────────────── */
+  /* ── NAV ARROWS ── */
   .nav-arrow {
-    width:24px;
-    height:48px;
+    width:22px;
+    height:44px;
     font-size:13px;
-    opacity:.3;
-    top:52%;
+    opacity:.35;
   }
 
-  /* ─────────────────────────
-     MODALS
-  ───────────────────────── */
-  .scontent,
-  .ccard {
-    width:100%;
-    max-width:100%;
-  }
-
-  .scontent {
-    padding:28px 18px;
-  }
-
-  .stitle {
-    font-size:22px;
-  }
-
-  .sanswer {
-    font-size:18px;
-    letter-spacing:2px;
-  }
-
-  .nbtn {
-    min-width:0;
-    padding:11px 16px;
-    font-size:11px;
-  }
-
-  /* ─────────────────────────
-     LOADING
-  ───────────────────────── */
-  #ls {
-    position:static;
-    min-height:180px;
-  }
-
-  /* ─────────────────────────
-     REMOVE MOBILE SLIDE ANIMS
-  ───────────────────────── */
+  /* ── NO SLIDE ANIMATIONS ── */
   #pp.sol,
   #pp.sor,
   #pp.sir,
   #pp.sil {
     animation:none;
+  }
+
+  /* Loading */
+  #ls {
+    position:static;
+    min-height:160px;
   }
 }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; animation-iteration-count:1 !important; } }
