@@ -144,8 +144,9 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 
 /* ── ROW 3: ANSWER + CHECK ── */
 .ac-row { display:flex; align-items:stretch; gap:12px; padding:0 0 12px; animation:fadeUp .5s ease-out .22s both; }
-.cells-wrap { display:grid; grid-template-columns:repeat(var(--letters),minmax(0,1fr)); gap:5px; flex:1; min-width:0; }
-.cell { aspect-ratio:1; width:100%; text-align:center; font-size:clamp(13px,1.9vw,22px); font-weight:700; font-family:'Cinzel',serif; color:var(--text); text-transform:uppercase; background:var(--surface2); border:2px solid var(--border2); clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); transition:border-color .18s,background .18s,transform .14s,box-shadow .18s; -webkit-tap-highlight-color:transparent; }
+.cells-wrap { display:flex; flex-direction:column; gap:8px; flex:1; min-width:0; }
+.cells-row  { display:grid; grid-template-columns:repeat(var(--word-len),minmax(0,1fr)); gap:5px; }
+    .cell { aspect-ratio:1; width:100%; text-align:center; font-size:clamp(13px,1.9vw,22px); font-weight:700; font-family:'Cinzel',serif; color:var(--text); text-transform:uppercase; background:var(--surface2); border:2px solid var(--border2); clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); transition:border-color .18s,background .18s,transform .14s,box-shadow .18s; -webkit-tap-highlight-color:transparent; }
 .cell:focus { outline:none; background:var(--gold-faint); border-color:var(--gold); box-shadow:0 0 12px rgba(212,175,55,.28); transform:translateY(-2px) scale(1.07); }
 .cell.correct { background:linear-gradient(135deg,var(--surface3),var(--gold-faint)); border-color:var(--gold-light); animation:ccorrect .45s ease-out; }
 @keyframes ccorrect { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
@@ -473,11 +474,8 @@ html.light .hl-indicator { color:#92400e; }
     margin-top:8px;
   }
 
-  .cells-wrap {
-    width:100%;
-    max-width:380px;
-    gap:6px;
-  }
+  .cells-wrap { width:100%; max-width:380px; gap:8px; flex-direction:column; }
+.cells-row  { gap:6px; }
 
   .cell {
     clip-path:none;
@@ -926,14 +924,19 @@ function populate() {
   const name=localStorage.getItem(NK)||'Guest', dept=localStorage.getItem(DK)||'';
   document.getElementById('tbPlayer').textContent=`👤 ${name}${dept?' · '+dept:''}`;
   // Cells
-  const letters=puzzle.answer.replace(/\s/g,'').length;
-  document.documentElement.style.setProperty('--letters',letters);
-  const cw=document.getElementById('cellsWrap'); cw.innerHTML='';
-  for(let i=0;i<letters;i++){
-    const inp=document.createElement('input');
+  const words = puzzle.answer.trim().split(/\s+/);
+const cw = document.getElementById('cellsWrap'); cw.innerHTML='';
+words.forEach(word => {
+  const row = document.createElement('div');
+  row.className = 'cells-row';
+  row.style.setProperty('--word-len', word.length);
+  for(let i=0; i<word.length; i++){
+    const inp = document.createElement('input');
     inp.className='cell'; inp.type='text'; inp.maxLength=1;
-    cw.appendChild(inp);
+    row.appendChild(inp);
   }
+  cw.appendChild(row);
+});
   setupCells();
 }
 function setupCells() {
