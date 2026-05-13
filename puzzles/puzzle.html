@@ -135,16 +135,16 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .pchange:hover { color:var(--gold); }
 
 /* ── ROW 2: CLUE (flex 1) ── */
-.clue-row { flex:1; min-height:120px; display:flex; align-items:center; justify-content:center; padding:24px 0; overflow:hidden; }
+.clue-row { display:flex; align-items:center; justify-content:center; padding:24px 0 16px; overflow:hidden; flex-shrink:0; margin-top:auto; }
 .clue-box { width:100%; padding:clamp(18px,2.2vh,30px) clamp(20px,2.5vw,36px); font-size:clamp(15px,1.85vw,21px); line-height:1.68; background:linear-gradient(135deg,var(--surface),var(--surface3)); border:1.5px solid var(--gold); clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px); position:relative; overflow:hidden; animation:fadeUp .5s ease-out .1s both; }
 .clue-box::before { content:''; position:absolute; top:-2px; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,var(--gold-faint),transparent); animation:shine 5s ease-in-out infinite; }
 @keyframes shine { 0%,100%{left:-100%} 50%{left:140%} }
 
-/* ── ROW 3: ANSWER + CHECK (Wrappable) ── */
-.ac-row { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:20px; padding:0 0 20px; animation:fadeUp .5s ease-out .22s both; }
-.cells-wrap { display:flex; flex-direction:row; flex-wrap:wrap; gap:16px; justify-content:center; }
-.cells-row { display:flex; flex-direction:row; gap:5px; }
-.cell { height:clamp(32px,3.8vw,48px); width:clamp(32px,3.8vw,48px); flex-shrink:0; text-align:center; font-size:clamp(16px,2vw,24px); font-weight:700; font-family:'Cinzel',serif; color:var(--text); text-transform:uppercase; background:var(--surface2); border:2px solid var(--border2); clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); transition:border-color .18s,background .18s,transform .14s,box-shadow .18s; -webkit-tap-highlight-color:transparent; }
+/* ── ROW 3: ANSWER + CHECK ── */
+.ac-row { display:flex; flex-direction:column; align-items:center; gap:20px; padding:0 0 24px; animation:fadeUp .5s ease-out .22s both; flex-shrink:0; margin-bottom:auto; }
+.cells-wrap { display:flex; flex-direction:column; align-items:center; gap:12px; width:100%; }
+.cells-row { display:flex; flex-direction:row; justify-content:center; gap:5px; max-width:100%; flex-wrap:wrap; }
+.cell { height:clamp(32px,4vw,48px); width:clamp(32px,4vw,48px); flex-shrink:1; text-align:center; font-size:clamp(16px,2vw,24px); font-weight:700; font-family:'Cinzel',serif; color:var(--text); text-transform:uppercase; background:var(--surface2); border:2px solid var(--border2); clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); transition:border-color .18s,background .18s,transform .14s,box-shadow .18s; -webkit-tap-highlight-color:transparent; }
 .cell:focus { outline:none; background:var(--gold-faint); border-color:var(--gold); box-shadow:0 0 12px rgba(212,175,55,.28); transform:translateY(-2px) scale(1.07); }
 .cell.correct { background:linear-gradient(135deg,var(--surface3),var(--gold-faint)); border-color:var(--gold-light); animation:ccorrect .45s ease-out; }
 @keyframes ccorrect { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
@@ -175,6 +175,8 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .hs-inner.vis { opacity:1; }
 .hs-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2.5px; color:var(--gold); text-transform:uppercase; margin-bottom:5px; flex-shrink:0; }
 .hs-text  { font-size:clamp(11px,1.05vw,13px); color:var(--text-dim); line-height:1.55; overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; }
+
+.home-mob { display:none; text-decoration:none; }
 
 /* Clue highlights */
 .hl-def       { color:#7dd3fc; }
@@ -249,16 +251,16 @@ html.light .hl-indicator { color:#92400e; }
   .g-head { padding:2px 16px 8px; margin-top:0; border-bottom:1px solid var(--sep); font-size:9px; letter-spacing:4px; }
 
   /* ── MAIN MOBILE LAYOUT ── */
-  #pg { display:flex; flex-direction:column; height:auto; padding:0 18px 2px; gap:10px; margin-top:42px; justify-content:flex-start; overflow-y: visible; }
+  #pg { display:flex; flex-direction:column; height:auto; padding:0 18px 2px; gap:10px; margin-top:42px; justify-content:flex-start; }
 
   /* ── CHROME ── */
   .chrome { top:10px; }
   .chrome-r { flex-direction:column; align-items:flex-end; gap:3px; }
   .cpos { font-size:9px; letter-spacing:1px; }
   .csolv { font-size:8px; clip-path:none; background:transparent; border:none; padding:0; color:var(--gold-dim); }
+  .home-mob { display:block; }
 
-  .chrome-l::after {
-    content: 'Cryptic Clues';
+  /* Title centred in the chrome bar between toggle and counter */
     position: fixed;
     top: 10px;
     left: 50%;
@@ -294,23 +296,23 @@ html.light .hl-indicator { color:#92400e; }
   .clue-box::before { display:none; }
 
   /* ── ANSWER + CHECK ── */
-  .ac-row { padding:0; gap:16px; flex-direction:column; align-items:center; margin-top:8px; }
-  .cells-wrap { width:100%; max-width:380px; gap:8px; flex-direction:row; flex-wrap:wrap; justify-content:center; }
-  .cells-row { gap:6px; flex-wrap:wrap; justify-content:center; }
+  .ac-row { padding:0; gap:16px; flex-direction:column; align-items:center; margin-top:8px; margin-bottom:0; }
+  .cells-wrap { width:100%; max-width:100%; gap:10px; flex-direction:column; align-items:center; }
+  .cells-row { gap:4px; display:flex; justify-content:center; flex-wrap:wrap; width:100%; }
 
-  .cell { clip-path: none; border-radius: 8px; font-size: clamp(18px,6vw,26px); border-width: 1.5px; border-color: var(--border3); background: var(--bg2); box-shadow: inset 0 3px 6px rgba(0,0,0,0.3); }
-  .cell:focus { transform: translateY(-2px); border-radius: 8px; box-shadow: 0 4px 12px rgba(212,175,55,0.2), inset 0 2px 4px rgba(0,0,0,0.2); }
-
-  .check-btn { width: 100%; max-width: 380px; min-height: auto; clip-path: none; border-radius: 12px; padding: 16px; font-size: 13px; letter-spacing: 4px; box-shadow: 0 4px 16px rgba(212,175,55,0.2); }
-
-  /* ── HINT BUTTONS ── */
-  .hbtns { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; padding:0; width:100%; max-width:380px; margin:0 auto; }
-  .hbtn { clip-path:none; border-radius:8px; flex:1 1 calc(33.333% - 8px); padding:12px 4px; font-size:9px; background:var(--surface); border-color:var(--border2); }
-  #explainBtn { flex:1 1 100%; border-radius:8px; padding:14px; margin-top:2px; }
-
-  /* ── HINT SLOT ── */
-  .hint-slot { height:auto; min-height:0; width:100%; max-width:380px; margin:0 auto 0; }
-  .hs-inner { clip-path: none; border-radius: 12px; padding: 20px; text-align: center; background: rgba(10,10,10,0.45); border: 1px solid var(--border2); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 4px 24px rgba(0,0,0,0.15); }
+  .cell {
+    clip-path: none;
+    border-radius: 8px;
+    font-size: clamp(18px,6vw,26px);
+    width: clamp(30px, 8vw, 44px);
+    height: clamp(30px, 8vw, 44px);
+    border-width: 1.5px;
+    border-color: var(--border3);
+    background: var(--bg2);
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.3);
+  }
+  .cell:focus {
+    transform: translateY(-2px);
   html.light .hs-inner { background:rgba(255,255,255,0.65); border-color:rgba(140,100,5,0.3); }
   .hs-label { margin-bottom:8px; font-size:10px; letter-spacing:3px; }
   .hs-text { font-size:13px; line-height:1.6; -webkit-line-clamp:unset; }
@@ -338,6 +340,7 @@ html.light .hl-indicator { color:#92400e; }
 
 <div class="chrome chrome-l">
   <button class="cbtn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+  <a href="https://andrewveda.github.io/cryptic/" class="cbtn home-mob" aria-label="Back to home">🏠</a>
 </div>
 <div class="chrome chrome-r">
   <span class="cpos" id="cpos"></span>
@@ -630,33 +633,23 @@ function populate() {
       row.appendChild(inp);
     }
     cw.appendChild(row);
-  });
+});
   setupCells();
 }
-
 function setupCells() {
   const cells=[...document.querySelectorAll('.cell')];
   cells.forEach((c,i)=>{
-    // Select contents natively when clicked, letting users type over old letters cleanly
     c.addEventListener('focus', () => { startOnce(); c.select(); });
-    
-    c.addEventListener('input',()=>{ 
-      c.value=c.value.toUpperCase(); 
-      if(c.value && i<cells.length-1) cells[i+1].focus(); 
-      else if(c.value && i===cells.length-1) { c.blur(); setTimeout(checkAnswer, 100); } 
-    });
-    
-    c.addEventListener('keydown', e => { 
-      if(e.key === 'Backspace') {
-        if(!c.value && i>0) {
-          e.preventDefault(); // Stop normal backspace event 
-          cells[i-1].focus(); 
-          cells[i-1].value = ''; // Clear the previous cell automatically
-        }
+    c.addEventListener('input',()=>{ startOnce(); c.value=c.value.toUpperCase(); if(c.value&&i<cells.length-1) cells[i+1].focus(); else if(c.value&&i===cells.length-1){c.blur();setTimeout(checkAnswer,65);} });
+    c.addEventListener('keydown',e=>{ 
+      if(e.key==='Backspace'&&!c.value&&i>0) {
+        e.preventDefault();
+        cells[i-1].focus();
+        cells[i-1].value = '';
       }
-      if(e.key === 'Enter') checkAnswer(); 
-      if(e.key === 'ArrowLeft' && i>0) { e.preventDefault(); cells[i-1].focus(); } 
-      if(e.key === 'ArrowRight' && i<cells.length-1) { e.preventDefault(); cells[i+1].focus(); } 
+      if(e.key==='Enter') checkAnswer(); 
+      if(e.key==='ArrowLeft'&&i>0){e.preventDefault();cells[i-1].focus();} 
+      if(e.key==='ArrowRight'&&i<cells.length-1){e.preventDefault();cells[i+1].focus();} 
     });
   });
   if(cells.length) cells[0].focus();
