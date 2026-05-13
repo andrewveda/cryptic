@@ -143,7 +143,7 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 @keyframes shine { 0%,100%{left:-100%} 50%{left:140%} }
 
 /* ── ROW 3: ANSWER + CHECK ── */
-.ac-row { display:flex; align-items:stretch; gap:12px; padding:0 0 12px; animation:fadeUp .5s ease-out .22s both; }
+.ac-row { display:flex; align-items:flex-start; gap:12px; padding:0 0 12px; animation:fadeUp .5s ease-out .22s both; }
 .cells-wrap { display:flex; flex-direction:column; gap:8px; flex:1; min-width:0; }
 .cells-row  { display:grid; grid-template-columns:repeat(var(--word-len),minmax(0,1fr)); gap:5px; }
     .cell { aspect-ratio:1; width:100%; text-align:center; font-size:clamp(13px,1.9vw,22px); font-weight:700; font-family:'Cinzel',serif; color:var(--text); text-transform:uppercase; background:var(--surface2); border:2px solid var(--border2); clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); transition:border-color .18s,background .18s,transform .14s,box-shadow .18s; -webkit-tap-highlight-color:transparent; }
@@ -152,8 +152,9 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 @keyframes ccorrect { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
 .cell.wrong { border-color:#ef4444; background:rgba(239,68,68,.15); animation:shake .42s ease-out; }
 @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
-.check-btn { flex-shrink:0; padding:0 clamp(14px,1.8vw,26px); background:var(--gold); color:var(--bg); border:none; font-family:'Cinzel',serif; font-weight:700; font-size:clamp(10px,1vw,13px); letter-spacing:2px; cursor:pointer; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); white-space:nowrap; position:relative; overflow:hidden; transition:background .2s; min-width:80px; }
-.check-btn::before { content:''; position:absolute; inset:0; background:var(--gold-light); transform:translateX(-100%); transition:transform .32s ease; }
+  .check-btn { flex-shrink:0; padding:0 clamp(14px,1.8vw,26px); background:var(--gold); color:var(--bg); border:none; font-family:'Cinzel',serif; font-weight:700; font-size:clamp(10px,1vw,13px); letter-spacing:2px; cursor:pointer; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); white-space:nowrap; position:relative; overflow:hidden; transition:background .2s; min-width:80px; }
+.check-btn { flex-shrink:0; padding:0 clamp(14px,1.8vw,26px); min-height:52px; background:var(--gold); ... }
+  .check-btn::before { content:''; position:absolute; inset:0; background:var(--gold-light); transform:translateX(-100%); transition:transform .32s ease; }
 .check-btn:hover::before { transform:translateX(0); }
 .check-btn span { position:relative; z-index:1; }
 
