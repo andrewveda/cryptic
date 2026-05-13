@@ -426,7 +426,15 @@ html.light .hl-indicator { color:#92400e; }
   /* ── LOADER ── */
   #ls { position:static; min-height:60vh; }
 }
+.cells-row {
+  justify-content:flex-start;
+  grid-auto-columns:auto;
+}
 
+.cell {
+  width:clamp(52px,4vw,74px);
+  height:clamp(52px,4vw,74px);
+}
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; animation-iteration-count:1 !important; } }
 </style>
 </head>
