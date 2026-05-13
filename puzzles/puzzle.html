@@ -99,11 +99,13 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .g-inner { flex:1; padding:0; }
 .g-inner iframe { width:100% !important; }
 
-/* ── PUZZLE GRID: Flex column, allowed to scroll vertically ── */
+/* ── PUZZLE GRID: 5 rows, no scroll ── */
 #pg {
-  flex:1; display:flex; flex-direction:column;
-  height:100%; overflow-y:auto; overflow-x:hidden;
-  padding:0 clamp(22px,3.2vw,50px) 24px;
+  flex:1; display:grid;
+  grid-template-rows: auto 1fr auto auto auto;
+  height:100%; overflow:hidden;
+  padding:0 clamp(22px,3.2vw,50px);
+  row-gap:0;
 }
 
 /* ── ROW 1: TOPBAR ── */
@@ -135,16 +137,16 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .pchange:hover { color:var(--gold); }
 
 /* ── ROW 2: CLUE (flex 1) ── */
-.clue-row { display:flex; align-items:center; justify-content:center; padding:24px 0 16px; overflow:hidden; flex-shrink:0; margin-top:auto; }
+.clue-row { display:flex; align-items:center; justify-content:center; padding:18px 0 14px; overflow:hidden; }
 .clue-box { width:100%; padding:clamp(18px,2.2vh,30px) clamp(20px,2.5vw,36px); font-size:clamp(15px,1.85vw,21px); line-height:1.68; background:linear-gradient(135deg,var(--surface),var(--surface3)); border:1.5px solid var(--gold); clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px); position:relative; overflow:hidden; animation:fadeUp .5s ease-out .1s both; }
 .clue-box::before { content:''; position:absolute; top:-2px; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,var(--gold-faint),transparent); animation:shine 5s ease-in-out infinite; }
 @keyframes shine { 0%,100%{left:-100%} 50%{left:140%} }
 
 /* ── ROW 3: ANSWER + CHECK ── */
-.ac-row { display:flex; flex-direction:column; align-items:center; gap:20px; padding:0 0 24px; animation:fadeUp .5s ease-out .22s both; flex-shrink:0; margin-bottom:auto; }
-.cells-wrap { display:flex; flex-direction:column; align-items:center; gap:12px; width:100%; }
-.cells-row { display:flex; flex-direction:row; justify-content:center; gap:5px; max-width:100%; flex-wrap:wrap; }
-.cell { height:clamp(32px,4vw,48px); width:clamp(32px,4vw,48px); flex-shrink:1; text-align:center; font-size:clamp(16px,2vw,24px); font-weight:700; font-family:'Cinzel',serif; color:var(--text); text-transform:uppercase; background:var(--surface2); border:2px solid var(--border2); clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); transition:border-color .18s,background .18s,transform .14s,box-shadow .18s; -webkit-tap-highlight-color:transparent; }
+.ac-row { display:flex; align-items:flex-start; gap:12px; padding:0 0 12px; animation:fadeUp .5s ease-out .22s both; }
+.cells-wrap { display:flex; flex-direction:column; gap:8px; flex:1; min-width:0; }
+.cells-row { display:grid; grid-template-columns:repeat(var(--word-len),minmax(0,1fr)); gap:5px; }
+.cell { aspect-ratio:1; width:100%; text-align:center; font-size:clamp(13px,1.9vw,22px); font-weight:700; font-family:'Cinzel',serif; color:var(--text); text-transform:uppercase; background:var(--surface2); border:2px solid var(--border2); clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); transition:border-color .18s,background .18s,transform .14s,box-shadow .18s; -webkit-tap-highlight-color:transparent; }
 .cell:focus { outline:none; background:var(--gold-faint); border-color:var(--gold); box-shadow:0 0 12px rgba(212,175,55,.28); transform:translateY(-2px) scale(1.07); }
 .cell.correct { background:linear-gradient(135deg,var(--surface3),var(--gold-faint)); border-color:var(--gold-light); animation:ccorrect .45s ease-out; }
 @keyframes ccorrect { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
@@ -156,7 +158,7 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .check-btn span { position:relative; z-index:1; }
 
 /* ── ROW 4: HINT BUTTONS ── */
-.hbtns { display:flex; align-items:center; gap:7px; padding:0 0 14px; animation:fadeUp .5s ease-out .34s both; flex-shrink:0; }
+.hbtns { display:flex; align-items:center; gap:7px; padding:0 0 10px; animation:fadeUp .5s ease-out .34s both; }
 .hbtn { flex:1; padding:9px 4px; background:transparent; border:1px solid var(--border2); color:var(--gold-dim); font-family:'Raleway',sans-serif; font-weight:600; font-size:clamp(8px,.8vw,11px); letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); transition:all .2s; white-space:nowrap; text-align:center; position:relative; overflow:hidden; }
 .hbtn::before { content:''; position:absolute; inset:0; background:var(--gold-faint); transform:scaleX(0); transform-origin:left; transition:transform .22s ease; }
 .hbtn:hover:not(:disabled):not(.used)::before { transform:scaleX(1); }
@@ -170,13 +172,11 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 @keyframes eglow { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 11px rgba(212,175,55,.4)} }
 
 /* ── ROW 5: HINT SLOT ── */
-.hint-slot { height:clamp(62px,8.5vh,92px); margin-bottom:14px; flex-shrink:0; overflow:hidden; animation:fadeUp .5s ease-out .42s both; }
+.hint-slot { height:clamp(62px,8.5vh,92px); margin-bottom:14px; overflow:hidden; animation:fadeUp .5s ease-out .42s both; }
 .hs-inner { height:100%; padding:11px 16px; background:linear-gradient(135deg,var(--surface2),var(--surface3)); border:1px solid var(--border2); clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px); display:flex; flex-direction:column; justify-content:center; opacity:0; transition:opacity .25s ease; overflow:hidden; }
 .hs-inner.vis { opacity:1; }
 .hs-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2.5px; color:var(--gold); text-transform:uppercase; margin-bottom:5px; flex-shrink:0; }
 .hs-text  { font-size:clamp(11px,1.05vw,13px); color:var(--text-dim); line-height:1.55; overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; }
-
-.home-mob { display:none; text-decoration:none; }
 
 /* Clue highlights */
 .hl-def       { color:#7dd3fc; }
@@ -240,7 +240,9 @@ html.light .hl-indicator { color:#92400e; }
 @keyframes slideIL { from{opacity:0;transform:translateX(-44px)} to{opacity:1;transform:none} }
 
 @media (max-width:900px) {
+
   html, body { overflow:auto; height:auto; }
+
   #shell { flex-direction:column; height:auto; overflow:visible; }
 
   /* ── LEFT PANEL ── */
@@ -258,9 +260,10 @@ html.light .hl-indicator { color:#92400e; }
   .chrome-r { flex-direction:column; align-items:flex-end; gap:3px; }
   .cpos { font-size:9px; letter-spacing:1px; }
   .csolv { font-size:8px; clip-path:none; background:transparent; border:none; padding:0; color:var(--gold-dim); }
-  .home-mob { display:block; }
 
   /* Title centred in the chrome bar between toggle and counter */
+  .chrome-l::after {
+    content: 'Cryptic Clues';
     position: fixed;
     top: 10px;
     left: 50%;
@@ -278,34 +281,94 @@ html.light .hl-indicator { color:#92400e; }
     line-height: 1.7;
   }
 
+  /* ── TOPBAR ── */
+  /* Hide the in-page title block since it now lives in the chrome bar */
   .tb-l { display:none; }
-  .topbar { position: relative; padding-top: 10px; border: none; flex-direction: column; gap: 6px; align-items: center; }
-  .tb-r { flex-direction: column; align-items: center; width: 100%; gap: 6px; order: 1; }
-  .tb-player { font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 600; opacity: 0.9; order: 1; }
-  .tb-c { flex: none; width: auto; margin-top: 0; justify-content: center; order: 2; }
-  .tb-meta { gap: 8px; order: 3; }
+
+  .topbar {
+    position: relative;
+    padding-top: 10px;
+    border: none;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+  }
+
+  /* tb-r is now a column: player name → timer → diff/hints */
+  .tb-r {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 6px;
+    order: 1;
+  }
+
+  .tb-player {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.9;
+    order: 1;
+  }
+
+  /* tb-c (timer) is now inside tb-r in the HTML — sits between player and meta */
+  .tb-c {
+    flex: none;
+    width: auto;
+    margin-top: 0;
+    justify-content: center;
+    order: 2;
+  }
+
+  .tb-meta {
+    gap: 8px;
+    order: 3;
+  }
+
   .diff-tag { clip-path:none; border-radius:4px; padding:3px 6px; font-size:8px; border-color:var(--border2); }
   .pchange { display:none; }
-  .timer-wrap { clip-path: none; border-radius: 20px; padding: 4px 16px; background: var(--surface2); border: 1px solid var(--border); box-shadow: none; width: auto; max-width: none; gap: 8px; }
+
+  /* Timer: compact pill, no track bar */
+  .timer-wrap {
+    clip-path: none;
+    border-radius: 20px;
+    padding: 4px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    box-shadow: none;
+    width: auto;
+    max-width: none;
+    gap: 8px;
+  }
+
   .tval { font-size: 14px; min-width: auto; letter-spacing: 2px; }
   .ttrack { display: none; }
 
   /* ── CLUE CARD ── */
-  .clue-row { padding:0; margin-top:4px; overflow:visible; min-height: auto; }
-  .clue-box { font-family: 'Cinzel', serif; font-size: 16px; line-height: 1.65; padding: 24px 20px; text-align: center; clip-path: none; border-radius: 16px; background: linear-gradient(145deg, var(--bg2), var(--surface3)); border: 1px solid var(--border2); box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05); }
+  .clue-row { padding:0; margin-top:4px; overflow:visible; }
+  .clue-box {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    line-height: 1.65;
+    padding: 24px 20px;
+    text-align: center;
+    clip-path: none;
+    border-radius: 16px;
+    background: linear-gradient(145deg, var(--bg2), var(--surface3));
+    border: 1px solid var(--border2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
   .clue-box::before { display:none; }
 
   /* ── ANSWER + CHECK ── */
-  .ac-row { padding:0; gap:16px; flex-direction:column; align-items:center; margin-top:8px; margin-bottom:0; }
-  .cells-wrap { width:100%; max-width:100%; gap:10px; flex-direction:column; align-items:center; }
-  .cells-row { gap:4px; display:flex; justify-content:center; flex-wrap:wrap; width:100%; }
+  .ac-row { padding:0; gap:16px; flex-direction:column; align-items:center; margin-top:8px; }
+  .cells-wrap { width:100%; max-width:380px; gap:8px; flex-direction:column; }
+  .cells-row { gap:6px; }
 
   .cell {
     clip-path: none;
     border-radius: 8px;
     font-size: clamp(18px,6vw,26px);
-    width: clamp(30px, 8vw, 44px);
-    height: clamp(30px, 8vw, 44px);
     border-width: 1.5px;
     border-color: var(--border3);
     background: var(--bg2);
@@ -313,6 +376,40 @@ html.light .hl-indicator { color:#92400e; }
   }
   .cell:focus {
     transform: translateY(-2px);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(212,175,55,0.2), inset 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .check-btn {
+    width: 100%;
+    max-width: 380px;
+    min-height: auto;
+    clip-path: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 13px;
+    letter-spacing: 4px;
+    box-shadow: 0 4px 16px rgba(212,175,55,0.2);
+  }
+
+  /* ── HINT BUTTONS ── */
+  .hbtns { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; padding:0; width:100%; max-width:380px; margin:0 auto; }
+  .hbtn { clip-path:none; border-radius:8px; flex:1 1 calc(33.333% - 8px); padding:12px 4px; font-size:9px; background:var(--surface); border-color:var(--border2); }
+  #explainBtn { flex:1 1 100%; border-radius:8px; padding:14px; margin-top:2px; }
+
+  /* ── HINT SLOT ── */
+  .hint-slot { height:auto; min-height:0; width:100%; max-width:380px; margin:0 auto 0; }
+  .hs-inner {
+    clip-path: none;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    background: rgba(10,10,10,0.45);
+    border: 1px solid var(--border2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  }
   html.light .hs-inner { background:rgba(255,255,255,0.65); border-color:rgba(140,100,5,0.3); }
   .hs-label { margin-bottom:8px; font-size:10px; letter-spacing:3px; }
   .hs-text { font-size:13px; line-height:1.6; -webkit-line-clamp:unset; }
@@ -340,7 +437,6 @@ html.light .hl-indicator { color:#92400e; }
 
 <div class="chrome chrome-l">
   <button class="cbtn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
-  <a href="https://andrewveda.github.io/cryptic/" class="cbtn home-mob" aria-label="Back to home">🏠</a>
 </div>
 <div class="chrome chrome-r">
   <span class="cpos" id="cpos"></span>
@@ -623,34 +719,26 @@ function populate() {
   document.getElementById('tbPlayer').textContent=`👤 ${name}${dept?' · '+dept:''}`;
   // Cells
   const words = puzzle.answer.trim().split(/\s+/);
-  const cw = document.getElementById('cellsWrap'); cw.innerHTML='';
-  words.forEach(word => {
-    const row = document.createElement('div');
-    row.className = 'cells-row';
-    for(let i=0; i<word.length; i++){
-      const inp = document.createElement('input');
-      inp.className='cell'; inp.type='text'; inp.maxLength=1;
-      row.appendChild(inp);
-    }
-    cw.appendChild(row);
+const cw = document.getElementById('cellsWrap'); cw.innerHTML='';
+words.forEach(word => {
+  const row = document.createElement('div');
+  row.className = 'cells-row';
+  row.style.setProperty('--word-len', word.length);
+  for(let i=0; i<word.length; i++){
+    const inp = document.createElement('input');
+    inp.className='cell'; inp.type='text'; inp.maxLength=1;
+    row.appendChild(inp);
+  }
+  cw.appendChild(row);
 });
   setupCells();
 }
 function setupCells() {
   const cells=[...document.querySelectorAll('.cell')];
   cells.forEach((c,i)=>{
-    c.addEventListener('focus', () => { startOnce(); c.select(); });
+    c.addEventListener('focus',startOnce);
     c.addEventListener('input',()=>{ startOnce(); c.value=c.value.toUpperCase(); if(c.value&&i<cells.length-1) cells[i+1].focus(); else if(c.value&&i===cells.length-1){c.blur();setTimeout(checkAnswer,65);} });
-    c.addEventListener('keydown',e=>{ 
-      if(e.key==='Backspace'&&!c.value&&i>0) {
-        e.preventDefault();
-        cells[i-1].focus();
-        cells[i-1].value = '';
-      }
-      if(e.key==='Enter') checkAnswer(); 
-      if(e.key==='ArrowLeft'&&i>0){e.preventDefault();cells[i-1].focus();} 
-      if(e.key==='ArrowRight'&&i<cells.length-1){e.preventDefault();cells[i+1].focus();} 
-    });
+    c.addEventListener('keydown',e=>{ if(e.key==='Backspace'&&!c.value&&i>0) cells[i-1].focus(); if(e.key==='Enter') checkAnswer(); if(e.key==='ArrowLeft'&&i>0){e.preventDefault();cells[i-1].focus();} if(e.key==='ArrowRight'&&i<cells.length-1){e.preventDefault();cells[i+1].focus();} });
   });
   if(cells.length) cells[0].focus();
 }
