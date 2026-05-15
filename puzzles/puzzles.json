@@ -1,5 +1,16 @@
 [
-
+{
+    "id": 148,
+    "clue": "Maturity hears a groan (5)",
+    "answer": "GROWN",
+    "definition": "Maturity",
+    "fodder": "groan",
+    "indicator": "hears",
+    "type": "homophone",
+    "difficulty": "easy",
+    "date": "2026-05-15",
+"explanation": "You can hear the signs of old age in their groans!" 
+  },
 {
     "id": 147,
     "clue": "Most hashtags with the French positivist abuse when leaving!(5,2,5)",
