@@ -1,5 +1,17 @@
 [
 {
+    "id": 149,
+    "clue": "Honcho Barath overwhelms Dhayalan, Dhinakaran heard exchanges Andy first (4)",
+    "answer": "BOSS",
+    "definition": "Honcho",
+    "fodder": "Barath overwhelms Dhayalan, Dhinakaran exchanges Andy",
+    "indicator": "heard exchanges first",
+    "type": "homophone, acrostic",
+    "difficulty": "medium",
+    "date": "2026-05-15",
+"explanation": "Some first letters have to be exchanged. Exchange S and D." 
+  },
+{
     "id": 148,
     "clue": "Maturity hears a groan (5)",
     "answer": "GROWN",
