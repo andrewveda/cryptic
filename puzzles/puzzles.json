@@ -1,5 +1,17 @@
 [
 {
+    "id": 150,
+    "clue": "Hold your breath! Oddly Praveen Kumar is cooking, leaving you behind. (5)",
+    "answer": "APNEA",
+    "definition": "Hold your breath",
+    "fodder": "Praveen Kumar",
+    "indicator": "Oddly cooking, leaving you behind",
+    "type": "anagram, homophone",
+    "difficulty": "medium",
+    "date": "2026-05-17",
+"explanation": "Take the odd letters, remove 'u' and unscramble." 
+  },
+{
     "id": 149,
     "clue": "Honcho Barath overwhelms Dhayalan, Dhinakaran heard exchanges Andy first (4)",
     "answer": "BOSS",
