@@ -137,10 +137,14 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .pchange:hover { color:var(--gold); }
 
 /* ── ROW 2: CLUE (flex 1) ── */
-.clue-row { display:flex; align-items:center; justify-content:center; padding:18px 0 14px; overflow:hidden; }
+.clue-row { display:flex; flex-direction:column; align-items:stretch; justify-content:center; padding:18px 0 6px; overflow:hidden; }
 .clue-box { width:100%; padding:clamp(18px,2.2vh,30px) clamp(20px,2.5vw,36px); font-size:clamp(15px,1.85vw,21px); line-height:1.68; background:linear-gradient(135deg,var(--surface),var(--surface3)); border:1.5px solid var(--gold); clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px); position:relative; overflow:hidden; animation:fadeUp .5s ease-out .1s both; }
 .clue-box::before { content:''; position:absolute; top:-2px; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,var(--gold-faint),transparent); animation:shine 5s ease-in-out infinite; }
 @keyframes shine { 0%,100%{left:-100%} 50%{left:140%} }
+
+/* ── CLUE BYLINE ── */
+.clue-byline { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--gold-dimmer); text-align:right; padding:5px 2px 0; font-style:italic; animation:fadeUp .5s ease-out .15s both; }
+html.light .clue-byline { color:var(--gold-dim); }
 
 /* ── ROW 3: ANSWER + CHECK ── */
 .ac-row { display:flex; align-items:flex-start; gap:12px; padding:0 0 12px; animation:fadeUp .5s ease-out .22s both; }
@@ -203,7 +207,11 @@ html.light .hl-indicator { color:#92400e; }
 .stitle { font-family:'Cinzel',serif; font-size:28px; color:var(--gold); margin-bottom:10px; letter-spacing:3px; }
 .splayer{ font-size:14px; color:var(--text-dim); margin-bottom:4px; }
 .sanswer{ font-family:'Cinzel',serif; font-size:22px; color:var(--gold-light); margin-bottom:6px; letter-spacing:4px; }
-.smeta  { font-size:12px; color:var(--gold-dim); margin-bottom:18px; }
+.smeta  { font-size:12px; color:var(--gold-dim); margin-bottom:6px; }
+
+/* ── SUCCESS MODAL AUTHOR ── */
+.sauthor { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--gold-dimmer); font-style:italic; margin-bottom:14px; }
+
 .srec   { font-size:11px; color:var(--gold); padding:7px 11px; border:1px solid var(--border2); margin-bottom:16px; clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px); }
 .sexp   { margin:0 0 18px; padding:14px 16px; background:var(--surface2); border:1px solid var(--border2); clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px); text-align:left; }
 .sexp-l { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--gold); margin-bottom:6px; display:block; text-transform:uppercase; }
@@ -360,6 +368,8 @@ html.light .hl-indicator { color:#92400e; }
   }
   .clue-box::before { display:none; }
 
+  .clue-byline { font-size:9px; padding:4px 4px 0; }
+
   /* ── ANSWER + CHECK ── */
   .ac-row { padding:0; gap:16px; flex-direction:column; align-items:center; margin-top:8px; }
   .cells-wrap { width:100%; max-width:380px; gap:8px; flex-direction:column; }
@@ -487,6 +497,7 @@ html.light .hl-indicator { color:#92400e; }
       <!-- CLUE -->
       <div class="clue-row">
         <div class="clue-box" id="clueBox"></div>
+        <div class="clue-byline" id="clueByline" style="display:none"></div>
       </div>
 
       <!-- ANSWER + CHECK -->
@@ -549,6 +560,7 @@ html.light .hl-indicator { color:#92400e; }
     <div class="splayer" id="sPlayer"></div>
     <div class="sanswer" id="sAnswer"></div>
     <div class="smeta"   id="sMeta"></div>
+    <div class="sauthor" id="sAuthor" style="display:none"></div>
     <div class="srec"    id="sRec" style="display:none"></div>
     <div class="sexp"    id="sExp" style="display:none">
       <span class="sexp-l">How this clue works</span>
@@ -706,6 +718,14 @@ function refreshGiscus() {
 function populate() {
   document.title=`Puzzle #${puzzle.id} — Cryptic`;
   document.getElementById('clueBox').textContent=puzzle.clue; rawClue=puzzle.clue;
+
+  // ── AUTHOR BYLINE ──
+  const byline=document.getElementById('clueByline');
+  if(byline){
+    if(puzzle.author){ byline.textContent=`Clue by ${puzzle.author}`; byline.style.display=''; }
+    else { byline.textContent=''; byline.style.display='none'; }
+  }
+
   document.getElementById('diffTag').textContent=puzzle.difficulty.toUpperCase();
   document.getElementById('hintsV').textContent=0;
   document.getElementById('tval').textContent='0:00';
@@ -719,18 +739,18 @@ function populate() {
   document.getElementById('tbPlayer').textContent=`👤 ${name}${dept?' · '+dept:''}`;
   // Cells
   const words = puzzle.answer.trim().split(/\s+/);
-const cw = document.getElementById('cellsWrap'); cw.innerHTML='';
-words.forEach(word => {
-  const row = document.createElement('div');
-  row.className = 'cells-row';
-  row.style.setProperty('--word-len', word.length);
-  for(let i=0; i<word.length; i++){
-    const inp = document.createElement('input');
-    inp.className='cell'; inp.type='text'; inp.maxLength=1;
-    row.appendChild(inp);
-  }
-  cw.appendChild(row);
-});
+  const cw = document.getElementById('cellsWrap'); cw.innerHTML='';
+  words.forEach(word => {
+    const row = document.createElement('div');
+    row.className = 'cells-row';
+    row.style.setProperty('--word-len', word.length);
+    for(let i=0; i<word.length; i++){
+      const inp = document.createElement('input');
+      inp.className='cell'; inp.type='text'; inp.maxLength=1;
+      row.appendChild(inp);
+    }
+    cw.appendChild(row);
+  });
   setupCells();
 }
 function setupCells() {
@@ -852,6 +872,14 @@ function showSuccess() {
   document.getElementById('sPlayer').textContent=`Well done, ${name}!`;
   document.getElementById('sAnswer').textContent=puzzle.answer;
   document.getElementById('sMeta').textContent=`⏱ ${m}:${s<10?'0':''}${s}  ·  💡 ${hintsUsed} hint${hintsUsed!==1?'s':''} used`;
+
+  // ── AUTHOR IN SUCCESS MODAL ──
+  const sa=document.getElementById('sAuthor');
+  if(sa){
+    if(puzzle.author){ sa.textContent=`Clue by ${puzzle.author}`; sa.style.display=''; }
+    else { sa.textContent=''; sa.style.display='none'; }
+  }
+
   const exp=puzzle.explanation||'';
   document.getElementById('sExpT').textContent=exp;
   document.getElementById('sExp').style.display=exp?'block':'none';
