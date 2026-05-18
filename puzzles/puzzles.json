@@ -1,5 +1,17 @@
 [
 {
+    "id": 151,
+    "clue": "Nearest star and a bright kid (7)",
+    "answer": "SUNANDA",
+    "definition": "bright kid",
+    "fodder": "Nearest star and a",
+    "indicator": "charade",
+    "type": "charade",
+    "difficulty": "easy",
+    "date": "2026-05-19",
+"explanation": "Simply put them together!" 
+  },
+{
     "id": 150,
     "clue": "Hold your breath! Oddly Praveen Kumar is cooking, leaving you behind. (5)",
     "answer": "APNEA",
