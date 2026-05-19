@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Submit a Clue — Cryptic</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:          #0a0a0a;
+  --bg2:         rgba(10,10,10,0.85);
+  --surface:     rgba(212,175,55,0.04);
+  --surface2:    rgba(212,175,55,0.08);
+  --surface3:    rgba(212,175,55,0.12);
+  --border:      rgba(212,175,55,0.2);
+  --border2:     rgba(212,175,55,0.3);
+  --border3:     rgba(212,175,55,0.4);
+  --gold:        #d4af37;
+  --gold-light:  #f4e5b1;
+  --text:        #f0ede8;
+  --text-dim:    rgba(240,237,232,0.65);
+  --text-dimmer: rgba(240,237,232,0.45);
+  --gold-dim:    rgba(212,175,55,0.5);
+  --gold-dimmer: rgba(212,175,55,0.3);
+  --gold-faint:  rgba(212,175,55,0.1);
+  --sep:         rgba(212,175,55,0.14);
+  --code-bg:     rgba(212,175,55,0.06);
+}
+html.light {
+  --bg:          #f2ead6;
+  --bg2:         rgba(242,234,214,0.92);
+  --surface:     rgba(160,118,10,0.05);
+  --surface2:    rgba(160,118,10,0.09);
+  --surface3:    rgba(160,118,10,0.14);
+  --border:      rgba(140,100,5,0.22);
+  --border2:     rgba(140,100,5,0.35);
+  --border3:     rgba(140,100,5,0.5);
+  --gold:        #7a5900;
+  --gold-light:  #a07800;
+  --text:        #1e1400;
+  --text-dim:    rgba(30,20,0,0.7);
+  --text-dimmer: rgba(30,20,0,0.45);
+  --gold-dim:    rgba(122,89,0,0.6);
+  --gold-dimmer: rgba(122,89,0,0.35);
+  --gold-faint:  rgba(122,89,0,0.1);
+  --sep:         rgba(122,89,0,0.16);
+  --code-bg:     rgba(122,89,0,0.07);
+}
+
+html, body { min-height:100%; font-family:'Raleway',sans-serif; background:var(--bg); color:var(--text); transition:background .3s,color .3s; overflow-x:hidden; }
+body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events:none; z-index:999; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:160px; }
+
+.prog { position:fixed; top:0; left:0; right:0; height:2px; background:var(--border); z-index:200; }
+.prog-fill { height:100%; width:30%; background:linear-gradient(90deg,var(--gold),var(--gold-light)); }
+
+.chrome { position:fixed; top:10px; left:14px; z-index:150; }
+.cbtn { background:var(--bg2); border:1px solid var(--border2); color:var(--gold); font-size:13px; padding:4px 10px; line-height:1.7; cursor:pointer; letter-spacing:.5px; clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); transition:background .2s,transform .15s; user-select:none; font-family:'Cinzel',serif; }
+.cbtn:hover { background:var(--gold-faint); transform:scale(1.06); }
+
+.page { max-width:720px; margin:0 auto; padding:80px 24px 60px; }
+
+/* Header */
+.page-header { text-align:center; margin-bottom:44px; animation:fadeUp .5s ease-out both; }
+.back-link { display:inline-flex; align-items:center; gap:6px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:2px; color:var(--gold-dim); text-decoration:none; margin-bottom:28px; transition:color .2s; }
+.back-link:hover { color:var(--gold); }
+.page-icon { font-size:42px; margin-bottom:16px; display:block; animation:float 3s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+.page-title { font-family:'Cinzel',serif; font-size:clamp(22px,5vw,34px); font-weight:700; background:linear-gradient(120deg,var(--gold),var(--gold-light),var(--gold)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:3px; margin-bottom:10px; }
+.page-sub { font-size:13px; color:var(--text-dim); letter-spacing:1px; line-height:1.7; max-width:480px; margin:0 auto; }
+
+/* ── COLLAPSIBLE SECTIONS ── */
+.section { margin-bottom:6px; animation:fadeUp .5s ease-out both; }
+.section:nth-child(1) { animation-delay:.04s; }
+.section:nth-child(2) { animation-delay:.10s; }
+.section:nth-child(3) { animation-delay:.16s; }
+.section:nth-child(4) { animation-delay:.22s; }
+
+.section-head {
+  display:flex; align-items:center; gap:12px;
+  padding:13px 16px;
+  border:1px solid var(--border2);
+  background:var(--surface);
+  cursor:pointer; user-select:none;
+  transition:background .2s, border-color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.section-head:hover { background:var(--surface2); border-color:var(--border3); }
+.section.open .section-head { border-color:var(--gold); background:var(--surface2); border-bottom-color:var(--sep); }
+.section.always-open .section-head { border-color:var(--gold); background:var(--surface2); border-bottom-color:var(--sep); cursor:default; }
+
+.step-badge { font-family:'Cinzel',serif; font-size:10px; font-weight:700; color:var(--bg); background:var(--gold); width:24px; height:24px; display:flex; align-items:center; justify-content:center; flex-shrink:0; clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px); }
+.section-title { font-family:'Cinzel',serif; font-size:13px; letter-spacing:2px; color:var(--gold); text-transform:uppercase; flex:1; }
+.chevron { font-size:11px; color:var(--gold-dim); transition:transform .25s ease; flex-shrink:0; }
+.section.open .chevron { transform:rotate(180deg); color:var(--gold); }
+.section.always-open .chevron { display:none; }
+
+.section-body {
+  border:1px solid var(--gold);
+  border-top:none;
+  background:var(--surface);
+  overflow:hidden;
+  max-height:0;
+  transition:max-height .32s ease, padding .32s ease;
+  padding:0 18px;
+}
+.section.open .section-body,
+.section.always-open .section-body {
+  max-height:2400px;
+  padding:20px 18px;
+}
+
+/* Field list */
+.field-list { list-style:none; padding:0; display:flex; flex-direction:column; gap:7px; }
+.field-list li { font-size:12.5px; color:var(--text-dim); line-height:1.7; display:flex; gap:10px; align-items:baseline; }
+.field-name { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--gold-light); background:var(--gold-faint); padding:2px 7px; border-radius:3px; border:1px solid var(--border); flex-shrink:0; }
+.field-list strong { color:var(--gold); font-weight:600; }
+
+/* Warn card */
+.warn-card { padding:11px 15px; background:rgba(245,158,11,0.07); border:1px solid rgba(245,158,11,0.3); font-size:12px; color:#f59e0b; line-height:1.7; margin-top:14px; display:flex; gap:10px; align-items:flex-start; }
+.warn-icon { flex-shrink:0; }
+
+/* Code block */
+.code-wrap { position:relative; }
+.code-block { background:var(--code-bg); border:1px solid var(--border2); padding:20px; font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.9; color:var(--text-dim); white-space:pre; overflow-x:auto; clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px); scrollbar-width:thin; scrollbar-color:var(--border2) transparent; }
+.code-block::-webkit-scrollbar { height:3px; }
+.code-block::-webkit-scrollbar-thumb { background:var(--border2); }
+.json-key { color:var(--gold); }
+.json-str { color:#86efac; }
+.json-num { color:#93c5fd; }
+html.light .json-str { color:#166534; }
+html.light .json-num { color:#1e40af; }
+.copy-btn { position:absolute; top:10px; right:10px; background:var(--surface2); border:1px solid var(--border2); color:var(--gold-dim); font-family:'Cinzel',serif; font-size:9px; letter-spacing:1.5px; padding:5px 12px; cursor:pointer; clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px); transition:all .2s; }
+.copy-btn:hover { background:var(--gold-faint); color:var(--gold); border-color:var(--gold); }
+.copy-btn.copied { color:#86efac; border-color:#86efac; background:rgba(134,239,172,0.07); }
+html.light .copy-btn.copied { color:#166534; border-color:#166534; }
+.template-note { font-size:12px; color:var(--text-dimmer); margin-bottom:14px; line-height:1.6; }
+
+/* Steps */
+.steps-list { display:flex; flex-direction:column; gap:8px; }
+.step-item { display:flex; gap:14px; align-items:flex-start; padding:13px 15px; background:var(--surface2); border:1px solid var(--border); }
+.step-num { font-family:'Cinzel',serif; font-size:18px; font-weight:700; color:var(--gold); opacity:.4; flex-shrink:0; line-height:1.3; min-width:22px; }
+.step-body strong { font-family:'Cinzel',serif; font-size:11px; letter-spacing:1.5px; color:var(--gold); display:block; margin-bottom:3px; text-transform:uppercase; }
+.step-body p { font-size:12.5px; color:var(--text-dim); line-height:1.7; }
+.step-body code { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--gold-light); background:var(--gold-faint); padding:1px 5px; border-radius:3px; border:1px solid var(--border); }
+
+/* Rules */
+.rules-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.rule-item { padding:13px 14px; background:var(--surface2); border:1px solid var(--border); }
+.rule-icon { font-size:17px; margin-bottom:5px; display:block; }
+.rule-title { font-family:'Cinzel',serif; font-size:10px; letter-spacing:1.5px; color:var(--gold); text-transform:uppercase; margin-bottom:4px; }
+.rule-desc { font-size:11.5px; color:var(--text-dimmer); line-height:1.6; }
+
+/* Divider */
+.divider { height:1px; background:var(--sep); margin:22px 0; }
+
+/* CTA */
+.cta-wrap { text-align:center; padding:30px 24px; background:linear-gradient(135deg,var(--surface),var(--surface3)); border:1.5px solid var(--gold); clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px); position:relative; overflow:hidden; }
+.cta-wrap::before { content:''; position:absolute; top:-2px; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,var(--gold-faint),transparent); animation:shine 5s ease-in-out infinite; }
+@keyframes shine { 0%,100%{left:-100%} 50%{left:140%} }
+.cta-title { font-family:'Cinzel',serif; font-size:clamp(14px,3vw,18px); color:var(--gold); letter-spacing:3px; margin-bottom:8px; position:relative; }
+.cta-sub { font-size:12px; color:var(--text-dimmer); margin-bottom:20px; position:relative; line-height:1.6; }
+.cta-btn { display:inline-flex; align-items:center; gap:8px; padding:13px 32px; background:var(--gold); color:var(--bg); font-family:'Cinzel',serif; font-weight:700; font-size:13px; letter-spacing:2px; text-decoration:none; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); transition:background .2s; position:relative; }
+.cta-btn:hover { background:var(--gold-light); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+
+@media(max-width:600px) {
+  .page { padding:70px 14px 48px; }
+  .rules-grid { grid-template-columns:1fr; }
+  .code-block { font-size:11px; clip-path:none; border-radius:8px; }
+  .step-item { border-radius:6px; }
+  .cta-wrap { clip-path:none; border-radius:12px; }
+  .copy-btn { clip-path:none; border-radius:4px; }
+}
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+</style>
+</head>
+<body>
+
+<div class="prog"><div class="prog-fill"></div></div>
+<div class="chrome">
+  <button class="cbtn" onclick="toggleTheme()" id="themeToggle">☀️</button>
+</div>
+
+<div class="page">
+
+  <div class="page-header">
+    <a href="https://andrewveda.github.io/cryptic/" class="back-link">← Back to puzzles</a>
+    <span class="page-icon">✒️</span>
+    <h1 class="page-title">Submit a Clue</h1>
+    <p class="page-sub">Think you can stump your classmates? Fill in the template, create a file on GitHub, and raise a pull request.</p>
+  </div>
+
+  <!-- STEP 1: FIELDS — closed -->
+  <div class="section" id="s1">
+    <div class="section-head" onclick="toggle('s1')">
+      <div class="step-badge">1</div>
+      <span class="section-title">What each field means</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <ul class="field-list">
+        <li><span class="field-name">id</span> unique integer — use the next number after the last puzzle</li>
+        <li><span class="field-name">clue</span> full clue text including letter count at the end, e.g. <strong>(5)</strong></li>
+        <li><span class="field-name">answer</span> solution in UPPERCASE; space between words e.g. <strong>TWO WORDS</strong></li>
+        <li><span class="field-name">definition</span> the part of the clue that directly defines the answer</li>
+        <li><span class="field-name">fodder</span> the letters or words being manipulated</li>
+        <li><span class="field-name">indicator</span> word(s) signalling what wordplay is happening</li>
+        <li><span class="field-name">type</span> <strong>anagram</strong>, <strong>hidden</strong>, <strong>charade</strong>, <strong>homophone</strong>, or <strong>double def</strong></li>
+        <li><span class="field-name">difficulty</span> <strong>easy</strong>, <strong>medium</strong>, or <strong>hard</strong></li>
+        <li><span class="field-name">date</span> today's date in <strong>YYYY-MM-DD</strong> format</li>
+        <li><span class="field-name">explanation</span> step-by-step walkthrough of how the clue works</li>
+        <li><span class="field-name">author</span> your name — shown on the puzzle page as <strong>Clue by You ✒️</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 2: TEMPLATE — always open -->
+  <div class="section always-open">
+    <div class="section-head">
+      <div class="step-badge">2</div>
+      <span class="section-title">Copy the template</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <p class="template-note">Fill in every field, then paste it as the entire contents of your new <code style="font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--gold-faint);padding:1px 5px;border-radius:3px;border:1px solid var(--border);color:var(--gold-light);">{id}.json</code> file.</p>
+      <div class="code-wrap">
+        <button class="copy-btn" id="copyBtn" onclick="copyTemplate()">COPY</button>
+        <div class="code-block">{
+  <span class="json-key">"id"</span>: <span class="json-num">151</span>,
+  <span class="json-key">"clue"</span>: <span class="json-str">"Your cryptic clue text here (5)"</span>,
+  <span class="json-key">"answer"</span>: <span class="json-str">"ANSWER"</span>,
+  <span class="json-key">"definition"</span>: <span class="json-str">"the defining part of the clue"</span>,
+  <span class="json-key">"fodder"</span>: <span class="json-str">"letters or words being manipulated"</span>,
+  <span class="json-key">"indicator"</span>: <span class="json-str">"wordplay indicator word(s)"</span>,
+  <span class="json-key">"type"</span>: <span class="json-str">"anagram"</span>,
+  <span class="json-key">"difficulty"</span>: <span class="json-str">"medium"</span>,
+  <span class="json-key">"date"</span>: <span class="json-str">"2026-05-19"</span>,
+  <span class="json-key">"explanation"</span>: <span class="json-str">"Step-by-step breakdown of how the clue works."</span>,
+  <span class="json-key">"author"</span>: <span class="json-str">"Your Name"</span>
+}</div>
+      </div>
+      <div class="warn-card">
+        <span class="warn-icon">⚠️</span>
+        <span>Validate your JSON before submitting — no trailing commas, all strings in double quotes. Check at <strong><a href="https://jsonlint.com" target="_blank" style="color:#f59e0b;">jsonlint.com</a></strong>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: SUBMIT — closed -->
+  <div class="section" id="s3">
+    <div class="section-head" onclick="toggle('s3')">
+      <div class="step-badge">3</div>
+      <span class="section-title">Submit on GitHub</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="steps-list">
+        <div class="step-item">
+          <div class="step-num">①</div>
+          <div class="step-body">
+            <strong>Create your file</strong>
+            <p>Click the button below — it opens GitHub's new-file editor inside <code>puzzles/</code> and forks the repo automatically. Name the file <code>{id}.json</code>, e.g. <code>151.json</code>, and paste your JSON.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">②</div>
+          <div class="step-body">
+            <strong>Raise a Pull Request</strong>
+            <p>Scroll down, set the commit message to <code>Add clue #151 by Your Name</code>, then click <strong>Propose new file → Create Pull Request</strong>.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">③</div>
+          <div class="step-body">
+            <strong>Done</strong>
+            <p>Andrew reviews and merges. He updates <code>manifest.json</code> — you don't touch it. Your puzzle goes live with your name on it. ✨</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: RULES — closed -->
+  <div class="section" id="s4">
+    <div class="section-head" onclick="toggle('s4')">
+      <div class="step-badge">4</div>
+      <span class="section-title">Rules for a good clue</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="rules-grid">
+        <div class="rule-item">
+          <span class="rule-icon">🎯</span>
+          <div class="rule-title">One clear definition</div>
+          <div class="rule-desc">Must appear at the start or end — never buried in the middle.</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-icon">🔤</span>
+          <div class="rule-title">Letter count</div>
+          <div class="rule-desc">Always include answer length in brackets — <strong>(5)</strong> or <strong>(3,4)</strong>.</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-icon">⚖️</span>
+          <div class="rule-title">Fair wordplay</div>
+          <div class="rule-desc">Every letter must be accounted for — no extras, no missing letters.</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-icon">🚫</span>
+          <div class="rule-title">No spoilers</div>
+          <div class="rule-desc">The answer must not appear in the clue, including obvious synonyms.</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-icon">✅</span>
+          <div class="rule-title">Precise indicator</div>
+          <div class="rule-desc"><em>mixed, cooked</em> for anagram; <em>sounds like, reportedly</em> for homophone.</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-icon">📖</span>
+          <div class="rule-title">Explain clearly</div>
+          <div class="rule-desc">Walk through the solve step by step — assume the reader is new to cryptics.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="cta-wrap">
+    <div class="cta-title">READY TO STUMP EVERYONE?</div>
+    <div class="cta-sub">Opens GitHub's file editor inside <code style="font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--gold-faint);padding:1px 6px;border-radius:3px;color:var(--gold-light);">puzzles/</code> — forks the repo automatically.</div>
+    <a class="cta-btn" href="https://github.com/andrewveda/cryptic/new/main/puzzles" target="_blank">✏️ &nbsp;CREATE MY CLUE FILE</a>
+  </div>
+
+</div>
+
+<script>
+const TK = 'crypticTheme';
+function applyTheme(t) {
+  if(t==='light'){ document.documentElement.classList.add('light'); document.getElementById('themeToggle').textContent='🌙'; }
+  else           { document.documentElement.classList.remove('light'); document.getElementById('themeToggle').textContent='☀️'; }
+}
+function toggleTheme() { const n=document.documentElement.classList.contains('light')?'dark':'light'; localStorage.setItem(TK,n); applyTheme(n); }
+applyTheme(localStorage.getItem(TK)||'dark');
+
+function toggle(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function copyTemplate() {
+  const raw = `{
+  "id": 151,
+  "clue": "Your cryptic clue text here (5)",
+  "answer": "ANSWER",
+  "definition": "the defining part of the clue",
+  "fodder": "letters or words being manipulated",
+  "indicator": "wordplay indicator word(s)",
+  "type": "anagram",
+  "difficulty": "medium",
+  "date": "2026-05-19",
+  "explanation": "Step-by-step breakdown of how the clue works.",
+  "author": "Your Name"
+}`;
+  navigator.clipboard.writeText(raw).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ COPIED';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent='COPY'; btn.classList.remove('copied'); }, 2200);
+  }).catch(()=>{ alert('Copy failed — please select and copy manually.'); });
+}
+</script>
+</body>
+</html>
