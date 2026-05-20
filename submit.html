@@ -194,7 +194,7 @@ html.light .copy-btn.copied { color:#166534; border-color:#166534; }
     <a href="https://andrewveda.github.io/cryptic/" class="back-link">← Back to puzzles</a>
     <span class="page-icon">✒️</span>
     <h1 class="page-title">Submit a Clue</h1>
-    <p class="page-sub">Think you can stump your classmates? Fill in the template, create a file on GitHub, and raise a pull request.</p>
+    <p class="page-sub">Fill in the template, create your file on GitHub, and raise a pull request. Your name goes on it forever.</p>
   </div>
 
   <!-- STEP 1: FIELDS — closed -->
@@ -229,7 +229,7 @@ html.light .copy-btn.copied { color:#166534; border-color:#166534; }
       <span class="chevron">▼</span>
     </div>
     <div class="section-body">
-      <p class="template-note">Fill in every field, then paste it as the entire contents of your new <code style="font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--gold-faint);padding:1px 5px;border-radius:3px;border:1px solid var(--border);color:var(--gold-light);">{id}.json</code> file.</p>
+      <p class="template-note">Fill in every field, then paste it as the entire contents of your new <code style="font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--gold-faint);padding:1px 5px;border-radius:3px;border:1px solid var(--border);color:var(--gold-light);">yourname.json</code> file.</p>
       <div class="code-wrap">
         <button class="copy-btn" id="copyBtn" onclick="copyTemplate()">COPY</button>
         <div class="code-block">{
@@ -266,7 +266,7 @@ html.light .copy-btn.copied { color:#166534; border-color:#166534; }
           <div class="step-num">①</div>
           <div class="step-body">
             <strong>Create your file</strong>
-            <p>Click the button below — it opens GitHub's new-file editor inside <code>puzzles/</code> and forks the repo automatically. Name the file <code>{id}.json</code>, e.g. <code>151.json</code>, and paste your JSON.</p>
+            <p>Click the button below — it opens GitHub's new-file editor inside <code>puzzles/</code> and forks the repo automatically. Name the file after yourself — e.g. <code>meenz.json</code> — and paste your JSON.</p>
           </div>
         </div>
         <div class="step-item">
@@ -274,13 +274,6 @@ html.light .copy-btn.copied { color:#166534; border-color:#166534; }
           <div class="step-body">
             <strong>Raise a Pull Request</strong>
             <p>Scroll down, set the commit message to <code>Add clue #151 by Your Name</code>, then click <strong>Propose new file → Create Pull Request</strong>.</p>
-          </div>
-        </div>
-        <div class="step-item">
-          <div class="step-num">③</div>
-          <div class="step-body">
-            <strong>Done</strong>
-            <p>Andrew reviews and merges. He updates <code>manifest.json</code> — you don't touch it. Your puzzle goes live with your name on it. ✨</p>
           </div>
         </div>
       </div>
@@ -314,7 +307,7 @@ html.light .copy-btn.copied { color:#166534; border-color:#166534; }
         <div class="rule-item">
           <span class="rule-icon">🚫</span>
           <div class="rule-title">No spoilers</div>
-          <div class="rule-desc">The answer must not appear in the clue, including obvious synonyms.</div>
+          <div class="rule-desc">The answer must not appear in the clue in any form.</div>
         </div>
         <div class="rule-item">
           <span class="rule-icon">✅</span>
@@ -333,8 +326,8 @@ html.light .copy-btn.copied { color:#166534; border-color:#166534; }
   <div class="divider"></div>
 
   <div class="cta-wrap">
-    <div class="cta-title">READY TO STUMP EVERYONE?</div>
-    <div class="cta-sub">Opens GitHub's file editor inside <code style="font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--gold-faint);padding:1px 6px;border-radius:3px;color:var(--gold-light);">puzzles/</code> — forks the repo automatically.</div>
+    <div class="cta-title">GOT A CLUE WORTHY OF A GENIUS?</div>
+    <div class="cta-sub">Create your <code style="font-family:&apos;JetBrains Mono&apos;,monospace;font-size:11px;background:var(--gold-faint);padding:1px 6px;border-radius:3px;color:var(--gold-light);">yourname.json</code> inside <code style="font-family:&apos;JetBrains Mono&apos;,monospace;font-size:11px;background:var(--gold-faint);padding:1px 6px;border-radius:3px;color:var(--gold-light);">puzzles/</code> — GitHub forks the repo automatically.</div>
     <a class="cta-btn" href="https://github.com/andrewveda/cryptic/new/main/puzzles" target="_blank">✏️ &nbsp;CREATE MY CLUE FILE</a>
   </div>
 
