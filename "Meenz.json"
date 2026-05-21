@@ -1,0 +1,13 @@
+{
+  "id": 151,
+  "clue": "Fast  thinking bullet player found in binary chaos at 2228(6)"
+  "answer": "BRAINY",
+  "definition": "Fast thinking",
+  "fodder": "binary",
+  "indicator": "chaos",
+  "type": "anagram",
+  "difficulty": "easy",
+  "date": "2026-05-21",
+  "explanation": "binary” is rearranged using the anagram indicator “chaos” to form “BRAINY,” which means fast thinking",
+  "author": "Meenz"
+}
