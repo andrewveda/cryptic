@@ -226,6 +226,61 @@ html.light .hl-indicator { color:#92400e; }
 .nbtn.sec { background:transparent; border:1.5px solid var(--gold); color:var(--gold); }
 .nbtn.sec:hover { background:var(--surface2); }
 
+/* ── SUBMIT CLUE BUTTON ── */
+.nbtn.submit {
+  background: transparent;
+  border: 1.5px solid var(--border2);
+  color: var(--gold-dim);
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  flex: 1 1 100%;
+  min-width: unset;
+  padding: 10px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.nbtn.submit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold-faint);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .28s ease;
+}
+.nbtn.submit:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: transparent;
+}
+.nbtn.submit:hover::before { transform: scaleX(1); }
+.nbtn.submit span { position: relative; z-index: 1; }
+
+/* ── SUBMIT DIVIDER ── */
+.sbtns-divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 2px;
+}
+.sbtns-divider::before,
+.sbtns-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--sep);
+}
+.sbtns-divider span {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--gold-dimmer);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
 .cmodal { position:fixed; inset:0; background:var(--modal-bg2); display:none; align-items:center; justify-content:center; z-index:900; padding:20px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
 .cmodal.on { display:flex; animation:mfade .2s ease-out; }
 .ccard  { background:var(--bg3); border:1.5px solid var(--gold); padding:30px 26px; max-width:330px; width:100%; text-align:center; clip-path:polygon(11px 0,100% 0,100% calc(100% - 11px),calc(100% - 11px) 100%,0 100%,0 11px); animation:mslide .26s ease-out; }
@@ -438,6 +493,7 @@ html.light .hl-indicator { color:#92400e; }
   /* ── MODALS ── */
   .scontent, .ccard { clip-path:none; border-radius:16px; border-width:1px; }
   .nbtn, .cbtn2 { clip-path:none; border-radius:8px; }
+  .nbtn.submit { border-radius:8px; }
 
   /* ── LOADER ── */
   #ls { position:static; min-height:60vh; }
@@ -578,6 +634,8 @@ html.light .hl-indicator { color:#92400e; }
     <div class="sbtns">
       <button class="nbtn" id="nextBtn" onclick="goNext()">NEXT PUZZLE →</button>
       <button class="nbtn sec" onclick="goBack()">ALL PUZZLES</button>
+      <div class="sbtns-divider"><span>want to contribute?</span></div>
+      <button class="nbtn submit" onclick="goSubmit()"><span>✒️ &nbsp;SUBMIT A CRYPTIC CLUE</span></button>
     </div>
   </div>
 </div>
@@ -596,6 +654,7 @@ html.light .hl-indicator { color:#92400e; }
 
 <script>
 const EDGE_URL = "https://yellow-lab-4999.andrewveda.workers.dev/functions/v1/logQuest";
+const SUBMIT_URL = "https://andrewveda.github.io/cryptic/submit.html"; // ← update to your actual submit page URL
 const NK = "questPlayerName", DK = "questPlayerDept", SK = "crypticSolvedIds", TK = "crypticTheme";
 const EXPLAIN_DELAY = 180;
 
@@ -682,6 +741,7 @@ function doNav(dir) {
 function goNext() { document.getElementById('successModal').classList.remove('on'); doNav('next'); }
 function goBack() { location.href='../index.html'; }
 function changeName() { location.href='../index.html'; }
+function goSubmit() { window.open(SUBMIT_URL, '_blank'); }
 
 window.addEventListener('popstate',e=>{
   if(e.state?.id){
