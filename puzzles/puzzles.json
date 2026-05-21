@@ -1,6 +1,19 @@
 [
 
 {
+    "id": 154,
+    "clue": "Fast thinking bullet player found in binary chaos at 2228 (6)",
+    "answer": "BRAINY", 
+"author": "Andrew Veda",
+    "definition": "Fast thinking bullet player at 2228",
+    "fodder": "binary",
+    "indicator": "found in chaos",
+    "type": "anagram",
+    "difficulty": "easy",
+    "date": "2026-05-21",
+"explanation": "'Fast thinking bullet player at 2228' is the definition, meaning intelligent or quick-thinking. Rearrange the letters in the fodder." 
+  },
+    {
     "id": 153,
     "clue": "Reading at random the core of every bookshelf, Sunanda, Sri Sakthipriya become greater (5)",
     "answer": "ARISE", 
