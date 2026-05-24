@@ -1,6 +1,20 @@
 [
 
 {
+    "id": 155,
+    "clue": "In real time, at first, Lohendra immerses and then emerges at the top of the wave! (4)",
+    "answer": "LIVE", 
+"author": "Andrew Veda",
+    "definition": "In real time",
+    "fodder": "Lohendra immerses wave",
+    "indicator": "at first and then emerges at the top of the",
+    "type": "charade",
+    "difficulty": "medium",
+    "date": "2026-05-24",
+"explanation": "Take the first letters of the fodder and then what is at the top of the wave?" 
+  },
+
+{
     "id": 154,
     "clue": "Fast thinking bullet player found in binary chaos at 2228 (6)",
     "answer": "BRAINY", 
