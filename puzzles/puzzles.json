@@ -1,5 +1,17 @@
 [
-
+{
+    "id": 156,
+    "clue": "Gathering oddly, Barath Pacha dances, leaves a bee without seeing and then asks why (5)",
+    "answer": "PARTY", 
+"author": "Andrew Veda",
+    "definition": "Gathering",
+    "fodder": "Barath Pacha why",
+    "indicator": "oddly dances leaves a bee without seeing and then asks",
+    "type": "charade, anagram, homophone",
+    "difficulty": "medium",
+    "date": "2026-05-26",
+"explanation": "Odd letters of the primary fodder and then rearrange them with a homophone. Also eliminate two homophones of bee and seeing" 
+  },
 {
     "id": 155,
     "clue": "In real time, at first, Lohendra immerses and then emerges at the top of the wave! (4)",
