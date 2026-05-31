@@ -1,5 +1,18 @@
 [
 {
+    "id": 158,
+    "clue": "King in his control, Karthikeyan is now Goggins, David's OG Mentee, following, leading first (7) ",
+    "answer": "KINGDOM", 
+"author": "Andrew Veda",
+    "definition": "King in his control",
+    "fodder": "Karthikeyan is now Goggins, David's OG Mentee",
+    "indicator": "leading first",
+    "type": "acrostic",
+    "difficulty": "easy",
+    "date": "2026-05-31",
+"explanation": "The first letters in the fodder" 
+  },
+{
     "id": 157,
     "clue": "Continuous flash (6)",
     "answer": "STREAK", 
