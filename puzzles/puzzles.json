@@ -2,16 +2,16 @@
 
 {
   "id": 161,
-  "clue": "Meenakshi crosses a thousand hurdles dancing first, Kasparov-Karpov, Fischer-Spassky! (5)",
+  "clue": "With a fiery brilliant spark, Meenakshi crosses a thousand hurdles dancing first, Kasparov-Karpov, Fischer-Spassky! (5)",
   "answer": "MATCH",
-  "definition": "A devoted teacher, along with Pacman and Dorling",
-  "fodder": "very eager Dino's attendance",
-  "indicator": "primarily inspired",
-  "type": "Acrostic",
+  "definition": "With a fiery brilliant spark Kasparov-Karpov, Fischer-Spassky!",
+  "fodder": "Meenakshi crosses a thousand hurdles",
+  "indicator": "dancing first",
+  "type": "Acrostic, anagram",
   "difficulty": "easy",
-  "date": "2026-05-31",
-  "explanation": "The indicator indicates to take the first letter of each fodder word in order.",
-  "author": "Barry (Pacman)"
+  "date": "2026-06-02",
+  "explanation": "Acrostic anagram.",
+  "author": "Andrew Veda"
 },
 {
   "id": 160,
@@ -24,7 +24,7 @@
   "difficulty": "easy",
   "date": "2026-06-02",
   "explanation": "Chess notation",
-  "author": "Barry (Pacman)"
+  "author": "Andrew Veda"
 },
 
 {
