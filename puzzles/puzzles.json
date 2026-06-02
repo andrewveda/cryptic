@@ -1,4 +1,32 @@
 [
+
+{
+  "id": 161,
+  "clue": "Meenakshi crosses a thousand hurdles dancing first, Kasparov-Karpov, Fischer-Spassky! (5)",
+  "answer": "MATCH",
+  "definition": "A devoted teacher, along with Pacman and Dorling",
+  "fodder": "very eager Dino's attendance",
+  "indicator": "primarily inspired",
+  "type": "Acrostic",
+  "difficulty": "easy",
+  "date": "2026-05-31",
+  "explanation": "The indicator indicates to take the first letter of each fodder word in order.",
+  "author": "Barry (Pacman)"
+},
+{
+  "id": 160,
+  "clue": "Bishop, rook, AI knight take Meenakshi's leading central square, crosses ingeniously first building brilliance through all possible ways (12)",
+  "answer": "BRAINMAXXING",
+  "definition": "building brilliance through all possible ways",
+  "fodder": "Bishop, rook, AI knight take Meenakshi's crosses ingeniously",
+  "indicator": "leading central square first",
+  "type": "charade",
+  "difficulty": "easy",
+  "date": "2026-06-02",
+  "explanation": "Chess notation",
+  "author": "Barry (Pacman)"
+},
+
 {
   "id": 159,
   "clue": "A devoted teacher, along with Pacman and Dorling, primarily inspired very eager Dino's attendance (4)",
