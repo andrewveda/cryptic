@@ -1,6 +1,19 @@
 [
 
 {
+  "id": 162,
+  "clue": "At first, Gokul sounds like a rock, inspired directly by Douglas Adams' The Hitchhiker's Guide to the Galaxy (4)",
+  "answer": "GROK",
+  "definition": "inspired directly by Douglas Adams' The Hitchhiker's Guide to the Galaxy",
+  "fodder": "Gokul rock",
+  "indicator": "At first sounds like",
+  "type": "homophone",
+  "difficulty": "easy",
+  "date": "2026-06-03",
+  "explanation": "Put the fodder together! Say then out loud. ",
+  "author": "Andrew Veda"
+},
+{
   "id": 161,
   "clue": "With a fiery brilliant spark, Meenakshi crosses a thousand hurdles dancing first, Kasparov-Karpov, Fischer-Spassky! (5)",
   "answer": "MATCH",
