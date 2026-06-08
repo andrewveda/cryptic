@@ -1,5 +1,18 @@
 [
 {
+  "id": 164,
+  "clue": "Mostly Praveen Sha at last is an instrument of wisdom and the arts (5)",
+  "answer": "VEENA",
+  "definition": "an instrument of wisdom and the arts",
+  "fodder": "Praveen Sha",
+  "indicator": "Mostly at last",
+  "type": "acrostic",
+  "difficulty": "easy",
+  "date": "2026-06-08",
+  "explanation": "Mostly, so take most of the letters of the first fodder. At last, so take the last letter of the second fodder. Think of a musical instrument from India always with the goddess of wisdom",
+  "author": "Andrew Veda"
+},
+{
   "id": 163,
   "clue": "Delighting everyone with her dazzling magnetism, Dr Sheeba Manodh - charismatic, makes the stars look back! (5)",
   "answer": "CHARM",
