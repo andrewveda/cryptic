@@ -1,5 +1,18 @@
 [
 {
+  "id": 166,
+  "clue": "Transformed, Monesh leaves 1000 dazzled (5)",
+  "answer": "SHONE",
+  "definition": "dazzled",
+  "fodder": "Monesh",
+  "indicator": "Transformed leaves 1000",
+  "type": "anagram",
+  "difficulty": "medium",
+  "date": "2026-06-12",
+  "explanation": "How do you write 1000 in Roman numerals?",
+  "author": "Andrew Veda"
+},
+  {
   "id": 165,
   "clue": "Oddly Sreemathi looks back Bob Dylan says they are a-changing (5)",
   "answer": "TIMES",
