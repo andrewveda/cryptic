@@ -1,5 +1,18 @@
 [
 {
+  "id": 165,
+  "clue": "Oddly Sreemathi looks back Bob Dylan says they are a-changing (5)",
+  "answer": "TIMES",
+  "definition": "Bob Dylan says they are a-changing",
+  "fodder": "Sreemathi",
+  "indicator": "Oddly looks back",
+  "type": "anagram",
+  "difficulty": "medium",
+  "date": "2026-06-12",
+  "explanation": "Antifragility!",
+  "author": "Andrew Veda"
+},
+{
   "id": 164,
   "clue": "Mostly Praveen Sha at last is an instrument of wisdom and the arts (5)",
   "answer": "VEENA",
