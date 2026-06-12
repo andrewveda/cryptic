@@ -500,10 +500,48 @@ html.light .hl-indicator { color:#92400e; }
 }
 
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; animation-iteration-count:1 !important; } }
+#gateDeptSelect option { background: #0a0a0a; color: #f0ede8; }
+html.light #gateDeptSelect option { background: #f2ead6; color: #1e1400; }
 </style>
 </head>
 <body>
-
+<!-- Name gate modal -->
+<div id="nameGate" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:2000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);">
+  <div style="background:linear-gradient(135deg,rgba(10,10,10,0.99),rgba(212,175,55,0.08));border:2px solid var(--gold);padding:38px 30px;max-width:400px;width:100%;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);text-align:center;">
+    <div style="font-size:44px;margin-bottom:10px;">🧩</div>
+    <div style="font-family:'Cinzel',serif;font-size:18px;color:var(--gold);letter-spacing:3px;margin-bottom:6px;">CRYPTIC CLUES</div>
+    <div style="font-size:11px;color:var(--gold-dim);letter-spacing:2px;margin-bottom:24px;">MINIATURE TURING TESTS</div>
+    <input id="gateNameInput" type="text" placeholder="Enter your name" maxlength="40"
+      style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.45);border:2px solid rgba(212,175,55,0.35);border-radius:0;font-family:'Cinzel',serif;font-size:13px;color:var(--text);letter-spacing:1px;outline:none;margin-bottom:10px;box-sizing:border-box;"
+      onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(212,175,55,0.35)'" />
+    <select id="gateDeptSelect"
+      style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.45);border:2px solid rgba(212,175,55,0.35);font-family:'Cinzel',serif;font-size:12px;color:var(--text);letter-spacing:1px;outline:none;margin-bottom:18px;box-sizing:border-box;appearance:none;-webkit-appearance:none;">
+      <option value="">-- Select Department --</option>
+      <option value="Friends and Family">Friends and Family</option>
+      <option value="Cyber Security">Cyber Security</option>
+      <option value="EIE">EIE</option>
+      <option value="CSE-1">CSE-1</option>
+      <option value="CSE-2">CSE-2</option>
+      <option value="CSE-3">CSE-3</option>
+      <option value="Mechanical Engineering">Mechanical Engineering</option>
+      <option value="ECE-1">ECE-1</option>
+      <option value="ECE-2">ECE-2</option>
+      <option value="ECE-3">ECE-3</option>
+      <option value="AI DS-1">AI DS-1</option>
+      <option value="AI DS-2">AI DS-2</option>
+      <option value="Agri and Civil">Agri and Civil</option>
+      <option value="EEE">EEE</option>
+      <option value="Medical Electronics">Medical Electronics</option>
+      <option value="IT-1">IT-1</option>
+      <option value="IT-2">IT-2</option>
+    </select>
+    <button onclick="submitGate()"
+      style="width:100%;padding:14px;background:var(--gold);color:var(--bg);border:none;font-family:'Cinzel',serif;font-weight:700;font-size:13px;letter-spacing:3px;cursor:pointer;clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);margin-bottom:10px;">
+      BEGIN SOLVING
+    </button>
+    <div onclick="skipGate()" style="font-size:11px;color:var(--gold-dimmer);cursor:pointer;letter-spacing:1px;text-decoration:underline;margin-top:2px;">Continue as Guest</div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 <div class="prog"><div class="prog-fill" id="progFill"></div></div>
 
@@ -682,18 +720,52 @@ let solved=false, expUnlocked=false, activeHint=null;
 const hUsed={def:false,fodder:false,indicator:false};
 let tx=0,ty=0,pendDir=null;
 
-/* INIT */
-(async()=>{
-  const id=parseInt(new URLSearchParams(location.search).get('id'));
-  if(!id) return showErr('No puzzle ID specified.');
+/* GATE */
+function showGate() {
+  const g = document.getElementById('nameGate');
+  g.style.display = 'flex';
+  document.getElementById('gateNameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitGate();
+  });
+}
+function submitGate() {
+  const name = document.getElementById('gateNameInput').value.trim();
+  const dept = document.getElementById('gateDeptSelect').value;
+  if (!name) { showToast('Please enter your name', 'warn'); return; }
+  if (!dept) { showToast('Please select your department', 'warn'); return; }
+  localStorage.setItem(NK, name);
+  localStorage.setItem(DK, dept);
+  closeGate();
+}
+function skipGate() { closeGate(); }
+function closeGate() {
+  document.getElementById('nameGate').style.display = 'none';
+  initPuzzle();
+}
+
+/* INIT — only runs after gate is cleared */
+async function initPuzzle() {
+  const id = parseInt(new URLSearchParams(location.search).get('id'));
+  if (!id) return showErr('No puzzle ID specified.');
   try {
-    const r=await fetch('/cryptic/puzzles/puzzles.json');
-    all=(await r.json()).sort((a,b)=>b.id-a.id);
-    const i=all.findIndex(p=>p.id===id);
-    if(i===-1) return showErr(`Puzzle #${id} not found.`);
-    idx=i; puzzle=all[idx];
+    const r = await fetch('/cryptic/puzzles/puzzles.json');
+    all = (await r.json()).sort((a, b) => b.id - a.id);
+    const i = all.findIndex(p => p.id === id);
+    if (i === -1) return showErr(`Puzzle #${id} not found.`);
+    idx = i; puzzle = all[idx];
     build(); updateNav();
-  } catch(e){showErr('Could not load puzzle data.');}
+  } catch(e) { showErr('Could not load puzzle data.'); }
+}
+
+/* Entry point */
+(function() {
+  const hasName = localStorage.getItem(NK);
+  const hasDept = localStorage.getItem(DK);
+  if (!hasName || !hasDept) {
+    showGate();
+  } else {
+    initPuzzle();
+  }
 })();
 
 function showErr(m) { document.getElementById('ls').innerHTML=`<div style="font-family:'Cinzel',serif;color:var(--gold-dim);letter-spacing:2px;font-size:13px;">${m}</div>`; }
