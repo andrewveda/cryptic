@@ -62,7 +62,6 @@ html.light {
 
 html, body { height: 100%; overflow: hidden; font-family: 'Raleway', sans-serif; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; }
 
-/* Grain texture */
 body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events:none; z-index:999; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:160px; }
 
 /* ── PROGRESS ── */
@@ -85,7 +84,7 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .nav-arrow.left  { left:0;  clip-path:polygon(0 0,100% 8px,100% calc(100% - 8px),0 100%); }
 .nav-arrow.right { right:0; clip-path:polygon(0 8px,100% 0,100% 100%,0 calc(100% - 8px)); }
 
-/* ── SHELL: two columns ── */
+/* ── SHELL ── */
 #shell { display:flex; width:100vw; height:100vh; overflow:hidden; }
 
 /* ── LEFT PANEL ── */
@@ -99,7 +98,7 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .g-inner { flex:1; padding:0; }
 .g-inner iframe { width:100% !important; }
 
-/* ── PUZZLE GRID: 5 rows, no scroll ── */
+/* ── PUZZLE GRID ── */
 #pg {
   flex:1; display:grid;
   grid-template-rows: auto 1fr auto auto auto;
@@ -136,13 +135,12 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .pchange { font-size:10px; color:var(--gold-dimmer); cursor:pointer; text-decoration:underline; transition:color .2s; }
 .pchange:hover { color:var(--gold); }
 
-/* ── ROW 2: CLUE (flex 1) ── */
+/* ── ROW 2: CLUE ── */
 .clue-row { display:flex; flex-direction:column; align-items:stretch; justify-content:center; padding:18px 0 6px; overflow:hidden; }
 .clue-box { width:100%; padding:clamp(18px,2.2vh,30px) clamp(20px,2.5vw,36px); font-size:clamp(15px,1.85vw,21px); line-height:1.68; background:linear-gradient(135deg,var(--surface),var(--surface3)); border:1.5px solid var(--gold); clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px); position:relative; overflow:hidden; animation:fadeUp .5s ease-out .1s both; }
 .clue-box::before { content:''; position:absolute; top:-2px; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,var(--gold-faint),transparent); animation:shine 5s ease-in-out infinite; }
 @keyframes shine { 0%,100%{left:-100%} 50%{left:140%} }
 
-/* ── CLUE BYLINE ── */
 .clue-byline { display:flex; align-items:center; justify-content:flex-end; gap:7px; padding:8px 4px 0; animation:fadeUp .5s ease-out .15s both; }
 .clue-byline-pen { font-size:13px; opacity:0.75; }
 .clue-byline-text { font-family:'Cinzel',serif; font-size:11px; letter-spacing:2.5px; color:var(--gold); text-transform:uppercase; }
@@ -212,10 +210,7 @@ html.light .hl-indicator { color:#92400e; }
 .splayer{ font-size:14px; color:var(--text-dim); margin-bottom:4px; }
 .sanswer{ font-family:'Cinzel',serif; font-size:22px; color:var(--gold-light); margin-bottom:6px; letter-spacing:4px; }
 .smeta  { font-size:12px; color:var(--gold-dim); margin-bottom:6px; }
-
-/* ── SUCCESS MODAL AUTHOR ── */
 .sauthor { font-family:'Cinzel',serif; font-size:11px; letter-spacing:2px; color:var(--gold); margin-bottom:16px; padding:8px 14px; border:1px solid var(--border2); background:var(--surface2); clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px); display:inline-block; }
-
 .srec   { font-size:11px; color:var(--gold); padding:7px 11px; border:1px solid var(--border2); margin-bottom:16px; clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px); }
 .sexp   { margin:0 0 18px; padding:14px 16px; background:var(--surface2); border:1px solid var(--border2); clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px); text-align:left; }
 .sexp-l { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--gold); margin-bottom:6px; display:block; text-transform:uppercase; }
@@ -225,61 +220,14 @@ html.light .hl-indicator { color:#92400e; }
 .nbtn:hover { background:var(--gold-light); }
 .nbtn.sec { background:transparent; border:1.5px solid var(--gold); color:var(--gold); }
 .nbtn.sec:hover { background:var(--surface2); }
-
-/* ── SUBMIT CLUE BUTTON ── */
-.nbtn.submit {
-  background: transparent;
-  border: 1.5px solid var(--border2);
-  color: var(--gold-dim);
-  font-size: 11px;
-  letter-spacing: 2.5px;
-  flex: 1 1 100%;
-  min-width: unset;
-  padding: 10px 20px;
-  position: relative;
-  overflow: hidden;
-  transition: border-color .2s, color .2s, background .2s;
-}
-.nbtn.submit::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--gold-faint);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .28s ease;
-}
-.nbtn.submit:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: transparent;
-}
-.nbtn.submit:hover::before { transform: scaleX(1); }
-.nbtn.submit span { position: relative; z-index: 1; }
-
-/* ── SUBMIT DIVIDER ── */
-.sbtns-divider {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 4px 0 2px;
-}
-.sbtns-divider::before,
-.sbtns-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--sep);
-}
-.sbtns-divider span {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: 2px;
-  color: var(--gold-dimmer);
-  white-space: nowrap;
-  text-transform: uppercase;
-}
+.nbtn.submit { background:transparent; border:1.5px solid var(--border2); color:var(--gold-dim); font-size:11px; letter-spacing:2.5px; flex:1 1 100%; min-width:unset; padding:10px 20px; position:relative; overflow:hidden; transition:border-color .2s,color .2s,background .2s; }
+.nbtn.submit::before { content:''; position:absolute; inset:0; background:var(--gold-faint); transform:scaleX(0); transform-origin:left; transition:transform .28s ease; }
+.nbtn.submit:hover { border-color:var(--gold); color:var(--gold); background:transparent; }
+.nbtn.submit:hover::before { transform:scaleX(1); }
+.nbtn.submit span { position:relative; z-index:1; }
+.sbtns-divider { width:100%; display:flex; align-items:center; gap:10px; margin:4px 0 2px; }
+.sbtns-divider::before,.sbtns-divider::after { content:''; flex:1; height:1px; background:var(--sep); }
+.sbtns-divider span { font-family:'Cinzel',serif; font-size:8px; letter-spacing:2px; color:var(--gold-dimmer); white-space:nowrap; text-transform:uppercase; }
 
 .cmodal { position:fixed; inset:0; background:var(--modal-bg2); display:none; align-items:center; justify-content:center; z-index:900; padding:20px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
 .cmodal.on { display:flex; animation:mfade .2s ease-out; }
@@ -306,29 +254,114 @@ html.light .hl-indicator { color:#92400e; }
 @keyframes slideIR { from{opacity:0;transform:translateX(44px)} to{opacity:1;transform:none} }
 @keyframes slideIL { from{opacity:0;transform:translateX(-44px)} to{opacity:1;transform:none} }
 
+/* ── NAME GATE MODAL ── */
+#nameGate {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.97);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.gate-card {
+  background: linear-gradient(135deg, rgba(10,10,10,0.99), rgba(212,175,55,0.08));
+  border: 2px solid var(--gold);
+  padding: 38px 30px;
+  max-width: 400px;
+  width: 100%;
+  clip-path: polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);
+  text-align: center;
+  animation: mslide .3s cubic-bezier(.2,1,.4,1);
+}
+.gate-icon { font-size: 44px; margin-bottom: 10px; }
+.gate-title { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); letter-spacing: 3px; margin-bottom: 6px; }
+.gate-sub { font-size: 11px; color: var(--gold-dimmer); letter-spacing: 2px; margin-bottom: 24px; }
+.gate-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.45);
+  border: 2px solid rgba(212,175,55,0.35);
+  border-radius: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: var(--text);
+  letter-spacing: 1px;
+  outline: none;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  transition: border-color .2s;
+}
+.gate-input:focus { border-color: var(--gold); }
+.gate-select {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.45);
+  border: 2px solid rgba(212,175,55,0.35);
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  color: var(--text);
+  letter-spacing: 1px;
+  outline: none;
+  margin-bottom: 18px;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .2s;
+  cursor: pointer;
+}
+.gate-select:focus { border-color: var(--gold); }
+.gate-select option { background: #0a0a0a; color: #f0ede8; }
+html.light .gate-select option { background: #f2ead6; color: #1e1400; }
+.gate-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  cursor: pointer;
+  clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
+  margin-bottom: 12px;
+  transition: background .2s;
+}
+.gate-btn:hover { background: var(--gold-light); }
+.gate-skip {
+  font-size: 11px;
+  color: var(--gold-dimmer);
+  cursor: pointer;
+  text-decoration: underline;
+  letter-spacing: 1px;
+  transition: color .2s;
+}
+.gate-skip:hover { color: var(--gold-dim); }
+
+/* ── MOBILE ── */
 @media (max-width:900px) {
 
   html, body { overflow:auto; height:auto; }
 
   #shell { flex-direction:column; height:auto; overflow:visible; }
 
-  /* ── LEFT PANEL ── */
   #pp { flex:none; width:100%; height:auto; min-height:auto; overflow:visible; border-right:none; padding-bottom:4px; }
 
-  /* ── RIGHT PANEL / GISCUS ── */
   #gp { flex:none; width:100%; height:auto; overflow:visible; background:var(--bg2); border-top:none; margin-top:0; padding-top:0; }
   .g-head { padding:2px 16px 8px; margin-top:0; border-bottom:1px solid var(--sep); font-size:9px; letter-spacing:4px; }
 
-  /* ── MAIN MOBILE LAYOUT ── */
   #pg { display:flex; flex-direction:column; height:auto; padding:0 18px 2px; gap:10px; margin-top:42px; justify-content:flex-start; }
 
   /* ── CHROME ── */
   .chrome { top:10px; }
-  .chrome-r { flex-direction:column; align-items:flex-end; gap:3px; }
-  .cpos { font-size:9px; letter-spacing:1px; }
-  .csolv { font-size:8px; clip-path:none; background:transparent; border:none; padding:0; color:var(--gold-dim); }
+  /* Hide chrome-r on mobile — slim bar handles position info */
+  .chrome-r { display: none; }
 
-  /* Title centred in the chrome bar between toggle and counter */
+  /* Centred site title in chrome bar */
   .chrome-l::after {
     content: 'Cryptic Clues';
     position: fixed;
@@ -348,70 +381,142 @@ html.light .hl-indicator { color:#92400e; }
     line-height: 1.7;
   }
 
-  /* ── TOPBAR ── */
-  /* Hide the in-page title block since it now lives in the chrome bar */
-  .tb-l { display:none; }
-
+  /* ── TOPBAR: single 36px slim bar ── */
   .topbar {
     position: relative;
-    padding-top: 10px;
+    padding: 0;
     border: none;
-    flex-direction: column;
-    gap: 6px;
+    flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
+    height: 36px;
+    gap: 0;
   }
 
-  /* tb-r is now a column: player name → timer → diff/hints */
-  .tb-r {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 6px;
-    order: 1;
-  }
+  /* Hide the desktop stacked blocks */
+  .tb-l { display: none; }
+  .tb-r { display: none; }
 
-  .tb-player {
-    font-family: 'Raleway', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    opacity: 0.9;
-    order: 1;
-  }
-
-  /* tb-c (timer) is now inside tb-r in the HTML — sits between player and meta */
+  /* Timer area becomes the slim bar */
   .tb-c {
-    flex: none;
-    width: auto;
-    margin-top: 0;
-    justify-content: center;
-    order: 2;
+    flex: 1;
+    justify-content: flex-start;
+    margin: 0;
   }
 
-  .tb-meta {
-    gap: 8px;
-    order: 3;
-  }
-
-  .diff-tag { clip-path:none; border-radius:4px; padding:3px 6px; font-size:8px; border-color:var(--border2); }
-  .pchange { display:none; }
-
-  /* Timer: compact pill, no track bar */
   .timer-wrap {
     clip-path: none;
-    border-radius: 20px;
-    padding: 4px 16px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--sep);
+    background: transparent;
+    padding: 0 18px 0 0;
+    width: 100%;
+    gap: 0;
+    justify-content: flex-start;
+    height: 36px;
+    align-items: center;
     box-shadow: none;
-    width: auto;
-    max-width: none;
-    gap: 8px;
   }
 
-  .tval { font-size: 14px; min-width: auto; letter-spacing: 2px; }
+  .tval {
+    font-size: 12px;
+    min-width: auto;
+    letter-spacing: 1.5px;
+    color: var(--gold-dim);
+    font-weight: 600;
+  }
+
   .ttrack { display: none; }
 
-  /* ── CLUE CARD ── */
+  /* Slim bar meta: diff · hints · position — inline after timer */
+  .slim-meta {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--gold-dimmer);
+    white-space: nowrap;
+  }
+  .slim-sep {
+    margin: 0 6px;
+    opacity: 0.4;
+    color: var(--gold-dimmer);
+  }
+
+  /* ── PROFILE ICON (mobile only) ── */
+  .profile-icon {
+    position: fixed;
+    top: 10px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    cursor: pointer;
+    z-index: 160;
+    transition: background .2s, border-color .2s;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .profile-icon:active { background: var(--gold-faint); border-color: var(--gold); }
+
+  /* ── PROFILE DRAWER ── */
+  .profile-drawer {
+    position: fixed;
+    top: 46px;
+    right: 14px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    z-index: 155;
+    min-width: 190px;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+    animation: drawerIn .15s ease-out;
+  }
+  .profile-drawer.open { display: flex; }
+  @keyframes drawerIn {
+    from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+  }
+  .pd-name {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .pd-dept {
+    font-size: 11px;
+    color: var(--gold-dimmer);
+    letter-spacing: 0.5px;
+  }
+  .pd-divider {
+    height: 1px;
+    background: var(--sep);
+    margin: 2px 0;
+  }
+  .pd-change {
+    font-size: 11px;
+    color: var(--gold-dim);
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: 'Raleway', sans-serif;
+    transition: color .2s;
+  }
+  .pd-change:hover { color: var(--gold); }
+
+  /* ── CLUE ── */
   .clue-row { padding:0; margin-top:4px; overflow:visible; }
   .clue-box {
     font-family: 'Cinzel', serif;
@@ -494,28 +599,36 @@ html.light .hl-indicator { color:#92400e; }
   .scontent, .ccard { clip-path:none; border-radius:16px; border-width:1px; }
   .nbtn, .cbtn2 { clip-path:none; border-radius:8px; }
   .nbtn.submit { border-radius:8px; }
+  .gate-card { clip-path:none; border-radius:16px; border-width:1px; }
+  .gate-btn { clip-path:none; border-radius:10px; }
 
   /* ── LOADER ── */
   #ls { position:static; min-height:60vh; }
 }
 
+/* Hide profile elements on desktop */
+@media (min-width:901px) {
+  .profile-icon { display: none; }
+  .profile-drawer { display: none !important; }
+  .slim-meta { display: none; }
+}
+
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; animation-iteration-count:1 !important; } }
-#gateDeptSelect option { background: #0a0a0a; color: #f0ede8; }
-html.light #gateDeptSelect option { background: #f2ead6; color: #1e1400; }
 </style>
 </head>
 <body>
+
+<div class="toast" id="toast"></div>
+<div class="prog"><div class="prog-fill" id="progFill"></div></div>
+
 <!-- Name gate modal -->
-<div id="nameGate" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:2000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);">
-  <div style="background:linear-gradient(135deg,rgba(10,10,10,0.99),rgba(212,175,55,0.08));border:2px solid var(--gold);padding:38px 30px;max-width:400px;width:100%;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);text-align:center;">
-    <div style="font-size:44px;margin-bottom:10px;">🧩</div>
-    <div style="font-family:'Cinzel',serif;font-size:18px;color:var(--gold);letter-spacing:3px;margin-bottom:6px;">CRYPTIC CLUES</div>
-    <div style="font-size:11px;color:var(--gold-dim);letter-spacing:2px;margin-bottom:24px;">MINIATURE TURING TESTS</div>
-    <input id="gateNameInput" type="text" placeholder="Enter your name" maxlength="40"
-      style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.45);border:2px solid rgba(212,175,55,0.35);border-radius:0;font-family:'Cinzel',serif;font-size:13px;color:var(--text);letter-spacing:1px;outline:none;margin-bottom:10px;box-sizing:border-box;"
-      onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(212,175,55,0.35)'" />
-    <select id="gateDeptSelect"
-      style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.45);border:2px solid rgba(212,175,55,0.35);font-family:'Cinzel',serif;font-size:12px;color:var(--text);letter-spacing:1px;outline:none;margin-bottom:18px;box-sizing:border-box;appearance:none;-webkit-appearance:none;">
+<div id="nameGate">
+  <div class="gate-card">
+    <div class="gate-icon">🧩</div>
+    <div class="gate-title">CRYPTIC CLUES</div>
+    <div class="gate-sub">MINIATURE TURING TESTS</div>
+    <input id="gateNameInput" class="gate-input" type="text" placeholder="Enter your name" maxlength="40" />
+    <select id="gateDeptSelect" class="gate-select">
       <option value="">-- Select Department --</option>
       <option value="Friends and Family">Friends and Family</option>
       <option value="Cyber Security">Cyber Security</option>
@@ -535,15 +648,10 @@ html.light #gateDeptSelect option { background: #f2ead6; color: #1e1400; }
       <option value="IT-1">IT-1</option>
       <option value="IT-2">IT-2</option>
     </select>
-    <button onclick="submitGate()"
-      style="width:100%;padding:14px;background:var(--gold);color:var(--bg);border:none;font-family:'Cinzel',serif;font-weight:700;font-size:13px;letter-spacing:3px;cursor:pointer;clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);margin-bottom:10px;">
-      BEGIN SOLVING
-    </button>
-    <div onclick="skipGate()" style="font-size:11px;color:var(--gold-dimmer);cursor:pointer;letter-spacing:1px;text-decoration:underline;margin-top:2px;">Continue as Guest</div>
+    <button class="gate-btn" onclick="submitGate()">BEGIN SOLVING</button>
+    <div class="gate-skip" onclick="skipGate()">Continue as Guest</div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
-<div class="prog"><div class="prog-fill" id="progFill"></div></div>
 
 <div class="chrome chrome-l">
   <button class="cbtn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
@@ -551,6 +659,15 @@ html.light #gateDeptSelect option { background: #f2ead6; color: #1e1400; }
 <div class="chrome chrome-r">
   <span class="cpos" id="cpos"></span>
   <span class="csolv" id="csolv" style="display:none"></span>
+</div>
+
+<!-- Profile icon + drawer (mobile only) -->
+<div class="profile-icon" id="profileIcon" onclick="toggleProfile()" aria-label="Player profile">👤</div>
+<div class="profile-drawer" id="profileDrawer">
+  <div class="pd-name" id="pdName"></div>
+  <div class="pd-dept" id="pdDept"></div>
+  <div class="pd-divider"></div>
+  <span class="pd-change" onclick="changeName()">Change profile</span>
 </div>
 
 <button class="nav-arrow left"  id="navL" aria-label="Previous">&#8249;</button>
@@ -570,17 +687,26 @@ html.light #gateDeptSelect option { background: #f2ead6; color: #1e1400; }
       <!-- TOPBAR -->
       <div class="topbar">
         <div class="tb-l">
-         <a href="https://andrewveda.github.io/cryptic/"
-   class="tb-title home-title"
-   aria-label="Back to home">
-  <span>Cryptic Clues</span>
-  <span class="home-hover">← Back to home</span>
-</a>
+          <a href="https://andrewveda.github.io/cryptic/"
+             class="tb-title home-title"
+             aria-label="Back to home">
+            <span>Cryptic Clues</span>
+            <span class="home-hover">← Back to home</span>
+          </a>
           <div class="tb-sub">Miniature Turing Tests</div>
         </div>
         <div class="tb-c">
           <div class="timer-wrap">
             <span class="tval" id="tval">0:00</span>
+            <!-- Slim bar meta (mobile only, injected inline) -->
+            <span class="slim-meta">
+              <span class="slim-sep">·</span>
+              <span id="slimDiff"></span>
+              <span class="slim-sep">·</span>
+              💡&nbsp;<span id="slimHints">0</span>
+              <span class="slim-sep">·</span>
+              <span id="slimPos"></span>
+            </span>
             <div class="ttrack"><div class="tfill" id="tfill"></div></div>
           </div>
         </div>
@@ -611,8 +737,8 @@ html.light #gateDeptSelect option { background: #f2ead6; color: #1e1400; }
 
       <!-- HINT BUTTONS -->
       <div class="hbtns">
-        <button class="hbtn" id="defBtn"        onclick="showHint('def')"><span>DEFINITION</span></button>
-        <button class="hbtn" id="fodderBtn"     onclick="showHint('fodder')"><span>FODDER</span></button>
+        <button class="hbtn" id="defBtn"       onclick="showHint('def')"><span>DEFINITION</span></button>
+        <button class="hbtn" id="fodderBtn"    onclick="showHint('fodder')"><span>FODDER</span></button>
         <button class="hbtn" id="indicatorBtn" onclick="showHint('indicator')"><span>INDICATOR</span></button>
         <button class="hbtn" id="explainBtn"   disabled onclick="showExplanation()">
           <span id="explainLbl">EXPLANATION 3:00</span>
@@ -644,8 +770,8 @@ html.light #gateDeptSelect option { background: #f2ead6; color: #1e1400; }
               data-strict="1"
               data-reactions-enabled="1"
               data-emit-metadata="0"
-            data-input-position="bottom"
-        data-theme="transparent_dark"
+              data-input-position="bottom"
+              data-theme="transparent_dark"
               data-lang="en"
               crossorigin="anonymous"
               async>
@@ -691,36 +817,58 @@ html.light #gateDeptSelect option { background: #f2ead6; color: #1e1400; }
 </div>
 
 <script>
-const EDGE_URL = "https://yellow-lab-4999.andrewveda.workers.dev/functions/v1/logQuest";
-const SUBMIT_URL = "https://andrewveda.github.io/cryptic/submit.html"; // ← update to your actual submit page URL
+const EDGE_URL   = "https://yellow-lab-4999.andrewveda.workers.dev/functions/v1/logQuest";
+const SUBMIT_URL = "https://andrewveda.github.io/cryptic/submit.html";
 const NK = "questPlayerName", DK = "questPlayerDept", SK = "crypticSolvedIds", TK = "crypticTheme";
 const EXPLAIN_DELAY = 180;
 
-/* THEME */
+/* ── THEME ── */
 function applyTheme(t) {
-  if (t === 'light') { document.documentElement.classList.add('light'); document.getElementById('themeToggle').textContent='🌙'; postGiscus({setConfig:{theme:'noborder_light'}}); }
-  else               { document.documentElement.classList.remove('light'); document.getElementById('themeToggle').textContent='☀️'; postGiscus({setConfig:{theme:'transparent_dark'}}); }
+  if (t === 'light') {
+    document.documentElement.classList.add('light');
+    document.getElementById('themeToggle').textContent = '🌙';
+    postGiscus({setConfig:{theme:'noborder_light'}});
+  } else {
+    document.documentElement.classList.remove('light');
+    document.getElementById('themeToggle').textContent = '☀️';
+    postGiscus({setConfig:{theme:'transparent_dark'}});
+  }
 }
-function toggleTheme() { const n=document.documentElement.classList.contains('light')?'dark':'light'; localStorage.setItem(TK,n); applyTheme(n); }
-function postGiscus(m) { const f=document.querySelector('#gp iframe.giscus-frame'); if(f) f.contentWindow.postMessage({giscus:m},'https://giscus.app'); }
-applyTheme(localStorage.getItem(TK)||'dark');
+function toggleTheme() {
+  const n = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+  localStorage.setItem(TK, n);
+  applyTheme(n);
+}
+function postGiscus(m) {
+  const f = document.querySelector('#gp iframe.giscus-frame');
+  if (f) f.contentWindow.postMessage({giscus:m}, 'https://giscus.app');
+}
+applyTheme(localStorage.getItem(TK) || 'dark');
 
-/* TOAST */
+/* ── TOAST ── */
 let _tt;
-function showToast(msg,type='',ms=2200) { const el=document.getElementById('toast'); el.textContent=msg; el.className='toast'+(type?' toast-'+type:''); void el.offsetWidth; el.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),ms); }
+function showToast(msg, type='', ms=2200) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast' + (type ? ' toast-' + type : '');
+  void el.offsetWidth;
+  el.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(() => el.classList.remove('show'), ms);
+}
 
-/* SOLVED */
+/* ── SOLVED IDS ── */
 function getSolved() { return (localStorage.getItem(SK)||'').split(',').map(Number).filter(Boolean); }
 function markSolved(id) { const a=getSolved(); if(!a.includes(id)){a.push(id);localStorage.setItem(SK,a.join(','));} }
 
-/* STATE */
+/* ── STATE ── */
 let all=[], puzzle=null, idx=0, rawClue='';
 let hintsUsed=0, t0=null, tH=null, eH=null;
 let solved=false, expUnlocked=false, activeHint=null;
 const hUsed={def:false,fodder:false,indicator:false};
-let tx=0,ty=0,pendDir=null;
+let tx=0, ty=0, pendDir=null;
 
-/* GATE */
+/* ── NAME GATE ── */
 function showGate() {
   const g = document.getElementById('nameGate');
   g.style.display = 'flex';
@@ -743,13 +891,13 @@ function closeGate() {
   initPuzzle();
 }
 
-/* INIT — only runs after gate is cleared */
+/* ── INIT ── */
 async function initPuzzle() {
   const id = parseInt(new URLSearchParams(location.search).get('id'));
   if (!id) return showErr('No puzzle ID specified.');
   try {
     const r = await fetch('/cryptic/puzzles/puzzles.json');
-    all = (await r.json()).sort((a, b) => b.id - a.id);
+    all = (await r.json()).sort((a,b) => b.id - a.id);
     const i = all.findIndex(p => p.id === id);
     if (i === -1) return showErr(`Puzzle #${id} not found.`);
     idx = i; puzzle = all[idx];
@@ -757,7 +905,7 @@ async function initPuzzle() {
   } catch(e) { showErr('Could not load puzzle data.'); }
 }
 
-/* Entry point */
+/* Entry point — show gate if no saved name/dept */
 (function() {
   const hasName = localStorage.getItem(NK);
   const hasDept = localStorage.getItem(DK);
@@ -768,267 +916,392 @@ async function initPuzzle() {
   }
 })();
 
-function showErr(m) { document.getElementById('ls').innerHTML=`<div style="font-family:'Cinzel',serif;color:var(--gold-dim);letter-spacing:2px;font-size:13px;">${m}</div>`; }
-
-/* NAV UI */
-function updateNav() {
-  const tot=all.length;
-  document.getElementById('navL').disabled = idx<=0;
-  document.getElementById('navR').disabled = idx>=tot-1;
-  document.getElementById('cpos').textContent=`${idx+1} / ${tot}`;
-  const sc=getSolved().filter(id=>all.some(p=>p.id===id)).length;
-  const cs=document.getElementById('csolv');
-  if(sc>0){cs.textContent=`✓ ${sc} solved`;cs.style.display='';}else cs.style.display='none';
-  document.getElementById('progFill').style.width=(tot<=1?100:(idx/(tot-1))*100)+'%';
-  const nb=document.getElementById('nextBtn');
-  if(nb) nb.style.display=idx>=tot-1?'none':'';
+function showErr(m) {
+  document.getElementById('ls').innerHTML =
+    `<div style="font-family:'Cinzel',serif;color:var(--gold-dim);letter-spacing:2px;font-size:13px;">${m}</div>`;
 }
 
-/* NAVIGATE */
+/* ── NAV UI ── */
+function updateNav() {
+  const tot = all.length;
+  document.getElementById('navL').disabled = idx <= 0;
+  document.getElementById('navR').disabled = idx >= tot - 1;
+  document.getElementById('cpos').textContent = `${idx+1} / ${tot}`;
+
+  // Update slim bar position
+  const sp = document.getElementById('slimPos');
+  if (sp) sp.textContent = `${idx+1}/${tot}`;
+
+  const sc = getSolved().filter(id => all.some(p => p.id === id)).length;
+  const cs = document.getElementById('csolv');
+  if (sc > 0) { cs.textContent = `✓ ${sc} solved`; cs.style.display = ''; }
+  else cs.style.display = 'none';
+
+  document.getElementById('progFill').style.width =
+    (tot <= 1 ? 100 : (idx/(tot-1))*100) + '%';
+
+  const nb = document.getElementById('nextBtn');
+  if (nb) nb.style.display = idx >= tot-1 ? 'none' : '';
+}
+
+/* ── NAVIGATE ── */
 function tryNav(dir) {
-  const ni=dir==='prev'?idx-1:idx+1;
-  if(ni<0||ni>=all.length) return;
-  if(!solved&&t0){
-    pendDir=dir;
+  const ni = dir === 'prev' ? idx-1 : idx+1;
+  if (ni < 0 || ni >= all.length) return;
+  if (!solved && t0) {
+    pendDir = dir;
     document.getElementById('confirmModal').classList.add('on');
-    document.getElementById('confirmYes').onclick=()=>{closeConfirm();doNav(pendDir);};
+    document.getElementById('confirmYes').onclick = () => { closeConfirm(); doNav(pendDir); };
   } else doNav(dir);
 }
-function closeConfirm() { document.getElementById('confirmModal').classList.remove('on'); pendDir=null; }
+function closeConfirm() { document.getElementById('confirmModal').classList.remove('on'); pendDir = null; }
 function doNav(dir) {
-  const ni=dir==='prev'?idx-1:idx+1;
-  if(ni<0||ni>=all.length) return;
-  const pp=document.getElementById('pp');
-  const oc=dir==='next'?'sol':'sor', ic=dir==='next'?'sir':'sil';
+  const ni = dir === 'prev' ? idx-1 : idx+1;
+  if (ni < 0 || ni >= all.length) return;
+  const pp = document.getElementById('pp');
+  const oc = dir === 'next' ? 'sol' : 'sor';
+  const ic = dir === 'next' ? 'sir' : 'sil';
   pp.classList.add(oc);
-  setTimeout(()=>{
+  setTimeout(() => {
     pp.classList.remove(oc);
-    idx=ni; puzzle=all[idx];
+    idx = ni; puzzle = all[idx];
     reset(); rebuild(); updateNav();
-    history.pushState({id:puzzle.id},'',`${location.pathname}?id=${puzzle.id}`);
+    history.pushState({id:puzzle.id}, '', `${location.pathname}?id=${puzzle.id}`);
     pp.classList.add(ic);
-    setTimeout(()=>pp.classList.remove(ic),280);
-  },240);
+    setTimeout(() => pp.classList.remove(ic), 280);
+  }, 240);
 }
-function goNext() { document.getElementById('successModal').classList.remove('on'); doNav('next'); }
-function goBack() { location.href='../index.html'; }
-function changeName() { location.href='../index.html'; }
+function goNext()   { document.getElementById('successModal').classList.remove('on'); doNav('next'); }
+function goBack()   { location.href = '../index.html'; }
+function changeName() { location.href = '../index.html'; }
 function goSubmit() { window.open(SUBMIT_URL, '_blank'); }
 
-window.addEventListener('popstate',e=>{
-  if(e.state?.id){
-    const i=all.findIndex(p=>p.id===e.state.id);
-    if(i!==-1&&i!==idx){idx=i;puzzle=all[idx];reset();rebuild();updateNav();}
+window.addEventListener('popstate', e => {
+  if (e.state?.id) {
+    const i = all.findIndex(p => p.id === e.state.id);
+    if (i !== -1 && i !== idx) { idx = i; puzzle = all[idx]; reset(); rebuild(); updateNav(); }
   }
 });
 
-/* RESET */
+/* ── RESET ── */
 function reset() {
-  hintsUsed=0;t0=null;solved=false;expUnlocked=false;activeHint=null;
-  hUsed.def=hUsed.fodder=hUsed.indicator=false;
-  stopTimer();stopExpCd();hideSlot();
+  hintsUsed = 0; t0 = null; solved = false; expUnlocked = false; activeHint = null;
+  hUsed.def = hUsed.fodder = hUsed.indicator = false;
+  stopTimer(); stopExpCd(); hideSlot();
   document.getElementById('successModal').classList.remove('on');
 }
 
-/* BUILD */
+/* ── BUILD ── */
 function build() {
   populate(); refreshGiscus();
-  document.getElementById('checkBtn').onclick=checkAnswer;
-  document.getElementById('navL').onclick=()=>tryNav('prev');
-  document.getElementById('navR').onclick=()=>tryNav('next');
-  document.getElementById('ls').style.display='none';
-  document.getElementById('pg').style.display='';
+  document.getElementById('checkBtn').onclick = checkAnswer;
+  document.getElementById('navL').onclick = () => tryNav('prev');
+  document.getElementById('navR').onclick = () => tryNav('next');
+  document.getElementById('ls').style.display = 'none';
+  document.getElementById('pg').style.display = '';
   setupSwipe(); setupKeys();
 }
 function rebuild() {
-  document.getElementById('cellsWrap').innerHTML='';
+  document.getElementById('cellsWrap').innerHTML = '';
   hideSlot();
-  ['defBtn','fodderBtn','indicatorBtn'].forEach(id=>document.getElementById(id).classList.remove('used','active'));
+  ['defBtn','fodderBtn','indicatorBtn'].forEach(id =>
+    document.getElementById(id).classList.remove('used','active'));
   populate(); refreshGiscus();
 }
 function refreshGiscus() {
-  const w=document.querySelector('.g-inner');
-  const old=w.querySelector('script[src="https://giscus.app/client.js"]');
-  if(old){
-    old.setAttribute('data-term',rawClue);
-    const fr=document.createElement('script');
-    Array.from(old.attributes).forEach(a=>fr.setAttribute(a.name,a.value));
+  const w = document.querySelector('.g-inner');
+  const old = w.querySelector('script[src="https://giscus.app/client.js"]');
+  if (old) {
+    old.setAttribute('data-term', rawClue);
+    const fr = document.createElement('script');
+    Array.from(old.attributes).forEach(a => fr.setAttribute(a.name, a.value));
     old.replaceWith(fr);
   }
 }
 function populate() {
-  document.title=`Puzzle #${puzzle.id} — Cryptic`;
-  document.getElementById('clueBox').textContent=puzzle.clue; rawClue=puzzle.clue;
+  document.title = `Puzzle #${puzzle.id} — Cryptic`;
+  document.getElementById('clueBox').textContent = puzzle.clue;
+  rawClue = puzzle.clue;
 
-  // ── AUTHOR BYLINE ──
-  const byline=document.getElementById('clueByline');
-  const bylineAuthor=document.getElementById('clueBylineAuthor');
-  if(byline && bylineAuthor){
-    if(puzzle.author){ bylineAuthor.textContent=puzzle.author; byline.style.display='flex'; }
-    else { byline.style.display='none'; }
+  // Author byline
+  const byline = document.getElementById('clueByline');
+  const bylineAuthor = document.getElementById('clueBylineAuthor');
+  if (byline && bylineAuthor) {
+    if (puzzle.author) { bylineAuthor.textContent = puzzle.author; byline.style.display = 'flex'; }
+    else byline.style.display = 'none';
   }
 
-  document.getElementById('diffTag').textContent=puzzle.difficulty.toUpperCase();
-  document.getElementById('hintsV').textContent=0;
-  document.getElementById('tval').textContent='0:00';
-  document.getElementById('tval').className='tval';
-  document.getElementById('tfill').style.width='0%';
-  document.getElementById('tfill').className='tfill';
-  const eb=document.getElementById('explainBtn');
-  eb.disabled=true; eb.className='hbtn';
-  document.getElementById('explainLbl').textContent='EXPLANATION 3:00';
-  const name=localStorage.getItem(NK)||'Guest', dept=localStorage.getItem(DK)||'';
-  document.getElementById('tbPlayer').textContent=`👤 ${name}${dept?' · '+dept:''}`;
+  document.getElementById('diffTag').textContent = puzzle.difficulty.toUpperCase();
+  document.getElementById('hintsV').textContent = 0;
+  document.getElementById('tval').textContent = '0:00';
+  document.getElementById('tval').className = 'tval';
+  document.getElementById('tfill').style.width = '0%';
+  document.getElementById('tfill').className = 'tfill';
+
+  const eb = document.getElementById('explainBtn');
+  eb.disabled = true; eb.className = 'hbtn';
+  document.getElementById('explainLbl').textContent = 'EXPLANATION 3:00';
+
+  const name = localStorage.getItem(NK) || 'Guest';
+  const dept = localStorage.getItem(DK) || '';
+  document.getElementById('tbPlayer').textContent = `👤 ${name}${dept ? ' · '+dept : ''}`;
+
+  // Slim bar (mobile)
+  const sd = document.getElementById('slimDiff');
+  if (sd) sd.textContent = puzzle.difficulty.toUpperCase();
+  const sp = document.getElementById('slimPos');
+  if (sp) sp.textContent = `${idx+1}/${all.length}`;
+  const sh = document.getElementById('slimHints');
+  if (sh) sh.textContent = '0';
+
+  // Profile drawer
+  const pdn = document.getElementById('pdName');
+  const pdd = document.getElementById('pdDept');
+  if (pdn) pdn.textContent = name;
+  if (pdd) pdd.textContent = dept;
+
   // Cells
   const words = puzzle.answer.trim().split(/\s+/);
-  const cw = document.getElementById('cellsWrap'); cw.innerHTML='';
+  const cw = document.getElementById('cellsWrap');
+  cw.innerHTML = '';
   words.forEach(word => {
     const row = document.createElement('div');
     row.className = 'cells-row';
     row.style.setProperty('--word-len', word.length);
-    for(let i=0; i<word.length; i++){
+    for (let i = 0; i < word.length; i++) {
       const inp = document.createElement('input');
-      inp.className='cell'; inp.type='text'; inp.maxLength=1;
+      inp.className = 'cell'; inp.type = 'text'; inp.maxLength = 1;
       row.appendChild(inp);
     }
     cw.appendChild(row);
   });
   setupCells();
 }
+
 function setupCells() {
-  const cells=[...document.querySelectorAll('.cell')];
-  cells.forEach((c,i)=>{
-    c.addEventListener('focus',startOnce);
-    c.addEventListener('input',()=>{ startOnce(); c.value=c.value.toUpperCase(); if(c.value&&i<cells.length-1) cells[i+1].focus(); else if(c.value&&i===cells.length-1){c.blur();setTimeout(checkAnswer,65);} });
-    c.addEventListener('keydown',e=>{ if(e.key==='Backspace'&&!c.value&&i>0) cells[i-1].focus(); if(e.key==='Enter') checkAnswer(); if(e.key==='ArrowLeft'&&i>0){e.preventDefault();cells[i-1].focus();} if(e.key==='ArrowRight'&&i<cells.length-1){e.preventDefault();cells[i+1].focus();} });
+  const cells = [...document.querySelectorAll('.cell')];
+  cells.forEach((c, i) => {
+    c.addEventListener('focus', startOnce);
+    c.addEventListener('input', () => {
+      startOnce();
+      c.value = c.value.toUpperCase();
+      if (c.value && i < cells.length-1) cells[i+1].focus();
+      else if (c.value && i === cells.length-1) { c.blur(); setTimeout(checkAnswer, 65); }
+    });
+    c.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !c.value && i > 0) cells[i-1].focus();
+      if (e.key === 'Enter') checkAnswer();
+      if (e.key === 'ArrowLeft'  && i > 0)              { e.preventDefault(); cells[i-1].focus(); }
+      if (e.key === 'ArrowRight' && i < cells.length-1) { e.preventDefault(); cells[i+1].focus(); }
+    });
   });
-  if(cells.length) cells[0].focus();
+  if (cells.length) cells[0].focus();
 }
 
-/* SWIPE + KEYS */
+/* ── SWIPE + KEYS ── */
 function setupSwipe() {
-  const el=document.getElementById('pp');
-  el.addEventListener('touchstart',e=>{tx=e.changedTouches[0].clientX;ty=e.changedTouches[0].clientY;},{passive:true});
-  el.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty; if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.4) dx<0?tryNav('next'):tryNav('prev'); },{passive:true});
+  const el = document.getElementById('pp');
+  el.addEventListener('touchstart', e => { tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY; }, {passive:true});
+  el.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)*1.4)
+      dx < 0 ? tryNav('next') : tryNav('prev');
+  }, {passive:true});
 }
 function setupKeys() {
-  document.addEventListener('keydown',e=>{ if(document.activeElement?.classList.contains('cell')) return; if(e.key==='ArrowLeft') tryNav('prev'); if(e.key==='ArrowRight') tryNav('next'); });
+  document.addEventListener('keydown', e => {
+    if (document.activeElement?.classList.contains('cell')) return;
+    if (e.key === 'ArrowLeft')  tryNav('prev');
+    if (e.key === 'ArrowRight') tryNav('next');
+  });
 }
 
-/* TIMER */
-function startOnce() { if(t0||solved) return; t0=Date.now(); tH=setInterval(tick,1000); startExpCd(); }
-function stopTimer()  { clearInterval(tH); tH=null; }
+/* ── TIMER ── */
+function startOnce() { if (t0 || solved) return; t0 = Date.now(); tH = setInterval(tick, 1000); startExpCd(); }
+function stopTimer()  { clearInterval(tH); tH = null; }
 function tick() {
-  const e=getE(), m=Math.floor(e/60), s=e%60;
-  const tv=document.getElementById('tval'), tf=document.getElementById('tfill');
-  tv.textContent=`${m}:${s<10?'0':''}${s}`;
-  tf.style.width=Math.min((e/600)*100,100)+'%';
-  tv.className='tval'+(e>300?' danger':e>180?' amber':'');
-  tf.className='tfill'+(e>300?' danger':e>180?' amber':'');
+  const e = getE(), m = Math.floor(e/60), s = e%60;
+  const tv = document.getElementById('tval');
+  const tf = document.getElementById('tfill');
+  tv.textContent = `${m}:${s<10?'0':''}${s}`;
+  tf.style.width = Math.min((e/600)*100, 100) + '%';
+  tv.className = 'tval' + (e>300?' danger':e>180?' amber':'');
+  tf.className  = 'tfill'+ (e>300?' danger':e>180?' amber':'');
 }
-function getE() { return t0?Math.round((Date.now()-t0)/1000):0; }
+function getE() { return t0 ? Math.round((Date.now()-t0)/1000) : 0; }
 
-/* EXPLAIN COUNTDOWN */
+/* ── EXPLAIN COUNTDOWN ── */
 function startExpCd() {
-  if(expUnlocked) return; stopExpCd();
-  const s=Date.now();
-  eH=setInterval(()=>{
-    const rem=EXPLAIN_DELAY-Math.round((Date.now()-s)/1000);
-    if(rem<=0){unlockExp();return;}
-    const lbl=document.getElementById('explainLbl');
-    if(lbl) lbl.textContent=`EXPLANATION ${Math.floor(rem/60)}:${(rem%60)<10?'0':''}${rem%60}`;
-  },1000);
+  if (expUnlocked) return;
+  stopExpCd();
+  const s = Date.now();
+  eH = setInterval(() => {
+    const rem = EXPLAIN_DELAY - Math.round((Date.now()-s)/1000);
+    if (rem <= 0) { unlockExp(); return; }
+    const lbl = document.getElementById('explainLbl');
+    if (lbl) lbl.textContent = `EXPLANATION ${Math.floor(rem/60)}:${(rem%60)<10?'0':''}${rem%60}`;
+  }, 1000);
 }
-function stopExpCd() { clearInterval(eH); eH=null; }
+function stopExpCd() { clearInterval(eH); eH = null; }
 function unlockExp() {
-  stopExpCd(); expUnlocked=true;
-  const eb=document.getElementById('explainBtn');
-  eb.disabled=false; eb.classList.add('unlocked');
-  document.getElementById('explainLbl').textContent='EXPLANATION';
-  showToast('Explanation unlocked!','',2400);
+  stopExpCd(); expUnlocked = true;
+  const eb = document.getElementById('explainBtn');
+  eb.disabled = false; eb.classList.add('unlocked');
+  document.getElementById('explainLbl').textContent = 'EXPLANATION';
+  showToast('Explanation unlocked!', '', 2400);
 }
 
-/* HINT SLOT */
-function showSlot(label,text) { document.getElementById('hsLabel').textContent=label; document.getElementById('hsText').textContent=text; document.getElementById('hsInner').classList.add('vis'); }
-function hideSlot() { document.getElementById('hsInner').classList.remove('vis'); document.getElementById('hsLabel').textContent=''; document.getElementById('hsText').textContent=''; }
+/* ── HINT SLOT ── */
+function showSlot(label, text) {
+  document.getElementById('hsLabel').textContent = label;
+  document.getElementById('hsText').textContent  = text;
+  document.getElementById('hsInner').classList.add('vis');
+}
+function hideSlot() {
+  document.getElementById('hsInner').classList.remove('vis');
+  document.getElementById('hsLabel').textContent = '';
+  document.getElementById('hsText').textContent  = '';
+}
 
-/* HINTS */
+/* ── HINTS ── */
 function showHint(type) {
   startOnce();
-  const MAP={
-    def:      {label:'Definition', text:puzzle.definition,  btn:'defBtn',        cls:'hl-def'},
-    fodder:   {label:'Fodder',     text:puzzle.fodder,      btn:'fodderBtn',     cls:'hl-fodder'},
-    indicator:{label:'Indicator',  text:puzzle.indicator,   btn:'indicatorBtn', cls:'hl-indicator'},
+  const MAP = {
+    def:       {label:'Definition', text:puzzle.definition,  btn:'defBtn',       cls:'hl-def'},
+    fodder:    {label:'Fodder',     text:puzzle.fodder,      btn:'fodderBtn',    cls:'hl-fodder'},
+    indicator: {label:'Indicator',  text:puzzle.indicator,   btn:'indicatorBtn', cls:'hl-indicator'},
   };
-  const {label,text,btn,cls}=MAP[type];
+  const {label, text, btn, cls} = MAP[type];
+
   // Toggle off
-  if(activeHint===type){ activeHint=null; hideSlot(); document.getElementById(btn).classList.remove('active'); document.getElementById('clueBox').textContent=rawClue; return; }
+  if (activeHint === type) {
+    activeHint = null; hideSlot();
+    document.getElementById(btn).classList.remove('active');
+    document.getElementById('clueBox').textContent = rawClue;
+    return;
+  }
   // Deactivate previous
-  if(activeHint){ const pb=MAP[activeHint]?.btn; if(pb) document.getElementById(pb).classList.remove('active'); }
-  if(!hUsed[type]){ hUsed[type]=true; hintsUsed++; document.getElementById('hintsV').textContent=hintsUsed; document.getElementById(btn).classList.add('used'); }
-  document.getElementById(btn).classList.add('active'); activeHint=type;
-  showSlot(label,text); highlightClue(text,cls);
-}
-function highlightClue(tgt,cls) {
-  const el=document.getElementById('clueBox');
-  const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  if(new RegExp(esc(tgt.trim()),'i').test(rawClue)){ el.innerHTML=rawClue.replace(new RegExp(esc(tgt.trim()),'i'),`<span class="${cls}">$&</span>`); return; }
-  let h=rawClue;
-  tgt.trim().split(/\s+/).filter(w=>w.replace(/\W/g,'').length>1).forEach(w=>{ h=h.replace(new RegExp(`\\b${esc(w)}\\b`,'gi'),`<span class="${cls}">$&</span>`); });
-  el.innerHTML=h;
+  if (activeHint) {
+    const pb = MAP[activeHint]?.btn;
+    if (pb) document.getElementById(pb).classList.remove('active');
+  }
+  if (!hUsed[type]) {
+    hUsed[type] = true; hintsUsed++;
+    document.getElementById('hintsV').textContent = hintsUsed;
+    // Sync slim bar
+    const sh = document.getElementById('slimHints');
+    if (sh) sh.textContent = hintsUsed;
+    document.getElementById(btn).classList.add('used');
+  }
+  document.getElementById(btn).classList.add('active');
+  activeHint = type;
+  showSlot(label, text);
+  highlightClue(text, cls);
 }
 
-/* EXPLANATION */
+function highlightClue(tgt, cls) {
+  const el  = document.getElementById('clueBox');
+  const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (new RegExp(esc(tgt.trim()), 'i').test(rawClue)) {
+    el.innerHTML = rawClue.replace(
+      new RegExp(esc(tgt.trim()), 'i'),
+      `<span class="${cls}">$&</span>`
+    );
+    return;
+  }
+  let h = rawClue;
+  tgt.trim().split(/\s+/).filter(w => w.replace(/\W/g,'').length > 1).forEach(w => {
+    h = h.replace(new RegExp(`\\b${esc(w)}\\b`, 'gi'), `<span class="${cls}">$&</span>`);
+  });
+  el.innerHTML = h;
+}
+
+/* ── EXPLANATION ── */
 function showExplanation() {
-  if(!expUnlocked) return;
-  showSlot('How this clue works', puzzle.explanation||'No explanation available.');
-  const eb=document.getElementById('explainBtn');
-  eb.classList.remove('unlocked'); eb.classList.add('used'); eb.disabled=true;
-  document.getElementById('explainLbl').textContent='EXPLANATION';
+  if (!expUnlocked) return;
+  showSlot('How this clue works', puzzle.explanation || 'No explanation available.');
+  const eb = document.getElementById('explainBtn');
+  eb.classList.remove('unlocked'); eb.classList.add('used'); eb.disabled = true;
+  document.getElementById('explainLbl').textContent = 'EXPLANATION';
 }
 
-/* CHECK */
+/* ── CHECK ── */
 function checkAnswer() {
-  if(solved) return;
-  const cells=[...document.querySelectorAll('.cell')];
-  const guess=cells.map(c=>c.value).join('');
-  const tgt=puzzle.answer.replace(/\s/g,'');
-  if(guess.length<tgt.length){ showToast('Fill in all letters first!','warn'); return; }
-  if(guess===tgt){
-    solved=true; stopTimer(); stopExpCd(); markSolved(puzzle.id); updateNav();
-    cells.forEach(c=>c.classList.add('correct'));
-    showSlot('How this clue works', puzzle.explanation||'No explanation available.');
-    const eb=document.getElementById('explainBtn'); eb.disabled=true; eb.classList.remove('unlocked');
-    setTimeout(showSuccess,520);
+  if (solved) return;
+  const cells = [...document.querySelectorAll('.cell')];
+  const guess = cells.map(c => c.value).join('');
+  const tgt   = puzzle.answer.replace(/\s/g, '');
+  if (guess.length < tgt.length) { showToast('Fill in all letters first!', 'warn'); return; }
+  if (guess === tgt) {
+    solved = true; stopTimer(); stopExpCd(); markSolved(puzzle.id); updateNav();
+    cells.forEach(c => c.classList.add('correct'));
+    showSlot('How this clue works', puzzle.explanation || 'No explanation available.');
+    const eb = document.getElementById('explainBtn');
+    eb.disabled = true; eb.classList.remove('unlocked');
+    setTimeout(showSuccess, 520);
   } else {
-    cells.forEach(c=>{c.classList.remove('wrong');void c.offsetWidth;c.classList.add('wrong');});
-    showToast('Not quite — try again!','error');
-    setTimeout(()=>{ cells.forEach(c=>{c.classList.remove('wrong');c.value='';}); cells[0].focus(); },460);
+    cells.forEach(c => { c.classList.remove('wrong'); void c.offsetWidth; c.classList.add('wrong'); });
+    showToast('Not quite — try again!', 'error');
+    setTimeout(() => { cells.forEach(c => { c.classList.remove('wrong'); c.value = ''; }); cells[0].focus(); }, 460);
   }
 }
 
-/* SUCCESS */
+/* ── SUCCESS ── */
 function showSuccess() {
-  const e=getE(), m=Math.floor(e/60), s=e%60;
-  const name=localStorage.getItem(NK)||'Guest';
-  document.getElementById('sPlayer').textContent=`Well done, ${name}!`;
-  document.getElementById('sAnswer').textContent=puzzle.answer;
-  document.getElementById('sMeta').textContent=`⏱ ${m}:${s<10?'0':''}${s}  ·  💡 ${hintsUsed} hint${hintsUsed!==1?'s':''} used`;
+  const e = getE(), m = Math.floor(e/60), s = e%60;
+  const name = localStorage.getItem(NK) || 'Guest';
+  document.getElementById('sPlayer').textContent = `Well done, ${name}!`;
+  document.getElementById('sAnswer').textContent  = puzzle.answer;
+  document.getElementById('sMeta').textContent    =
+    `⏱ ${m}:${s<10?'0':''}${s}  ·  💡 ${hintsUsed} hint${hintsUsed!==1?'s':''} used`;
 
-  // ── AUTHOR IN SUCCESS MODAL ──
-  const sa=document.getElementById('sAuthor');
-  if(sa){
-    if(puzzle.author){ sa.innerHTML=`✒️ &nbsp;Clue by <strong>${puzzle.author}</strong>`; sa.style.display=''; }
-    else { sa.innerHTML=''; sa.style.display='none'; }
+  const sa = document.getElementById('sAuthor');
+  if (sa) {
+    if (puzzle.author) { sa.innerHTML = `✒️ &nbsp;Clue by <strong>${puzzle.author}</strong>`; sa.style.display = ''; }
+    else { sa.innerHTML = ''; sa.style.display = 'none'; }
   }
 
-  const exp=puzzle.explanation||'';
-  document.getElementById('sExpT').textContent=exp;
-  document.getElementById('sExp').style.display=exp?'block':'none';
+  const exp = puzzle.explanation || '';
+  document.getElementById('sExpT').textContent   = exp;
+  document.getElementById('sExp').style.display  = exp ? 'block' : 'none';
+
   updateNav();
-  fetch(EDGE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({student_name:name,quest_id:`Cryptic ${puzzle.id}`,correct:20,wrong:hintsUsed,time_spent:e,department:localStorage.getItem(DK)||'Unknown',answer:`${puzzle.answer} (Puzzle #${puzzle.id})`})})
-    .then(()=>{ const r=document.getElementById('sRec'); r.style.display='block'; r.textContent=`✓ Score recorded for ${name}`; }).catch(()=>{});
+
+  fetch(EDGE_URL, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      student_name: name,
+      quest_id:     `Cryptic ${puzzle.id}`,
+      correct:      20,
+      wrong:        hintsUsed,
+      time_spent:   e,
+      department:   localStorage.getItem(DK) || 'Unknown',
+      answer:       `${puzzle.answer} (Puzzle #${puzzle.id})`
+    })
+  }).then(() => {
+    const r = document.getElementById('sRec');
+    r.style.display = 'block';
+    r.textContent   = `✓ Score recorded for ${name}`;
+  }).catch(() => {});
+
   document.getElementById('successModal').classList.add('on');
+}
+
+/* ── PROFILE DRAWER (mobile) ── */
+function toggleProfile() {
+  const d = document.getElementById('profileDrawer');
+  d.classList.toggle('open');
+  if (d.classList.contains('open')) {
+    setTimeout(() => document.addEventListener('click', closeProfileOutside, {once:true}), 10);
+  }
+}
+function closeProfileOutside(e) {
+  const icon = document.getElementById('profileIcon');
+  if (!icon.contains(e.target)) {
+    document.getElementById('profileDrawer').classList.remove('open');
+  }
 }
 </script>
 </body>
