@@ -483,15 +483,15 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
   .clue-row { padding:0; margin-top:4px; overflow:visible; }
   .clue-box {
     font-family: 'Cinzel', serif;
-    font-size: 16px;
-    line-height: 1.65;
-    padding: 24px 20px;
+    font-size: 19px;
+    line-height: 1.72;
+    padding: 32px 24px;
     text-align: center;
     clip-path: none;
-    border-radius: 16px;
+    border-radius: 20px;
     background: linear-gradient(145deg, var(--bg2), var(--surface3));
-    border: 1px solid var(--border2);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+    border: 1.5px solid var(--gold);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,175,55,0.08), inset 0 1px 0 rgba(255,255,255,0.06);
   }
   .clue-box::before { display:none; }
 
@@ -777,7 +777,7 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
 const EDGE_URL   = "https://yellow-lab-4999.andrewveda.workers.dev/functions/v1/logQuest";
 const SUBMIT_URL = "https://andrewveda.github.io/cryptic/submit.html";
 const NK = "questPlayerName", DK = "questPlayerDept", SK = "crypticSolvedIds", TK = "crypticTheme";
-const EXPLAIN_DELAY = 180;
+
 
 /* ── THEME ── */
 function applyTheme(t) {
@@ -940,7 +940,7 @@ window.addEventListener('popstate', e => {
 function reset() {
   hintsUsed = 0; t0 = null; solved = false; expUnlocked = false; activeHint = null;
   hUsed.def = hUsed.fodder = hUsed.indicator = false;
-  stopTimer(); stopExpCd(); hideSlot();
+  stopTimer(); hideSlot();
   document.getElementById('successModal').classList.remove('on');
 }
 
@@ -953,6 +953,7 @@ function build() {
   document.getElementById('ls').style.display = 'none';
   document.getElementById('pg').style.display = '';
   setupSwipe(); setupKeys();
+  startOnce(); // begin timing immediately on load
 }
 function rebuild() {
   document.getElementById('cellsWrap').innerHTML = '';
@@ -992,8 +993,8 @@ function populate() {
   document.getElementById('tfill').className = 'tfill';
 
   const eb = document.getElementById('explainBtn');
-  eb.disabled = true; eb.className = 'hbtn';
-  document.getElementById('explainLbl').textContent = 'EXPLANATION 3:00';
+  eb.disabled = false; eb.className = 'hbtn unlocked';
+  document.getElementById('explainLbl').textContent = 'EXPLANATION';
 
   const name = localStorage.getItem(NK) || 'Guest';
   const dept = localStorage.getItem(DK) || '';
@@ -1078,25 +1079,14 @@ function tick() {
 }
 function getE() { return t0 ? Math.round((Date.now()-t0)/1000) : 0; }
 
-/* ── EXPLAIN COUNTDOWN ── */
-function startExpCd() {
-  if (expUnlocked) return;
-  stopExpCd();
-  const s = Date.now();
-  eH = setInterval(() => {
-    const rem = EXPLAIN_DELAY - Math.round((Date.now()-s)/1000);
-    if (rem <= 0) { unlockExp(); return; }
-    const lbl = document.getElementById('explainLbl');
-    if (lbl) lbl.textContent = `EXPLANATION ${Math.floor(rem/60)}:${(rem%60)<10?'0':''}${rem%60}`;
-  }, 1000);
-}
-function stopExpCd() { clearInterval(eH); eH = null; }
+/* ── EXPLAIN (always unlocked) ── */
+function startExpCd() { unlockExp(); }
+function stopExpCd()  { /* no-op */ }
 function unlockExp() {
-  stopExpCd(); expUnlocked = true;
+  expUnlocked = true;
   const eb = document.getElementById('explainBtn');
   eb.disabled = false; eb.classList.add('unlocked');
   document.getElementById('explainLbl').textContent = 'EXPLANATION';
-  showToast('Explanation unlocked!', '', 2400);
 }
 
 /* ── HINT SLOT ── */
