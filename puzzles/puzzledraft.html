@@ -358,12 +358,9 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
 
   /* ── CHROME ── */
   .chrome { top:10px; }
-  /* Hide chrome-r on mobile — slim bar handles position info */
-  .chrome-r { display: none; }
 
-  /* Centred site title in chrome bar */
-  .chrome-l::after {
-    content: 'Cryptic Clues';
+  /* Mobile home button: centred, gold gradient text */
+  .mobile-home-btn {
     position: fixed;
     top: 10px;
     left: 50%;
@@ -376,10 +373,34 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
     background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: 1.5px;
-    pointer-events: none;
     white-space: nowrap;
     line-height: 1.7;
+    text-decoration: none;
+    z-index: 151;
+    -webkit-tap-highlight-color: transparent;
+    padding: 2px 8px;
   }
+  .mobile-home-btn:active { opacity: 0.7; }
+
+  /* Chrome-r: prominent puzzle counter on mobile */
+  .chrome-r {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .cpos {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .csolv { display: none !important; }
 
   /* ── TOPBAR: single 36px slim bar ── */
   .topbar {
@@ -446,75 +467,17 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
     color: var(--gold-dimmer);
   }
 
-  /* ── PROFILE ICON (mobile only) ── */
-  .profile-icon {
-    position: fixed;
-    top: 10px;
-    right: 14px;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    cursor: pointer;
-    z-index: 160;
-    transition: background .2s, border-color .2s;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-  }
-  .profile-icon:active { background: var(--gold-faint); border-color: var(--gold); }
-
-  /* ── PROFILE DRAWER ── */
-  .profile-drawer {
-    position: fixed;
-    top: 46px;
-    right: 14px;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 10px;
-    padding: 14px 16px;
-    z-index: 155;
-    min-width: 190px;
-    display: none;
-    flex-direction: column;
-    gap: 6px;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.5);
-    animation: drawerIn .15s ease-out;
-  }
-  .profile-drawer.open { display: flex; }
-  @keyframes drawerIn {
-    from { opacity: 0; transform: translateY(-6px) scale(0.97); }
-    to   { opacity: 1; transform: none; }
-  }
-  .pd-name {
+  /* Slim name in the bar */
+  .slim-name {
     font-family: 'Cinzel', serif;
-    font-size: 12px;
-    color: var(--gold);
-    letter-spacing: 1px;
-  }
-  .pd-dept {
-    font-size: 11px;
-    color: var(--gold-dimmer);
-    letter-spacing: 0.5px;
-  }
-  .pd-divider {
-    height: 1px;
-    background: var(--sep);
-    margin: 2px 0;
-  }
-  .pd-change {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--gold-dim);
-    cursor: pointer;
-    text-decoration: underline;
-    font-family: 'Raleway', sans-serif;
-    transition: color .2s;
+    letter-spacing: 1px;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  .pd-change:hover { color: var(--gold); }
 
   /* ── CLUE ── */
   .clue-row { padding:0; margin-top:4px; overflow:visible; }
@@ -606,10 +569,9 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
   #ls { position:static; min-height:60vh; }
 }
 
-/* Hide profile elements on desktop */
+/* Hide mobile-only elements on desktop */
 @media (min-width:901px) {
-  .profile-icon { display: none; }
-  .profile-drawer { display: none !important; }
+  .mobile-home-btn { display: none; }
   .slim-meta { display: none; }
 }
 
@@ -656,18 +618,13 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
 <div class="chrome chrome-l">
   <button class="cbtn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
 </div>
+
+<!-- Mobile: centred home button (real link, not pseudo-element) -->
+<a href="https://andrewveda.github.io/cryptic/" class="mobile-home-btn" aria-label="Back to home">Cryptic Clues</a>
+
 <div class="chrome chrome-r">
   <span class="cpos" id="cpos"></span>
   <span class="csolv" id="csolv" style="display:none"></span>
-</div>
-
-<!-- Profile icon + drawer (mobile only) -->
-<div class="profile-icon" id="profileIcon" onclick="toggleProfile()" aria-label="Player profile">👤</div>
-<div class="profile-drawer" id="profileDrawer">
-  <div class="pd-name" id="pdName"></div>
-  <div class="pd-dept" id="pdDept"></div>
-  <div class="pd-divider"></div>
-  <span class="pd-change" onclick="changeName()">Change profile</span>
 </div>
 
 <button class="nav-arrow left"  id="navL" aria-label="Previous">&#8249;</button>
@@ -698,14 +655,14 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
         <div class="tb-c">
           <div class="timer-wrap">
             <span class="tval" id="tval">0:00</span>
-            <!-- Slim bar meta (mobile only, injected inline) -->
+            <!-- Slim bar meta (mobile only) -->
             <span class="slim-meta">
               <span class="slim-sep">·</span>
               <span id="slimDiff"></span>
               <span class="slim-sep">·</span>
               💡&nbsp;<span id="slimHints">0</span>
               <span class="slim-sep">·</span>
-              <span id="slimPos"></span>
+              <span class="slim-name" id="slimName"></span>
             </span>
             <div class="ttrack"><div class="tfill" id="tfill"></div></div>
           </div>
@@ -928,10 +885,6 @@ function updateNav() {
   document.getElementById('navR').disabled = idx >= tot - 1;
   document.getElementById('cpos').textContent = `${idx+1} / ${tot}`;
 
-  // Update slim bar position
-  const sp = document.getElementById('slimPos');
-  if (sp) sp.textContent = `${idx+1}/${tot}`;
-
   const sc = getSolved().filter(id => all.some(p => p.id === id)).length;
   const cs = document.getElementById('csolv');
   if (sc > 0) { cs.textContent = `✓ ${sc} solved`; cs.style.display = ''; }
@@ -1049,16 +1002,10 @@ function populate() {
   // Slim bar (mobile)
   const sd = document.getElementById('slimDiff');
   if (sd) sd.textContent = puzzle.difficulty.toUpperCase();
-  const sp = document.getElementById('slimPos');
-  if (sp) sp.textContent = `${idx+1}/${all.length}`;
+  const sn = document.getElementById('slimName');
+  if (sn) sn.textContent = name;
   const sh = document.getElementById('slimHints');
   if (sh) sh.textContent = '0';
-
-  // Profile drawer
-  const pdn = document.getElementById('pdName');
-  const pdd = document.getElementById('pdDept');
-  if (pdn) pdn.textContent = name;
-  if (pdd) pdd.textContent = dept;
 
   // Cells
   const words = puzzle.answer.trim().split(/\s+/);
@@ -1289,20 +1236,7 @@ function showSuccess() {
   document.getElementById('successModal').classList.add('on');
 }
 
-/* ── PROFILE DRAWER (mobile) ── */
-function toggleProfile() {
-  const d = document.getElementById('profileDrawer');
-  d.classList.toggle('open');
-  if (d.classList.contains('open')) {
-    setTimeout(() => document.addEventListener('click', closeProfileOutside, {once:true}), 10);
-  }
-}
-function closeProfileOutside(e) {
-  const icon = document.getElementById('profileIcon');
-  if (!icon.contains(e.target)) {
-    document.getElementById('profileDrawer').classList.remove('open');
-  }
-}
+
 </script>
 </body>
 </html>
