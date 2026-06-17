@@ -1,5 +1,18 @@
 [
 {
+  "id": 170,
+  "clue": "Queen sacrifice, mate. Offering the horse enveloping rook's escape dramatic out of breath(9) ",
+  "answer": "SMOTHERED",
+  "definition": "out of breath",
+  "fodder": "sacrifice, mate. Offering the horse enveloping rook's escape dramatic",
+  "indicator": "Queen",
+  "type": "acrostic, double def",
+  "difficulty": "easy",
+  "date": "2026-06-17",
+  "explanation": "Usually, cryptic clues give a different surface meaning but this clue gives the same meaning as the answer, making this a double definition clue too. The Queen always comes first!",
+  "author": "Andrew Veda"
+},
+{
   "id": 169,
   "clue": "Leading Nishanth in shining armour (6)",
   "answer": "KNIGHT",
