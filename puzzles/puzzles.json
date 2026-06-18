@@ -1,5 +1,18 @@
 [
 {
+  "id": 171,
+  "clue": "Bishops lost, unalived knights headless, dead empress, rooks start a stupid mistake??",
+  "answer": "BLUNDER",
+  "definition": "a stupid mistake??",
+  "fodder": "Bishops lost, unalived knights headless, dead empress, rooks",
+  "indicator": "start",
+  "type": "acrostic, double def",
+  "difficulty": "easy",
+  "date": "2026-06-18",
+  "explanation": "Usually, cryptic clues give a different surface meaning but this clue gives the same meaning as the answer, making this a double definition clue too.",
+  "author": "Andrew Veda"
+},
+{
   "id": 170,
   "clue": "Queen sacrifice, mate. Often the horse enveloping rook's escape dreams out of breath(9) ",
   "answer": "SMOTHERED",
