@@ -1,5 +1,18 @@
 [
 {
+  "id": 172,
+  "clue": "With a great power to think and reason concealed, Johint elects adding fifty (9)",
+  "answer": "INTELLECT",
+  "definition": "With a great power to think and reason",
+  "fodder": "Johint elects fifty",
+  "indicator": "concealed adding",
+  "type": "concealed",
+  "difficulty": "medium",
+  "date": "2026-06-19",
+  "explanation": "A straightforward hidden clue with an additional letter. Think like a Roman!",
+  "author": "Andrew Veda"
+},
+{
   "id": 171,
   "clue": "Bishops lost, unalived knights headless, dead empress, rooks start a stupid mistake??",
   "answer": "BLUNDER",
