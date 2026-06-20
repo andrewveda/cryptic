@@ -1,5 +1,18 @@
 [
 {
+  "id": 173,
+  "clue": "Seize Top Gun Reyyan's attitude - sure progress (5)",
+  "answer": "GRASP",
+  "definition": "Seize",
+  "fodder": "Gun Reyyan's attitude - sure progress",
+  "indicator": "Top",
+  "type": "acrostic",
+  "difficulty": "easy",
+  "date": "2026-06-20",
+  "explanation": "As usual, what seems connected have to be split. Top Gun has both indicator and fodder. To be at the top means to be the first.",
+  "author": "Andrew Veda"
+},
+{
   "id": 172,
   "clue": "With a great power to think and reason concealed, Johint elects adding fifty (9)",
   "answer": "INTELLECT",
