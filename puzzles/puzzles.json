@@ -1,5 +1,18 @@
 [
 {
+  "id": 175,
+  "clue": "Tal, Anand, Carlsen, Topalov, Ivanchuk, Capablanca, Spassky started training problems (7)",
+  "answer": "TACTICS",
+  "definition": "training problems",
+  "fodder": "Tal, Anand, Carlsen, Topalov, Ivanchuk, Capablanca, Spassky",
+  "indicator": "started",
+  "type": "acrostic",
+  "difficulty": "easy",
+  "date": "2026-06-21",
+  "explanation": "Started is a classic acrostic indicator.",
+  "author": "Andrew Veda"
+},
+{
   "id": 174,
   "clue": "With an icing border and a wish written long in the middle of the cake - Let happiness bloom upon young Ammmmritha eternally rational! (7)",
   "answer": "THOUGHT",
