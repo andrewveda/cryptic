@@ -1,5 +1,18 @@
 [
 {
+  "id": 176,
+  "clue": "Hearing the German Way, Sheeba at last, sees no bees, shuns holidays (8)",
+  "answer": "VACATION",
+  "definition": "holidays",
+  "fodder": "Way, Sheeba sees shuns",
+  "indicator": "Hearing the German no bees",
+  "type": "homophone",
+  "difficulty": "hard",
+  "date": "2026-06-21",
+  "explanation": "Hearing indicates that homophones are afoot. German way also hints at productivity without enjoyment as well as the German accent!",
+  "author": "Andrew Veda"
+},
+{
   "id": 175,
   "clue": "Tal, Anand, Carlsen, Topalov, Ivanchuk, Capablanca, Spassky started training problems (7)",
   "answer": "TACTICS",
