@@ -1,5 +1,18 @@
 [
   {
+  "id": 178,
+  "clue": "Painting a white void on a blank canvas Rue, stern Dhayalan 'fou fini' at last (5)",
+  "answer": "ENNUI",
+  "definition": "Painting a white void on a blank canvas",
+  "fodder": "Rue, stern Dhayalan fou fini",
+  "indicator": "at last",
+  "type": "acrostic",
+  "difficulty": "easy",
+  "date": "2026-06-22",
+  "explanation": "Painting a void on a blank canvas is the sort of thing an artist does after painting white lines on roads.",
+  "author": "Andrew Veda"
+},
+  {
   "id": 177,
   "clue": "Double units first got middle motorcyle's sound and a nonchalant ok for a job (4)",
   "answer": "WORK",
