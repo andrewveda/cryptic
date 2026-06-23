@@ -1,5 +1,18 @@
 [
 {
+  "id": 180,
+  "clue": "Being creative, Aarathi oddly takes mostly stickers (8)",
+  "answer": "ARTISTIC",
+  "definition": "Being creative",
+  "fodder": "Aarathi stickers",
+  "indicator": "oddly takes mostly",
+  "type": "charade",
+  "difficulty": "easy",
+  "date": "2026-06-23",
+  "explanation": "The surface meaning of the clue tells us that Aarathi is creative but strange because she collects stickers. Of course, 'oddly takes' is an indicator to take the odd letters of the fodder and 'mostly' to take most of the letters in the other fodder!",
+  "author": "Andrew Veda"
+},
+{
   "id": 179,
   "clue": "Cassandra first delved into Devil's POV, swapped view with potassium, said Live long and prosper! (5)",
   "answer": "SPOCK",
@@ -7,7 +20,7 @@
   "fodder": "Cassandra Devil's POV potassium",
   "indicator": "first delved into swapped",
   "type": "charade",
-  "difficulty": "easy",
+  "difficulty": "medium",
   "date": "2026-06-23",
   "explanation": "The surface level meaning of the clue is pretty straightforward. Cassandra is delving into Devil's POV. Scary stuff. And she swaps the view with potassium? Sounds bizarre but it looks like she has defeated the devil because she says live long and prosper! Going under the surface with Chemical symbols to the rescue, we finally find who said 🖖 !",
   "author": "Andrew Veda"
