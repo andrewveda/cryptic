@@ -1,5 +1,18 @@
 [
 {
+  "id": 182,
+  "clue": "Expansion by Musk, Ragamalika Central radio silence first (4)",
+  "answer": "MARS",
+  "definition": "Expansion by Musk",
+  "fodder": "Ragamalika radio silence",
+  "indicator": "Central first",
+  "type": "charade",
+  "difficulty": "easy",
+  "date": "2026-06-27",
+  "explanation": "The surface meaning of the clue tells us that Musk and Ragamalika are expanding and that it is important but they are not talking about it. That is to say, they are maintaining radio silence. In a charade clue, we get the answer by taking the letters indicated by the indicators from the fodder.",
+  "author": "Andrew Veda"
+},
+{
   "id": 181,
   "clue": "Sounds like Mahathi unevenly dances - A legend! (4)",
   "answer": "MYTH",
