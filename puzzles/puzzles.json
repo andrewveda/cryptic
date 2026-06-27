@@ -1,5 +1,18 @@
 [
 {
+  "id": 183,
+  "clue": "Meenakshi starts saying knot, naught, naughty, first satellite! (4)",
+  "answer": "MOON",
+  "definition": "satellite",
+  "fodder": "Meenakshi knot naught naughty",
+  "indicator": "starts saying first",
+  "type": "charade",
+  "difficulty": "easy",
+  "date": "2026-06-27",
+  "explanation": "At first glance, the clue reads like an odd but amusing sentence about Meenakshi addressing to the first satellite a sequence of similar-sounding words, knot, naught and naughty. Knot, naught and naughty aren't simply there for the pleasing sound of the surface. All three give a letter each!",
+  "author": "Andrew Veda"
+},
+{
   "id": 182,
   "clue": "Expansion by Musk, Ragamalika Central radio silence first (4)",
   "answer": "MARS",
