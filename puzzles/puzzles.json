@@ -1,5 +1,18 @@
 [
 {
+  "id": 184,
+  "clue": "Mostly Chand's first. Making Pacha +ing for biting restlessly and +ion for winner (5)",
+  "answer": "CHAMP",
+  "definition": "biting restlessly winner",
+  "fodder": "Chand Making Pacha",
+  "indicator": "Mostly first",
+  "type": "double def, charade",
+  "difficulty": "medium",
+  "date": "2026-06-28",
+  "explanation": "On the surface, it seems there is a rivalry between Chand, who is mostly first and Pacha who seems to be biting restlessly and adding charge to become a winner. There are different ways of solving it. The plus sign indicates that there is a common base word that gives two different meanings depending on the suffix added to it and the entire sentence is also a clue! You can start by thinking of synonyms for the definition of start looking at the fodder",
+  "author": "Andrew Veda"
+},
+{
   "id": 183,
   "clue": "Meenakshi starts saying knot, naught, naughty, first satellite! (4)",
   "answer": "MOON",
