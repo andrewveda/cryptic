@@ -1,5 +1,18 @@
 [
 {
+  "id": 185,
+  "clue": "Filled with great energy and enthusiasm, Azeema evenly deprives caffeine from Lotus (7)",
+  "answer": "zealous",
+  "definition": "Filled with great energy and enthusiasm",
+  "fodder": "Azeema Lotus",
+  "indicator": "evenly deprives caffeine",
+  "type": "charade",
+  "difficulty": "medium",
+  "date": "2026-06-29",
+  "explanation": "On the surface, it seems that Azeema is filled with great energy and enthusiasm. Maybe it is because her enthusiasm is so contagious that she evenly deprives caffeine from Lotus. Does the capital letter indicate the car? List the common sources of caffeine and see if they can be reduced to a letter. Remove that letter from the second fodder and add it to the first fodder.",
+  "author": "Andrew Veda"
+},
+{
   "id": 184,
   "clue": "Mostly Chand's first. Making Pacha +ing for biting restlessly and +ion for winner (5)",
   "answer": "CHAMP",
