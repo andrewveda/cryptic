@@ -1,5 +1,18 @@
 [
 {
+  "id": 187,
+  "clue": "Epic? Not even is sea heard (7)",
+  "answer": "ODYSSEY",
+  "definition": "Epic",
+  "fodder": "Not even is sea",
+  "indicator": "heard",
+  "type": "charade, homophone",
+  "difficulty": "easy",
+  "date": "2026-07-26",
+  "explanation": "Simple substitution and then say it out loud!",
+  "author": "Andrew Veda"
+},
+{
   "id": 186,
   "clue": "Abhinav, delightfully vibrant, adores Nikita, cherishing every beginning, progress (7)",
   "answer": "ADVANCE",
