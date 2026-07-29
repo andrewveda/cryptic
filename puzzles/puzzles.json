@@ -1,5 +1,18 @@
 [
 {
+  "id": 188,
+  "clue": "Without coffee, H! With a dance, Johint loves creating new stories, not like anything seen before! (8)",
+  "answer": "NOVELIST",
+  "definition": "creating new stories, not like anything seen before",
+  "fodder": "Johint loves",
+  "indicator": "Without coffee, H! With a dance",
+  "type": "charade, anagram",
+  "difficulty": "medium",
+  "date": "2026-07-29",
+  "explanation": "On the surface, we see that Johint is filled with so much energy that he doesn't need coffee. He not only dances but also loves creating new stories that have never been seen before. Since it is his birthday, the clue also hints at a new chapter in his life, in which he becomes the author of his own future, creating experiences, achievements, and adventures that have never existed before. To solve it, substitute coffee, remove it from the fodder along with the exclamation H! and scramble the remaining letters in the fodder. Happy Birthday, Johint!",
+  "author": "Andrew Veda"
+},
+{
   "id": 187,
   "clue": "Epic? Not even is sea heard (7)",
   "answer": "ODYSSEY",
