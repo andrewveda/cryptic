@@ -172,10 +172,6 @@ html.light .clue-byline-text em { color:var(--gold-light); }
 .hbtn span { position:relative; z-index:1; }
 .hbtn.used   { opacity:.35; border-color:var(--border); cursor:default; }
 .hbtn.active { border-color:var(--gold); color:var(--gold); background:var(--gold-faint); }
-#explainBtn { color:var(--gold-dimmer); border-color:var(--border); cursor:not-allowed; }
-#explainBtn:disabled { opacity:.5; }
-#explainBtn.unlocked { color:var(--gold); border-color:var(--gold); cursor:pointer; animation:eglow 2s ease-in-out 3; }
-@keyframes eglow { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 11px rgba(212,175,55,.4)} }
 
 /* ── ROW 5: HINT SLOT ── */
 .hint-slot { height:clamp(62px,8.5vh,92px); margin-bottom:14px; overflow:hidden; animation:fadeUp .5s ease-out .42s both; }
@@ -697,9 +693,7 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
         <button class="hbtn" id="defBtn"       onclick="showHint('def')"><span>DEFINITION</span></button>
         <button class="hbtn" id="fodderBtn"    onclick="showHint('fodder')"><span>FODDER</span></button>
         <button class="hbtn" id="indicatorBtn" onclick="showHint('indicator')"><span>INDICATOR</span></button>
-        <button class="hbtn" id="explainBtn"   disabled onclick="showExplanation()">
-          <span id="explainLbl">EXPLANATION 3:00</span>
-        </button>
+        <button class="hbtn" id="explainBtn"   onclick="showHint('explain')"><span>EXPLANATION</span></button>
       </div>
 
       <!-- HINT SLOT -->
@@ -776,7 +770,8 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
 <script>
 const EDGE_URL   = "https://yellow-lab-4999.andrewveda.workers.dev/functions/v1/logQuest";
 const SUBMIT_URL = "https://andrewveda.github.io/cryptic/submit.html";
-const NK = "questPlayerName", DK = "questPlayerDept", SK = "crypticSolvedIds", TK = "crypticTheme";
+// Identity keys shared with the rest of the site (auth-guard.js / listing page)
+const NK = "userName", DK = "userDept", SK = "crypticSolvedIds", TK = "crypticTheme";
 
 
 /* ── THEME ── */
@@ -820,9 +815,9 @@ function markSolved(id) { const a=getSolved(); if(!a.includes(id)){a.push(id);lo
 
 /* ── STATE ── */
 let all=[], puzzle=null, idx=0, rawClue='';
-let hintsUsed=0, t0=null, tH=null, eH=null;
-let solved=false, expUnlocked=false, activeHint=null;
-const hUsed={def:false,fodder:false,indicator:false};
+let hintsUsed=0, t0=null, tH=null;
+let solved=false, activeHint=null;
+const hUsed={def:false,fodder:false,indicator:false,explain:false};
 let tx=0, ty=0, pendDir=null;
 
 /* ── NAME GATE ── */
@@ -938,8 +933,8 @@ window.addEventListener('popstate', e => {
 
 /* ── RESET ── */
 function reset() {
-  hintsUsed = 0; t0 = null; solved = false; expUnlocked = false; activeHint = null;
-  hUsed.def = hUsed.fodder = hUsed.indicator = false;
+  hintsUsed = 0; t0 = null; solved = false; activeHint = null;
+  hUsed.def = hUsed.fodder = hUsed.indicator = hUsed.explain = false;
   stopTimer(); hideSlot();
   document.getElementById('successModal').classList.remove('on');
 }
@@ -958,7 +953,7 @@ function build() {
 function rebuild() {
   document.getElementById('cellsWrap').innerHTML = '';
   hideSlot();
-  ['defBtn','fodderBtn','indicatorBtn'].forEach(id =>
+  ['defBtn','fodderBtn','indicatorBtn','explainBtn'].forEach(id =>
     document.getElementById(id).classList.remove('used','active'));
   populate(); refreshGiscus();
 }
@@ -991,10 +986,6 @@ function populate() {
   document.getElementById('tval').className = 'tval';
   document.getElementById('tfill').style.width = '0%';
   document.getElementById('tfill').className = 'tfill';
-
-  const eb = document.getElementById('explainBtn');
-  eb.disabled = false; eb.className = 'hbtn unlocked';
-  document.getElementById('explainLbl').textContent = 'EXPLANATION';
 
   const name = localStorage.getItem(NK) || 'Guest';
   const dept = localStorage.getItem(DK) || '';
@@ -1066,7 +1057,7 @@ function setupKeys() {
 }
 
 /* ── TIMER ── */
-function startOnce() { if (t0 || solved) return; t0 = Date.now(); tH = setInterval(tick, 1000); startExpCd(); }
+function startOnce() { if (t0 || solved) return; t0 = Date.now(); tH = setInterval(tick, 1000); }
 function stopTimer()  { clearInterval(tH); tH = null; }
 function tick() {
   const e = getE(), m = Math.floor(e/60), s = e%60;
@@ -1078,16 +1069,6 @@ function tick() {
   tf.className  = 'tfill'+ (e>300?' danger':e>180?' amber':'');
 }
 function getE() { return t0 ? Math.round((Date.now()-t0)/1000) : 0; }
-
-/* ── EXPLAIN (always unlocked) ── */
-function startExpCd() { unlockExp(); }
-function stopExpCd()  { /* no-op */ }
-function unlockExp() {
-  expUnlocked = true;
-  const eb = document.getElementById('explainBtn');
-  eb.disabled = false; eb.classList.add('unlocked');
-  document.getElementById('explainLbl').textContent = 'EXPLANATION';
-}
 
 /* ── HINT SLOT ── */
 function showSlot(label, text) {
@@ -1101,13 +1082,14 @@ function hideSlot() {
   document.getElementById('hsText').textContent  = '';
 }
 
-/* ── HINTS ── */
+/* ── HINTS (definition, fodder, indicator, explanation) ── */
 function showHint(type) {
   startOnce();
   const MAP = {
-    def:       {label:'Definition', text:puzzle.definition,  btn:'defBtn',       cls:'hl-def'},
-    fodder:    {label:'Fodder',     text:puzzle.fodder,      btn:'fodderBtn',    cls:'hl-fodder'},
-    indicator: {label:'Indicator',  text:puzzle.indicator,   btn:'indicatorBtn', cls:'hl-indicator'},
+    def:       {label:'Definition', text:puzzle.definition, btn:'defBtn',       cls:'hl-def'},
+    fodder:    {label:'Fodder',     text:puzzle.fodder,     btn:'fodderBtn',    cls:'hl-fodder'},
+    indicator: {label:'Indicator',  text:puzzle.indicator,  btn:'indicatorBtn', cls:'hl-indicator'},
+    explain:   {label:'How this clue works', text:puzzle.explanation || 'No explanation available.', btn:'explainBtn', cls:null},
   };
   const {label, text, btn, cls} = MAP[type];
 
@@ -1124,17 +1106,20 @@ function showHint(type) {
     if (pb) document.getElementById(pb).classList.remove('active');
   }
   if (!hUsed[type]) {
-    hUsed[type] = true; hintsUsed++;
-    document.getElementById('hintsV').textContent = hintsUsed;
-    // Sync slim bar
-    const sh = document.getElementById('slimHints');
-    if (sh) sh.textContent = hintsUsed;
+    hUsed[type] = true;
+    if (type !== 'explain') {            // explanation doesn't count as a hint
+      hintsUsed++;
+      document.getElementById('hintsV').textContent = hintsUsed;
+      const sh = document.getElementById('slimHints');
+      if (sh) sh.textContent = hintsUsed;
+    }
     document.getElementById(btn).classList.add('used');
   }
   document.getElementById(btn).classList.add('active');
   activeHint = type;
   showSlot(label, text);
-  highlightClue(text, cls);
+  if (cls) highlightClue(text, cls);
+  else document.getElementById('clueBox').textContent = rawClue;
 }
 
 function highlightClue(tgt, cls) {
@@ -1154,15 +1139,6 @@ function highlightClue(tgt, cls) {
   el.innerHTML = h;
 }
 
-/* ── EXPLANATION ── */
-function showExplanation() {
-  if (!expUnlocked) return;
-  showSlot('How this clue works', puzzle.explanation || 'No explanation available.');
-  const eb = document.getElementById('explainBtn');
-  eb.classList.remove('unlocked'); eb.classList.add('used'); eb.disabled = true;
-  document.getElementById('explainLbl').textContent = 'EXPLANATION';
-}
-
 /* ── CHECK ── */
 function checkAnswer() {
   if (solved) return;
@@ -1171,11 +1147,9 @@ function checkAnswer() {
   const tgt   = puzzle.answer.replace(/\s/g, '');
   if (guess.length < tgt.length) { showToast('Fill in all letters first!', 'warn'); return; }
   if (guess === tgt) {
-    solved = true; stopTimer(); stopExpCd(); markSolved(puzzle.id); updateNav();
+    solved = true; stopTimer(); markSolved(puzzle.id); updateNav();
     cells.forEach(c => c.classList.add('correct'));
-    showSlot('How this clue works', puzzle.explanation || 'No explanation available.');
-    const eb = document.getElementById('explainBtn');
-    eb.disabled = true; eb.classList.remove('unlocked');
+    if (activeHint !== 'explain') showHint('explain');   // show explanation via the normal hint path
     setTimeout(showSuccess, 520);
   } else {
     cells.forEach(c => { c.classList.remove('wrong'); void c.offsetWidth; c.classList.add('wrong'); });
