@@ -260,6 +260,12 @@ h1 {
 .clue-meta { display: flex; gap: 6px; flex-wrap: wrap; }
 .tag { font-size: 10px; padding: 3px 8px; border: 1px solid var(--gold); color: var(--gold); letter-spacing: 1px; }
 .clue-card.solved .tag { border-color: var(--green); color: var(--green); }
+
+/* My saved reactions on solved cards */
+.rx-line { margin-top: 11px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 15px; line-height: 1.2; }
+.rx-line .rx-stars-mini { font-size: 11px; letter-spacing: 1px; color: var(--green); margin-left: auto; }
+.rx-line .rx-note-mark { font-size: 11px; color: var(--green); font-family: 'Raleway', sans-serif; letter-spacing: .5px; }
+
 .clue-footer {
   margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--border);
   display: flex; justify-content: space-between; align-items: center; gap: 8px;
@@ -367,8 +373,12 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFoZXpzc29jenZwYmt0ZWZmY2d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4NTk1ODUsImV4cCI6MjA3ODQzNTU4NX0.2ZlqXnZxv0opkhynAT7OlK4S-xPygcc7ETUyTXRfGHE"
 );
 
-const NAME_KEY  = 'questPlayerName';
-const DEPT_KEY  = 'questPlayerDept';
+// Identity keys shared with puzzle.html and the rest of the site
+const NAME_KEY  = 'userName';
+const DEPT_KEY  = 'userDept';
+// Old keys, read once so existing players are not asked again
+const OLD_NAME_KEY = 'questPlayerName';
+const OLD_DEPT_KEY = 'questPlayerDept';
 const THEME_KEY = 'crypticTheme';
 
 let playerName   = "";
@@ -393,6 +403,22 @@ applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
 /* ── PLAYER BAR ── */
 function setDisplay(name, dept) {
   document.getElementById('playerBarName').textContent = `👤 ${name}${dept ? ' · ' + dept : ''}`;
+}
+
+/* ── MY SAVED REACTIONS (written by puzzle.html, stored on this device) ── */
+const RX_EMOJI = {
+  'Mind-blown':'🤯','Aha!':'💡','Genius':'🧠','Clever':'👏','Nailed it':'🎯','Loved it':'😍',
+  'Funny':'😂','Tough':'🔥','Tricky':'🤔','Frustrating':'😤','Easy':'😅','Almost quit':'🥲'
+};
+function rxLine(id) {
+  let d;
+  try { d = JSON.parse(localStorage.getItem('crypticReact:' + id)); } catch { d = null; }
+  if (!d) return '';
+  const emojis = (d.r || []).map(l => RX_EMOJI[l]).filter(Boolean);
+  const stars  = Math.min(5, Math.max(0, Number(d.stars) || 0));
+  const hasNote = typeof d.note === 'string' && d.note.trim().length > 0;
+  if (!emojis.length && !stars && !hasNote) return '';
+  return `<div class="rx-line" title="Your reactions">${emojis.join(' ')}${hasNote ? '<span class="rx-note-mark">✍️ note</span>' : ''}${stars ? `<span class="rx-stars-mini">${'★'.repeat(stars)}</span>` : ''}</div>`;
 }
 
 /* ── SUPABASE FETCH ── */
@@ -466,9 +492,11 @@ window.beginApp = function () {
 };
 
 window.addEventListener("load", () => {
-  const savedName = localStorage.getItem(NAME_KEY);
-  const savedDept = localStorage.getItem(DEPT_KEY);
+  const savedName = localStorage.getItem(NAME_KEY) || localStorage.getItem(OLD_NAME_KEY);
+  const savedDept = localStorage.getItem(DEPT_KEY) || localStorage.getItem(OLD_DEPT_KEY);
   if (savedName && savedDept) {
+    localStorage.setItem(NAME_KEY, savedName);
+    localStorage.setItem(DEPT_KEY, savedDept);
     playerName = savedName;
     playerDept = savedDept;
     document.getElementById("nameInput").value  = savedName;
@@ -519,6 +547,7 @@ function render() {
           <span class="tag">${c.type.toUpperCase()}</span>
           <span class="tag">${c.difficulty.toUpperCase()}</span>
         </div>
+        ${solved ? rxLine(c.id) : ''}
         <div class="clue-footer">
           <span class="clue-date">${c.date}</span>
           <a class="solve-btn solve-link" href="puzzles/puzzle.html?id=${c.id}">${solved ? 'ONCE MORE FOR GLORY! →' : 'SOLVE →'}</a>
