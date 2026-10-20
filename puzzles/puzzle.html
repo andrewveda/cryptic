@@ -571,6 +571,41 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
   .slim-meta { display: none; }
 }
 
+/* ── REACTIONS + REFLECTION (solved modal) ── */
+#rxSection{margin:0 0 18px;text-align:left}
+.rx-h{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;text-align:center;margin-bottom:10px}
+.rx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.rx-btn{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px 7px;border:1px solid var(--border2);background:transparent;color:var(--text-dim);cursor:pointer;font:600 9px 'Raleway',sans-serif;letter-spacing:.4px;transition:transform .18s,border-color .2s,background .2s,box-shadow .25s;-webkit-tap-highlight-color:transparent;clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px)}
+.rx-e{font-size:24px;line-height:1;filter:grayscale(.6) opacity(.8);transition:filter .25s,transform .3s cubic-bezier(.3,1.8,.5,1)}
+.rx-btn:hover{border-color:var(--gold);transform:translateY(-2px)}
+.rx-btn:hover .rx-e{filter:none;transform:scale(1.18) rotate(-6deg)}
+.rx-btn:active{transform:scale(.92)}
+.rx-btn:focus-visible,.rx-star:focus-visible,.rx-chip:focus-visible,.rx-act:focus-visible{outline:2px solid var(--gold-light);outline-offset:2px}
+.rx-btn.on{border-color:var(--gold);color:var(--gold);background:var(--surface3);box-shadow:0 0 16px -2px var(--gold),inset 0 0 12px var(--gold-faint)}
+.rx-btn.on .rx-e{filter:none;animation:rxPop .5s cubic-bezier(.3,1.8,.5,1)}
+.rx-btn.on::after{content:'';position:absolute;inset:-1px;border:1.5px solid var(--gold-light);opacity:0;animation:rxRing .7s ease-out}
+@keyframes rxPop{0%{transform:scale(.6)}60%{transform:scale(1.35) rotate(8deg)}100%{transform:scale(1.1)}}
+@keyframes rxRing{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
+.rx-tally{min-height:18px;margin:10px 0 2px;text-align:center;font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;color:var(--gold)}
+.rx-lbl{font-size:11px;color:var(--gold-dim);margin:14px 0 6px;letter-spacing:.5px}
+.rx-stars{display:flex;gap:2px;justify-content:center}
+.rx-star{background:transparent;border:0;color:var(--gold-dimmer);font-size:30px;line-height:1;padding:0 3px;cursor:pointer;transition:transform .15s,color .2s,text-shadow .2s}
+.rx-star:hover{transform:scale(1.2)}
+.rx-star.on{color:var(--gold);text-shadow:0 0 12px var(--gold)}
+.rx-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.rx-chip{background:transparent;border:1px solid var(--border2);color:var(--text-dim);font:600 11px 'Raleway',sans-serif;padding:5px 10px;border-radius:999px;cursor:pointer;transition:all .2s}
+.rx-chip:hover{border-color:var(--gold);color:var(--gold)}
+#rxNote{width:100%;min-height:92px;resize:vertical;padding:11px 13px;background:var(--surface);color:var(--text);border:1.5px solid var(--border2);font:400 13px/1.55 'Raleway',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+#rxNote:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--surface3)}
+.rx-row{display:flex;justify-content:space-between;margin-top:5px;font-size:10px;color:var(--gold-dim)}
+.rx-saved{opacity:0;transition:opacity .3s}.rx-saved.show{opacity:1}
+.rx-act{width:100%;margin-top:14px;padding:13px;background:var(--gold);color:var(--bg);border:0;font:700 12px 'Cinzel',serif;letter-spacing:2px;cursor:pointer;clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);transition:background .2s}
+.rx-act:hover{background:var(--gold-light)}
+.rx-hint{font-size:10px;color:var(--gold-dimmer);text-align:center;margin-top:6px}
+#rxSparkle{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1200}
+@media(max-width:900px){.rx-btn{clip-path:none;border-radius:8px}.rx-act{clip-path:none;border-radius:10px}}
+@media(prefers-reduced-motion:reduce){#rxSection *{animation:none!important;transition:none!important}}
+
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; animation-iteration-count:1 !important; } }
 </style>
 </head>
@@ -1197,10 +1232,191 @@ function showSuccess() {
     r.textContent   = `✓ Score recorded for ${name}`;
   }).catch(() => {});
 
+  // Reactions, reflection and HTML download (see PuzzleReactions below)
+  PuzzleReactions.open({ puzzle, name, dept: localStorage.getItem(DK) || '', seconds: e, hints: hintsUsed });
+
   document.getElementById('successModal').classList.add('on');
 }
 
 
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   PUZZLE REACTIONS: gold-sparkle reactions, learning stars, typed
+   reflection, and "Download my solve (HTML)" for Pages of Progress.
+   Opened from showSuccess(). Saved per puzzle in localStorage.
+   ══════════════════════════════════════════════════════════════ */
+const PuzzleReactions = (() => {
+  const SITE = 'andrewveda.github.io/cryptic';
+  const REACTIONS = [
+    ['🤯','Mind-blown'],['💡','Aha!'],['🧠','Genius'],['👏','Clever'],
+    ['🎯','Nailed it'],['😍','Loved it'],['😂','Funny'],['🔥','Tough'],
+    ['🤔','Tricky'],['😤','Frustrating'],['😅','Easy'],['🥲','Almost quit']
+  ];
+  const PROMPTS = [
+    ['😵','Which part fooled me?','Which part fooled me: '],
+    ['⚡','My aha moment','My aha moment: '],
+    ['🔎','Spot it next time','Next time I will spot this wordplay by: '],
+    ['✒️','A clue I could write','A clue I could write using this trick: ']
+  ];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const key = id => 'crypticReact:' + id;
+  const load = id => { try { const d = JSON.parse(localStorage.getItem(key(id))); return {r: d.r || [], note: d.note || '', stars: d.stars || 0}; } catch { return {r: [], note: '', stars: 0}; } };
+  const save = (id, d) => { try { localStorage.setItem(key(id), JSON.stringify(d)); } catch {} };
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmt = s => Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+  const wc = t => (t.trim() ? t.trim().split(/\s+/).length : 0);
+  const slug = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 30);
+
+  /* sparkle */
+  const cv = document.createElement('canvas'); cv.id = 'rxSparkle'; document.body.appendChild(cv);
+  const cx = cv.getContext('2d'); let parts = [], run = false;
+  const fit = () => { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; };
+  fit(); addEventListener('resize', fit);
+  function star(x, y, r, rot) { cx.beginPath(); for (let i = 0; i < 8; i++) { const a = rot + i * Math.PI / 4, d = i % 2 ? r * .22 : r; cx.lineTo(x + Math.cos(a) * d, y + Math.sin(a) * d); } cx.closePath(); cx.fill(); }
+  function burst(x, y, n = 26, big = 1) {
+    if (reduce) return;
+    const cols = ['#d4af37', '#f4e5b1', '#fff6d0', '#b8860b'];
+    for (let i = 0; i < n; i++) { const a = Math.random() * 6.283, s = (2 + Math.random() * 5) * big;
+      parts.push({x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 2, r: 3 + Math.random() * 7 * big, rot: Math.random() * 6, vr: (Math.random() - .5) * .3, life: 1, dec: .012 + Math.random() * .016, c: cols[i % 4]}); }
+    if (!run) { run = true; requestAnimationFrame(frame); }
+  }
+  function frame() {
+    cx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0); cx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life > 0);
+    for (const p of parts) { p.x += p.vx; p.y += p.vy; p.vy += .12; p.vx *= .985; p.rot += p.vr; p.life -= p.dec;
+      cx.globalAlpha = Math.max(p.life, 0); cx.fillStyle = p.c; cx.shadowColor = '#d4af37'; cx.shadowBlur = 10; star(p.x, p.y, p.r * (.5 + p.life * .5), p.rot); }
+    cx.globalAlpha = 1;
+    if (parts.length) requestAnimationFrame(frame); else { run = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+
+  /* the downloadable HTML: the student's solve journal */
+  function buildHTML(ctx, d) {
+    const p = ctx.puzzle, name = ctx.name || 'Guest', date = new Date().toLocaleDateString(undefined, {day: 'numeric', month: 'long', year: 'numeric'});
+    const words = wc(d.note), hintsUsed = ctx.hints, secs = ctx.seconds;
+    const badges = [
+      ['✅', 'Solved', 'Cracked the clue', true],
+      ['🕊️', 'Unaided', 'Solved without a single hint', hintsUsed === 0],
+      ['⚡', 'Quick Draw', 'Solved in under 2 minutes', secs < 120],
+      ['🎭', 'Expressive', 'Chose 3 or more reactions', d.r.length >= 3],
+      ['✍️', 'Reflective', 'Wrote 20 or more words of reflection', words >= 20],
+      ['🤩', 'Sponge', 'Rated learning 4 stars or more', d.stars >= 4]
+    ];
+    const earned = badges.filter(b => b[3]).length;
+    const tiles = p.answer.split('').map(c => c === ' ' ? '<span class="gap"></span>' : `<span class="tile">${esc(c.toUpperCase())}</span>`).join('');
+    const stars = n => `<span class="st">${'★'.repeat(n)}<i>${'★'.repeat(5 - n)}</i></span>`;
+    const anat = [['def', 'Definition', p.definition], ['fod', 'Fodder', p.fodder], ['ind', 'Indicator', p.indicator]].filter(a => a[2])
+      .map(a => `<div class="an ${a[0]}"><small>${a[1].toUpperCase()}</small><b>${esc(a[2])}</b></div>`).join('');
+    const chips = d.r.map(l => { const m = REACTIONS.find(x => x[1] === l); return m ? `<span class="chip">${m[0]} ${esc(m[1])}</span>` : ''; }).join('');
+    const sheet = `:root{--bg:#f2ead6;--card:#fbf7ee;--ink:#1e1400;--muted:#6b5f52;--line:rgba(122,89,0,.28);--accent:#7a5900;--d:#0369a1;--f:#9d174d;--i:#92400e}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--card:#141108;--ink:#f0ede8;--muted:rgba(240,237,232,.6);--line:rgba(212,175,55,.3);--accent:#d4af37;--d:#7dd3fc;--f:#f472b6;--i:#facc15}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 Raleway,-apple-system,"Segoe UI",sans-serif;padding-bottom:40px}
+.wrap{max-width:780px;margin:auto;padding:18px}
+.hero{background:linear-gradient(135deg,#2a1d00,#0a0a0a);border:2px solid #b8860b;border-radius:22px;padding:28px 22px;text-align:center;color:#fff3c4;box-shadow:0 12px 40px rgba(0,0,0,.25);animation:rise .6s both}
+.ed{letter-spacing:4px;font-size:.7rem;color:#c8a84b}.ttl{font:700 1.5rem Cinzel,Georgia,serif;letter-spacing:3px;color:#ffd700;margin:8px 0}
+.clue{font:600 1.25rem/1.6 Cinzel,Georgia,serif;margin:12px 0 18px;overflow-wrap:anywhere}
+.tiles{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.tile{width:38px;height:44px;display:grid;place-items:center;border:2px solid #ffd700;background:rgba(255,215,0,.1);color:#ffd700;font:700 1.2rem Cinzel,Georgia,serif;animation:rise .5s calc(var(--n,0)*60ms) both}.gap{width:16px}
+.who{margin-top:14px;color:#ffd700;font:700 1rem Cinzel,Georgia,serif;letter-spacing:1px}.by{color:#c8a84b;font-size:.85rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.stat{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.35);border-radius:14px;padding:10px 4px}
+.stat b{display:block;font:700 1.5rem/1 Cinzel,Georgia,serif;color:#ffd700}.stat span{font-size:.62rem;letter-spacing:1.5px;color:#c8a84b}
+h2{font:700 1.15rem Cinzel,Georgia,serif;letter-spacing:2px;color:var(--accent);margin:30px 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;animation:rise .6s both}
+.anat{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.an{background:var(--card);border:1px solid var(--line);border-left:4px solid;border-radius:12px;padding:10px 14px}
+.an small{display:block;letter-spacing:2px;font-size:.62rem;color:var(--muted)}.an b{overflow-wrap:anywhere}.an.def{border-left-color:var(--d)}.an.def b{color:var(--d)}.an.fod{border-left-color:var(--f)}.an.fod b{color:var(--f)}.an.ind{border-left-color:var(--i)}.an.ind b{color:var(--i)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{background:var(--card);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-weight:700;font-size:.9rem;animation:rise .5s both}
+.st{color:var(--accent);letter-spacing:2px;font-size:1.2rem}.st i{font-style:normal;opacity:.25}
+.note{white-space:pre-wrap;overflow-wrap:anywhere;border-left:4px solid var(--accent);padding-left:14px;margin:0}
+.quiet{color:var(--muted);font-style:italic;margin:0}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.badge{border:1px solid var(--accent);background:var(--card);border-radius:14px;padding:12px;text-align:center}
+.bi{font-size:1.8rem}.badge b{display:block}.badge small{color:var(--muted);line-height:1.3;display:block}.badge.locked{filter:grayscale(1);opacity:.5;border-style:dashed}
+footer{margin-top:30px;text-align:center;color:var(--muted);font-size:.8rem}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}@media(prefers-reduced-motion:reduce){*{animation:none!important}}`;
+    return `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cryptic #${esc(p.id)} · ${esc(name)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+<style>${sheet}</style></head><body><div class="wrap">
+<header class="hero"><div class="ed">🧩 A CRYPTIC CLUES SOLVE · ${esc(String(p.difficulty || '').toUpperCase())}</div>
+<div class="ttl">CRYPTIC #${esc(p.id)}</div>
+<div class="clue">“${esc(p.clue)}”</div>
+<div class="tiles">${tiles}</div>
+<div class="who">Solved by 👤 ${esc(name)}${ctx.dept ? ' · ' + esc(ctx.dept) : ''}</div>${p.author ? `<div class="by">✒️ Clue by ${esc(p.author)}</div>` : ''}
+<div class="stats"><div class="stat"><b>${fmt(secs)}</b><span>TIME</span></div><div class="stat"><b>${hintsUsed}</b><span>HINTS</span></div><div class="stat"><b>${d.stars}★</b><span>LEARNED</span></div><div class="stat"><b>${d.r.length}</b><span>REACTIONS</span></div></div></header>
+${anat ? `<h2>🔬 HOW THE CLUE WORKS</h2><div class="anat">${anat}</div>` : ''}
+${p.explanation ? `<div class="card" style="margin-top:12px">${esc(p.explanation)}</div>` : ''}
+<h2>💭 HOW IT FELT</h2>${chips ? `<div class="chips">${chips}</div>` : '<p class="quiet">No reactions this time. A poker face. 😎</p>'}
+<h2>📈 WHAT I LEARNED</h2><div class="card">${d.stars ? stars(d.stars) : '<span class="quiet">Not rated.</span>'}</div>
+<h2>✍️ MY REFLECTION</h2>${d.note.trim() ? `<div class="card"><p class="note">${esc(d.note)}</p></div>` : '<p class="quiet">A silent solve. Sometimes the answer says it all.</p>'}
+<h2>🏅 BADGES · ${earned} of ${badges.length}</h2>
+<div class="badges">${badges.map(b => `<div class="badge${b[3] ? '' : ' locked'}"><div class="bi">${b[3] ? b[0] : '🔒'}</div><b>${b[1]}</b><small>${b[2]}</small></div>`).join('')}</div>
+<footer>Made with Cryptic Clues · ${SITE} · ${esc(date)}</footer></div>
+<script>document.querySelectorAll('.tile').forEach((t,i)=>t.style.setProperty('--n',i));<\/script></body></html>`;
+  }
+
+  function download(ctx, d) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([buildHTML(ctx, d)], {type: 'text/html;charset=utf-8'}));
+    a.download = `cryptic-${ctx.puzzle.id}-${slug(ctx.name) || 'solve'}.html`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }
+
+  /* UI inside the solved modal */
+  function open(ctx) {
+    const host = document.querySelector('#successModal .scontent'), anchor = host && host.querySelector('.sbtns');
+    if (!host || !anchor) return;
+    const old = document.getElementById('rxSection'); if (old) old.remove();
+    const id = ctx.puzzle.id; let d = load(id);
+    const sec = document.createElement('div'); sec.id = 'rxSection';
+    sec.innerHTML = `
+      <div class="rx-h">How did that feel?</div>
+      <div class="rx-grid" role="group" aria-label="Reactions">${REACTIONS.map(([e, l]) => `<button type="button" class="rx-btn" data-r="${l}" aria-pressed="false"><span class="rx-e">${e}</span>${l}</button>`).join('')}</div>
+      <div class="rx-tally" aria-live="polite"></div>
+      <div class="rx-lbl" style="text-align:center">How much did this clue teach you?</div>
+      <div class="rx-stars" role="group" aria-label="Learning rating">${[1,2,3,4,5].map(i => `<button type="button" class="rx-star" data-s="${i}" aria-label="${i} star${i > 1 ? 's' : ''}">★</button>`).join('')}</div>
+      <div class="rx-lbl">Your reflection. Tap a prompt or just write.</div>
+      <div class="rx-chips">${PROMPTS.map(([e, l, t]) => `<button type="button" class="rx-chip" data-t="${esc(t)}">${e} ${l}</button>`).join('')}</div>
+      <textarea id="rxNote" maxlength="600" placeholder="What did this clue teach you about how cryptics work?"></textarea>
+      <div class="rx-row"><span class="rx-saved">Saved ✓</span><span class="rx-count">0 / 600</span></div>
+      <button type="button" class="rx-act">⬇️ &nbsp;DOWNLOAD MY SOLVE (HTML)</button>
+      <div class="rx-hint">Upload this file to Pages of Progress.</div>`;
+    anchor.parentNode.insertBefore(sec, anchor);
+
+    const ta = sec.querySelector('#rxNote'), tally = sec.querySelector('.rx-tally'), cnt = sec.querySelector('.rx-count'), saved = sec.querySelector('.rx-saved');
+    const stars = [...sec.querySelectorAll('.rx-star')], btns = [...sec.querySelectorAll('.rx-btn')];
+    const paint = () => {
+      btns.forEach(b => { const on = d.r.includes(b.dataset.r); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+      stars.forEach((s, i) => s.classList.toggle('on', i < d.stars));
+      tally.textContent = d.r.length ? `${d.r.length} reaction${d.r.length > 1 ? 's' : ''} · well solved` : '';
+    };
+    ta.value = d.note; cnt.textContent = ta.value.length + ' / 600'; paint();
+    const flash = () => { saved.classList.add('show'); setTimeout(() => saved.classList.remove('show'), 1300); };
+
+    btns.forEach(b => b.addEventListener('click', () => {
+      const l = b.dataset.r, i = d.r.indexOf(l); i < 0 ? d.r.push(l) : d.r.splice(i, 1);
+      save(id, d); paint();
+      if (i < 0) { const r = b.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2); if (navigator.vibrate) navigator.vibrate(12); }
+    }));
+    stars.forEach((s, i) => s.addEventListener('click', () => {
+      d.stars = d.stars === i + 1 ? 0 : i + 1; save(id, d); paint();
+      if (d.stars) { const r = s.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 18 + d.stars * 4); }
+    }));
+    sec.querySelectorAll('.rx-chip').forEach(c => c.addEventListener('click', () => {
+      ta.value += (ta.value && !/\s$/.test(ta.value) ? '\n' : '') + c.dataset.t; ta.focus(); ta.dispatchEvent(new Event('input'));
+    }));
+    let t; ta.addEventListener('input', () => {
+      d.note = ta.value; cnt.textContent = ta.value.length + ' / 600';
+      clearTimeout(t); t = setTimeout(() => { save(id, d); flash(); }, 500);
+    });
+    sec.querySelector('.rx-act').addEventListener('click', () => {
+      save(id, d); download(ctx, d); burst(innerWidth / 2, innerHeight / 2, 50, 1.2);
+    });
+    setTimeout(() => burst(innerWidth / 2, 120, 55, 1.3), 350);   // celebration on solve
+  }
+  return {open};
+})();
 </script>
 </body>
 </html>
