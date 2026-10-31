@@ -136,7 +136,8 @@ body::after { content:''; position:fixed; inset:0; opacity:0.022; pointer-events
 .pchange:hover { color:var(--gold); }
 
 /* ── ROW 2: CLUE ── */
-.clue-row { display:flex; flex-direction:column; align-items:stretch; justify-content:center; padding:18px 0 6px; overflow:hidden; }
+/* FIX: overflow:visible (was hidden) so nothing gets clipped */
+.clue-row { display:flex; flex-direction:column; align-items:stretch; justify-content:center; padding:18px 0 6px; overflow:visible; }
 .clue-box { width:100%; padding:clamp(18px,2.2vh,30px) clamp(20px,2.5vw,36px); font-size:clamp(15px,1.85vw,21px); line-height:1.68; background:linear-gradient(135deg,var(--surface),var(--surface3)); border:1.5px solid var(--gold); clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px); position:relative; overflow:hidden; animation:fadeUp .5s ease-out .1s both; }
 .clue-box::before { content:''; position:absolute; top:-2px; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,var(--gold-faint),transparent); animation:shine 5s ease-in-out infinite; }
 @keyframes shine { 0%,100%{left:-100%} 50%{left:140%} }
@@ -173,12 +174,14 @@ html.light .clue-byline-text em { color:var(--gold-light); }
 .hbtn.used   { opacity:.35; border-color:var(--border); cursor:default; }
 .hbtn.active { border-color:var(--gold); color:var(--gold); background:var(--gold-faint); }
 
-/* ── ROW 5: HINT SLOT ── */
-.hint-slot { height:clamp(62px,8.5vh,92px); margin-bottom:14px; overflow:hidden; animation:fadeUp .5s ease-out .42s both; }
-.hs-inner { height:100%; padding:11px 16px; background:linear-gradient(135deg,var(--surface2),var(--surface3)); border:1px solid var(--border2); clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px); display:flex; flex-direction:column; justify-content:center; opacity:0; transition:opacity .25s ease; overflow:hidden; }
+/* ── ROW 5: HINT SLOT ──
+   FIX: sizes to its content (was a fixed height) and caps at 42vh,
+   scrolling internally only if an explanation is extremely long. */
+.hint-slot { height:auto; max-height:42vh; overflow-y:auto; margin-bottom:14px; animation:fadeUp .5s ease-out .42s both; scrollbar-width:thin; scrollbar-color:var(--border2) transparent; }
+.hs-inner { height:auto; min-height:clamp(62px,8.5vh,92px); padding:11px 16px; background:linear-gradient(135deg,var(--surface2),var(--surface3)); border:1px solid var(--border2); clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px); display:flex; flex-direction:column; justify-content:center; opacity:0; transition:opacity .25s ease; overflow:visible; }
 .hs-inner.vis { opacity:1; }
 .hs-label { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2.5px; color:var(--gold); text-transform:uppercase; margin-bottom:5px; flex-shrink:0; }
-.hs-text  { font-size:clamp(11px,1.05vw,13px); color:var(--text-dim); line-height:1.55; overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; }
+.hs-text  { font-size:clamp(11px,1.05vw,13px); color:var(--text-dim); line-height:1.55; display:block; overflow:visible; }
 
 /* Clue highlights */
 .hl-def       { color:#7dd3fc; }
@@ -532,9 +535,10 @@ html.light .gate-select option { background: #f2ead6; color: #1e1400; }
   .hbtn { clip-path:none; border-radius:8px; flex:1 1 calc(33.333% - 8px); padding:12px 4px; font-size:9px; background:var(--surface); border-color:var(--border2); }
   #explainBtn { flex:1 1 100%; border-radius:8px; padding:14px; margin-top:2px; }
 
-  /* ── HINT SLOT ── */
-  .hint-slot { height:auto; min-height:0; width:100%; max-width:380px; margin:0 auto 0; }
+  /* ── HINT SLOT ── (page scrolls on mobile, so no cap / inner scroll needed) */
+  .hint-slot { height:auto; min-height:0; max-height:none; overflow:visible; width:100%; max-width:380px; margin:0 auto 0; }
   .hs-inner {
+    min-height: 0;
     clip-path: none;
     border-radius: 12px;
     padding: 20px;
